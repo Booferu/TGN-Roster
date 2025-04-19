@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TGN Party Boss Blitz Roster</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --nord0: #2e3440;
+      --nord1: #3b4252;
+      --nord2: #434c5e;
+      --nord3: #4c566a;
+      --nord4: #d8dee9;
+      --nord5: #e5e9f0;
+      --nord6: #eceff4;
+      --nord7: #8fbcbb;
+      --nord8: #88c0d0;
+      --nord9: #81a1c1;
+      --nord10: #5e81ac;
+      --nord11: #bf616a;
+      --nord12: #d08770;
+      --nord13: #ebcb8b;
+      --nord14: #a3be8c;
+      --nord15: #b48ead;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background-color: var(--nord0);
+      color: var(--nord6);
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .description {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      font-size: 1rem;
+      color: var(--nord5);
+    }
+    .legend {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    .legend span {
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .guild { background-color: #5fd17a; color: #2e3440; }
+    .merc { background-color: #b17adf; color: #2e3440; }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    nav button {
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--nord6);
+    }
+    #btn-normal { background-color: #4aa3df; }
+    #btn-hard { background-color: #d25959; }
+    #btn-rerun { background-color: #e58cc9; }
+    nav button.active {
+      box-shadow: 0 0 0 3px var(--nord4);
+    }
+    .roster {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .group {
+      background: var(--nord1);
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      padding: 1rem;
+    }
+    .group h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid var(--nord3);
+      padding-bottom: 0.3rem;
+    }
+    .player-list {
+      list-style: none;
+      padding: 0;
+    }
+    .player-list li {
+      padding: 0.4rem;
+      border-bottom: 1px solid var(--nord2);
+    }
+    .timezone {
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      color: var(--nord5);
+    }
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--nord4);
+    }
+  </style>
+</head>
+<body>
+  <h1>TGN Party Boss Blitz Roster</h1>
+  <div class="description">
+    This sheet organizes static groups for the weekly <strong>Party Boss Blitz</strong> content.<br>
+    <strong>Guild members (✔) have priority</strong>. Mercenaries (✦) are welcome to fill in but may be replaced if a guild member signs up.
+  </div>
+  <div class="legend">
+    <span class="guild">✔ Guild Member</span>
+    <span class="merc">✦ Mercenary</span>
+  </div>
+  <nav>
+    <button onclick="setSection('normal')" id="btn-normal" class="active">Normal Mode</button>
+    <button onclick="setSection('hard')" id="btn-hard">Hard Mode</button>
+    <button onclick="setSection('rerun')" id="btn-rerun">Re-runs / Fill-ins</button>
+  </nav>
+  <div class="roster" id="roster"></div>
+  <footer>
+    Powered by TGN &middot; Static fallback with Google Sheets support
+  </footer>
+  <script>
+    function generateGroups(modeName) {
+      const groups = [];
+      for (let i = 1; i <= 10; i++) {
+        groups.push({
+          group: `${modeName} ${i}`,
+          timeUTC: `${17 + i}:00`,
+          players: ["", "", "", "", ""]
+        });
+      }
+      return groups;
+    }
+
+    const allData = {
+      normal: generateGroups("Group"),
+      hard: generateGroups("Hard Group"),
+      rerun: generateGroups("Rerun")
+    };
+
+    function renderGroups(data) {
+      const container = document.getElementById('roster');
+      container.innerHTML = '';
+      data.forEach(group => {
+        const div = document.createElement('div');
+        div.className = 'group';
+        div.innerHTML = `
+          <h2>${group.group}</h2>
+          <div class="timezone">Time (UTC): ${group.timeUTC}</div>
+          <ul class="player-list">
+            ${group.players.map(name => `<li>${name || "- empty -"}</li>`).join('')}
+          </ul>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function setSection(section) {
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`btn-${section}`).classList.add('active');
+      renderGroups(allData[section]);
+    }
+
+    // Initial load
+    setSection('normal');
+  </script>
+</body>
+</html>
