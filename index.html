@@ -134,25 +134,50 @@
     Powered by TGN &middot; Static fallback with Google Sheets support
   </footer>
 <script>
-  async function fetchSheetData() {
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pub?output=csv';
+  const sheetUrls = {
+    normal: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pubhtml?gid=827717417&single=true'',
+    hard: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pubhtml?gid=1462677816&single=true'',
+    rerun: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pub?gid=1179052868&single=true&output=csv'
+  };
 
-    const response = await fetch(csvUrl);
-    const csvText = await response.text();
+  const allData = {};
 
-    const rows = csvText.trim().split('\n').map(r => r.split(','));
-    // Assuming headers: Mode, Group Name, Time UTC, Player1, Player2, ..., Player5
-    const allData = { normal: [], hard: [], rerun: [] };
-
-    for (let i = 1; i < rows.length; i++) {
-      const [mode, group, timeUTC, ...players] = rows[i];
-      if (allData[mode]) {
-        allData[mode].push({ group, timeUTC, players });
-      }
+  async function fetchSheet(mode) {
+    if (allData[mode]) {
+      renderGroups(allData[mode]);
+      return;
     }
 
-    window.allData = allData;
-    setSection('normal');
+    try {
+      const response = await fetch(sheetUrls[mode]);
+      const csvText = await response.text();
+      const rows = csvText.trim().split('\n').map(r => r.split(','));
+      const headers = rows[0];
+      const data = [];
+
+      for (let i = 1; i < rows.length; i++) {
+        const row = rows[i];
+        const entry = {};
+        headers.forEach((h, idx) => {
+          entry[h.trim()] = row[idx] ? row[idx].trim() : '';
+        });
+        data.push({
+          group: entry['Group Name'],
+          timeUTC: entry['Time (UTC)'],
+          players: [
+            entry['Player1'], entry['Player2'], entry['Player3'],
+            entry['Player4'], entry['Player5']
+          ]
+        });
+      }
+
+      allData[mode] = data;
+      renderGroups(data);
+    } catch (error) {
+      console.error('Error fetching CSV:', error);
+      document.getElementById('roster').innerHTML =
+        '<p style="color: red;">Failed to load data. Check your sheet links.</p>';
+    }
   }
 
   function renderGroups(data) {
@@ -165,21 +190,21 @@
         <h2>${group.group}</h2>
         <div class="timezone">Time (UTC): ${group.timeUTC}</div>
         <ul class="player-list">
-          ${group.players.map(name => `<li>${name || "- empty -"}</li>`).join('')}
+          ${group.players.map(name => `<li>${name || '- empty -'}</li>`).join('')}
         </ul>
       `;
       container.appendChild(div);
     });
   }
 
-  function setSection(section) {
+  function setSection(mode) {
     document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(`btn-${section}`).classList.add('active');
-    renderGroups(window.allData[section]);
+    document.getElementById(`btn-${mode}`).classList.add('active');
+    fetchSheet(mode);
   }
 
-  // Initial data load
-  fetchSheetData();
+  // Start with Normal by default
+  setSection('normal');
 </script>
 </body>
 </html>
