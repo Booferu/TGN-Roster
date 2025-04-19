@@ -135,7 +135,7 @@
   </footer>
 <script>
   async function fetchSheetData() {
-    const csvUrl = 'PASTE_YOUR_PUBLISHED_CSV_URL_HERE';
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pub?output=csv';
 
     const response = await fetch(csvUrl);
     const csvText = await response.text();
