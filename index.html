@@ -112,6 +112,26 @@
       font-size: 0.85rem;
       color: var(--nord4);
     }
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      font-size: 1.2rem;
+      color: var(--nord8);
+    }
+    .player-guild::before {
+      content: "✔ ";
+      color: #5fd17a;
+    }
+    .player-merc::before {
+      content: "✦ ";
+      color: #b17adf;
+    }
+    .last-updated {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--nord4);
+    }
   </style>
 </head>
 <body>
@@ -129,82 +149,198 @@
     <button onclick="setSection('hard')" id="btn-hard">Hard Mode</button>
     <button onclick="setSection('rerun')" id="btn-rerun">Re-runs / Fill-ins</button>
   </nav>
-  <div class="roster" id="roster"></div>
+  <div class="roster" id="roster">
+    <div class="loading">Loading roster data...</div>
+  </div>
+  <div class="last-updated" id="lastUpdated"></div>
   <footer>
-    Powered by TGN &middot; Static fallback with Google Sheets support
+    Powered by TGN &middot; Connected to Google Sheets
   </footer>
-<script>
-  const sheetUrls = {
-    normal: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pubhtml?gid=827717417&single=true'',
-    hard: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pubhtml?gid=1462677816&single=true'',
-    rerun: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pub?gid=1179052868&single=true&output=csv'
-  };
+  <script>
+    // Store the fetched data
+    const allData = {
+      normal: [],
+      hard: [],
+      rerun: []
+    };
+    
+    // Current active section
+    let currentSection = 'normal';
+    
+    // Google Sheet ID from your URL
+    const SHEET_ID = '1v4wmiaLNhNzcWmPEd-tM5YwGhFrnUS6-neYGhCO_MPI';
+    
+    // Configure tab names and their corresponding sections
+    const SHEET_TABS = {
+      normal: 'NormalMode',  // Tab name in your Google Sheet for normal mode
+      hard: 'HardMode',      // Tab name for hard mode
+      rerun: 'ReRuns'        // Tab name for reruns
+    };
 
-  const allData = {};
-
-  async function fetchSheet(mode) {
-    if (allData[mode]) {
-      renderGroups(allData[mode]);
-      return;
+    // Function to fetch data from a specific tab
+    async function fetchSheetData(tabName) {
+      const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pub?output=csv&sheet=${tabName}`;
+      
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.status}`);
+        }
+        return await response.text();
+      } catch (error) {
+        console.error(`Error fetching ${tabName} data:`, error);
+        return null;
+      }
     }
 
-    try {
-      const response = await fetch(sheetUrls[mode]);
-      const csvText = await response.text();
-      const rows = csvText.trim().split('\n').map(r => r.split(','));
-      const headers = rows[0];
-      const data = [];
+    // Function to parse CSV data
+    function parseCSV(csv) {
+      if (!csv) return [];
+      
+      const lines = csv.split('\n');
+      return lines.map(line => {
+        // Handle quoted fields properly
+        const fields = [];
+        let field = '';
+        let inQuotes = false;
+        
+        for (let i = 0; i < line.length; i++) {
+          const char = line[i];
+          
+          if (char === '"') {
+            if (inQuotes && i + 1 < line.length && line[i + 1] === '"') {
+              // Handle escaped quotes
+              field += '"';
+              i++;
+            } else {
+              inQuotes = !inQuotes;
+            }
+          } else if (char === ',' && !inQuotes) {
+            fields.push(field);
+            field = '';
+          } else {
+            field += char;
+          }
+        }
+        
+        fields.push(field); // Add the last field
+        return fields;
+      });
+    }
 
+    // Function to process data into our format
+    function processSheetData(data, mode) {
+      const rows = parseCSV(data);
+      if (!rows.length) return [];
+      
+      const groups = [];
+      let currentGroup = null;
+      
+      // Skip header row
       for (let i = 1; i < rows.length; i++) {
         const row = rows[i];
-        const entry = {};
-        headers.forEach((h, idx) => {
-          entry[h.trim()] = row[idx] ? row[idx].trim() : '';
-        });
-        data.push({
-          group: entry['Group Name'],
-          timeUTC: entry['Time (UTC)'],
-          players: [
-            entry['Player1'], entry['Player2'], entry['Player3'],
-            entry['Player4'], entry['Player5']
-          ]
-        });
+        
+        // If we have a new group
+        if (row[0] && row[0].trim() !== '') {
+          // Group titles are in column A
+          const groupName = row[0].trim();
+          // Time is in column B
+          const timeUTC = row[1] ? row[1].trim() : 'TBD';
+          
+          currentGroup = {
+            group: groupName,
+            timeUTC: timeUTC,
+            players: []
+          };
+          groups.push(currentGroup);
+        }
+        
+        // Player data is in columns C-G (indexes 2-6)
+        if (currentGroup) {
+          for (let j = 2; j <= 6; j++) {
+            if (row[j] && row[j].trim() !== '') {
+              const playerName = row[j].trim();
+              // Check if player is guild or merc (in column H-L, indexes 7-11)
+              const playerType = row[j + 5] && row[j + 5].toLowerCase().includes('merc') ? 'merc' : 'guild';
+              
+              currentGroup.players.push({
+                name: playerName,
+                type: playerType
+              });
+            }
+          }
+        }
       }
-
-      allData[mode] = data;
-      renderGroups(data);
-    } catch (error) {
-      console.error('Error fetching CSV:', error);
-      document.getElementById('roster').innerHTML =
-        '<p style="color: red;">Failed to load data. Check your sheet links.</p>';
+      
+      return groups;
     }
-  }
 
-  function renderGroups(data) {
-    const container = document.getElementById('roster');
-    container.innerHTML = '';
-    data.forEach(group => {
-      const div = document.createElement('div');
-      div.className = 'group';
-      div.innerHTML = `
-        <h2>${group.group}</h2>
-        <div class="timezone">Time (UTC): ${group.timeUTC}</div>
-        <ul class="player-list">
-          ${group.players.map(name => `<li>${name || '- empty -'}</li>`).join('')}
-        </ul>
-      `;
-      container.appendChild(div);
-    });
-  }
+    // Function to render groups
+    function renderGroups(data) {
+      const container = document.getElementById('roster');
+      container.innerHTML = '';
+      
+      if (!data || data.length === 0) {
+        container.innerHTML = '<div class="loading">No data available for this section.</div>';
+        return;
+      }
+      
+      data.forEach(group => {
+        const div = document.createElement('div');
+        div.className = 'group';
+        
+        let playerListHTML = '';
+        // Make sure we always show 5 slots
+        for (let i = 0; i < 5; i++) {
+          const player = group.players[i] || null;
+          if (player) {
+            playerListHTML += `<li class="player-${player.type}">${player.name}</li>`;
+          } else {
+            playerListHTML += `<li>- empty -</li>`;
+          }
+        }
+        
+        div.innerHTML = `
+          <h2>${group.group}</h2>
+          <div class="timezone">Time (UTC): ${group.timeUTC}</div>
+          <ul class="player-list">
+            ${playerListHTML}
+          </ul>
+        `;
+        container.appendChild(div);
+      });
+    }
 
-  function setSection(mode) {
-    document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(`btn-${mode}`).classList.add('active');
-    fetchSheet(mode);
-  }
+    // Function to set active section
+    function setSection(section) {
+      currentSection = section;
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(`btn-${section}`).classList.add('active');
+      renderGroups(allData[section]);
+    }
 
-  // Start with Normal by default
-  setSection('normal');
-</script>
+    // Function to fetch all data
+    async function fetchAllData() {
+      document.getElementById('roster').innerHTML = '<div class="loading">Loading roster data...</div>';
+      
+      for (const [section, tabName] of Object.entries(SHEET_TABS)) {
+        const data = await fetchSheetData(tabName);
+        allData[section] = processSheetData(data, section);
+      }
+      
+      // Update the last fetched time
+      const now = new Date();
+      document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleString()}`;
+      
+      // Render the active section
+      setSection(currentSection);
+    }
+
+    // Initial load
+    fetchAllData();
+    
+    // Set up periodic refresh (every 5 minutes)
+    setInterval(fetchAllData, 5 * 60 * 1000);
+  </script>
 </body>
 </html>
