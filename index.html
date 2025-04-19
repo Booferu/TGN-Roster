@@ -75,6 +75,7 @@
     #btn-rerun { background-color: #e58cc9; }
     nav button.active {
       box-shadow: 0 0 0 3px var(--nord4);
+	  border: 2px solid white;
     }
     .roster {
       display: grid;
@@ -118,12 +119,10 @@
       font-size: 1.2rem;
       color: var(--nord8);
     }
-    .player-guild::before {
-      content: "✔ ";
+    .player-guild {
       color: #5fd17a;
     }
-    .player-merc::before {
-      content: "✦ ";
+    .player-merc {
       color: #b17adf;
     }
     .last-updated {
@@ -167,112 +166,55 @@
     // Current active section
     let currentSection = 'normal';
     
-    // Google Sheet ID from your URL
-    const SHEET_ID = '1v4wmiaLNhNzcWmPEd-tM5YwGhFrnUS6-neYGhCO_MPI';
-    
-    // Configure tab names and their corresponding sections
-    const SHEET_TABS = {
-      normal: 'NormalMode',  // Tab name in your Google Sheet for normal mode
-      hard: 'HardMode',      // Tab name for hard mode
-      rerun: 'ReRuns'        // Tab name for reruns
-    };
+    // Your Google Apps Script Web App URL
+    const API_URL = "https://script.google.com/macros/s/AKfycbzAYEA7H1o3Doxjtux-j0sVzoUEIiCoZ6wM-9sA3qbAHwWHdeTKigrrQpJRXSSx9cDXRA/exec";
 
-    // Function to fetch data from a specific tab
-    async function fetchSheetData(tabName) {
-      const url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vTvPJhJSvW6BklY5xjvCqKyFMC_kL0YAy9k3zd7KwJebHUkv9TdIFWt2p2zjz0aE_vW87nzTOp32ysx/pub?output=csv&sheet=${tabName}`;
-      
+    // Function to determine if a player is a guild member or mercenary
+    function getPlayerType(name) {
+      if (!name) return 'none';
+      if (name.includes('✔')) return 'guild';
+      if (name.includes('✦')) return 'merc';
+      return 'none';
+    }
+
+    // Function to clean up player name by removing symbols
+    function cleanPlayerName(name) {
+      if (!name) return '';
+      return name.replace('✔', '').replace('✦', '').trim();
+    }
+
+    // Function to fetch data from the API
+    async function fetchData() {
       try {
-        const response = await fetch(url);
+        const response = await fetch(API_URL);
         if (!response.ok) {
           throw new Error(`Failed to fetch data: ${response.status}`);
         }
-        return await response.text();
+        const data = await response.json();
+        
+        // Debug logging to help diagnose issues
+        console.log("Received data:", data);
+        
+        return data;
       } catch (error) {
-        console.error(`Error fetching ${tabName} data:`, error);
+        console.error(`Error fetching data:`, error);
+        document.getElementById('lastUpdated').textContent = `Error: ${error.message}`;
         return null;
       }
     }
 
-    // Function to parse CSV data
-    function parseCSV(csv) {
-      if (!csv) return [];
-      
-      const lines = csv.split('\n');
-      return lines.map(line => {
-        // Handle quoted fields properly
-        const fields = [];
-        let field = '';
-        let inQuotes = false;
-        
-        for (let i = 0; i < line.length; i++) {
-          const char = line[i];
-          
-          if (char === '"') {
-            if (inQuotes && i + 1 < line.length && line[i + 1] === '"') {
-              // Handle escaped quotes
-              field += '"';
-              i++;
-            } else {
-              inQuotes = !inQuotes;
-            }
-          } else if (char === ',' && !inQuotes) {
-            fields.push(field);
-            field = '';
-          } else {
-            field += char;
-          }
-        }
-        
-        fields.push(field); // Add the last field
-        return fields;
-      });
-    }
-
-    // Function to process data into our format
-    function processSheetData(data, mode) {
-      const rows = parseCSV(data);
-      if (!rows.length) return [];
-      
-      const groups = [];
-      let currentGroup = null;
-      
-      // Skip header row
-      for (let i = 1; i < rows.length; i++) {
-        const row = rows[i];
-        
-        // If we have a new group
-        if (row[0] && row[0].trim() !== '') {
-          // Group titles are in column A
-          const groupName = row[0].trim();
-          // Time is in column B
-          const timeUTC = row[1] ? row[1].trim() : 'TBD';
-          
-          currentGroup = {
-            group: groupName,
-            timeUTC: timeUTC,
-            players: []
-          };
-          groups.push(currentGroup);
-        }
-        
-        // Player data is in columns C-G (indexes 2-6)
-        if (currentGroup) {
-          for (let j = 2; j <= 6; j++) {
-            if (row[j] && row[j].trim() !== '') {
-              const playerName = row[j].trim();
-              // Check if player is guild or merc (in column H-L, indexes 7-11)
-              const playerType = row[j + 5] && row[j + 5].toLowerCase().includes('merc') ? 'merc' : 'guild';
-              
-              currentGroup.players.push({
-                name: playerName,
-                type: playerType
-              });
-            }
-          }
-        }
+    // Function to process player data
+    function processPlayers(players) {
+      if (!Array.isArray(players)) {
+        console.error("Expected players to be an array, got:", players);
+        return [];
       }
-      
-      return groups;
+      return players.map(player => {
+        return {
+          name: cleanPlayerName(player),
+          type: getPlayerType(player)
+        };
+      });
     }
 
     // Function to render groups
@@ -290,11 +232,15 @@
         div.className = 'group';
         
         let playerListHTML = '';
+        // Process players to determine if they're guild or merc
+        const processedPlayers = processPlayers(group.players);
+        
         // Make sure we always show 5 slots
         for (let i = 0; i < 5; i++) {
-          const player = group.players[i] || null;
+          const player = processedPlayers[i] || null;
           if (player) {
-            playerListHTML += `<li class="player-${player.type}">${player.name}</li>`;
+            const symbol = player.type === 'guild' ? '✔ ' : player.type === 'merc' ? '✦ ' : '';
+            playerListHTML += `<li class="player-${player.type}">${symbol}${player.name}</li>`;
           } else {
             playerListHTML += `<li>- empty -</li>`;
           }
@@ -323,17 +269,22 @@
     async function fetchAllData() {
       document.getElementById('roster').innerHTML = '<div class="loading">Loading roster data...</div>';
       
-      for (const [section, tabName] of Object.entries(SHEET_TABS)) {
-        const data = await fetchSheetData(tabName);
-        allData[section] = processSheetData(data, section);
+      const data = await fetchData();
+      if (data) {
+        allData.normal = data.normal || [];
+        allData.hard = data.hard || [];
+        allData.rerun = data.reruns || data.rerun || []; // Try both names
+        
+        // Log what we received for debugging
+        console.log("Processed data:", allData);
+        
+        // Update the last fetched time
+        const now = new Date();
+        document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleString()}`;
+        
+        // Render the active section
+        setSection(currentSection);
       }
-      
-      // Update the last fetched time
-      const now = new Date();
-      document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleString()}`;
-      
-      // Render the active section
-      setSection(currentSection);
     }
 
     // Initial load
