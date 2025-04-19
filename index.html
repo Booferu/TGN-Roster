@@ -60,7 +60,7 @@
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
     nav button {
       border: none;
@@ -76,6 +76,13 @@
     nav button.active {
       box-shadow: 0 0 0 3px var(--nord4);
 	  border: 2px solid white;
+    }
+    .time-notice {
+      text-align: center;
+      margin: 0 auto 2rem;
+      font-size: 0.9rem;
+      color: var(--nord8);
+      font-style: italic;
     }
     .roster {
       display: grid;
@@ -148,6 +155,7 @@
     <button onclick="setSection('hard')" id="btn-hard">Hard Mode</button>
     <button onclick="setSection('rerun')" id="btn-rerun">Re-runs / Fill-ins</button>
   </nav>
+  <div class="time-notice">Times are displayed in your local time zone</div>
   <div class="roster" id="roster">
     <div class="loading">Loading roster data...</div>
   </div>
@@ -181,6 +189,43 @@
     function cleanPlayerName(name) {
       if (!name) return '';
       return name.replace('✔', '').replace('✦', '').trim();
+    }
+
+    // Function to convert UTC time to local time
+    function convertUTCToLocal(utcTimeStr) {
+      if (!utcTimeStr) return 'No time specified';
+      
+      try {
+        // Check if it's already in a proper format
+        if (utcTimeStr.toLowerCase() === 'tbd' || utcTimeStr.toLowerCase() === 'n/a') {
+          return utcTimeStr;
+        }
+        
+        // Parse the UTC time string (expecting format like "20:00")
+        const timeParts = utcTimeStr.trim().split(':');
+        if (timeParts.length !== 2) {
+          return utcTimeStr; // Return original if format is unexpected
+        }
+        
+        const hours = parseInt(timeParts[0], 10);
+        const minutes = parseInt(timeParts[1], 10);
+        
+        if (isNaN(hours) || isNaN(minutes)) {
+          return utcTimeStr; // Return original if parsing fails
+        }
+        
+        // Create a date object with current date and the UTC time
+        const utcDate = new Date();
+        utcDate.setUTCHours(hours, minutes, 0, 0);
+        
+        // Format the local time
+        const localTimeStr = utcDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        return `${localTimeStr} (${utcTimeStr} UTC)`;
+      } catch (error) {
+        console.error("Error converting time:", error);
+        return utcTimeStr; // Return original in case of error
+      }
     }
 
     // Function to fetch data from the API
@@ -246,9 +291,12 @@
           }
         }
         
+        // Convert UTC time to local time
+        const localTime = convertUTCToLocal(group.timeUTC);
+        
         div.innerHTML = `
           <h2>${group.group}</h2>
-          <div class="timezone">Time (UTC): ${group.timeUTC}</div>
+          <div class="timezone">Time: ${localTime}</div>
           <ul class="player-list">
             ${playerListHTML}
           </ul>
