@@ -133,50 +133,53 @@
   <footer>
     Powered by TGN &middot; Static fallback with Google Sheets support
   </footer>
-  <script>
-    function generateGroups(modeName) {
-      const groups = [];
-      for (let i = 1; i <= 10; i++) {
-        groups.push({
-          group: `${modeName} ${i}`,
-          timeUTC: `${17 + i}:00`,
-          players: ["", "", "", "", ""]
-        });
+<script>
+  async function fetchSheetData() {
+    const csvUrl = 'PASTE_YOUR_PUBLISHED_CSV_URL_HERE';
+
+    const response = await fetch(csvUrl);
+    const csvText = await response.text();
+
+    const rows = csvText.trim().split('\n').map(r => r.split(','));
+    // Assuming headers: Mode, Group Name, Time UTC, Player1, Player2, ..., Player5
+    const allData = { normal: [], hard: [], rerun: [] };
+
+    for (let i = 1; i < rows.length; i++) {
+      const [mode, group, timeUTC, ...players] = rows[i];
+      if (allData[mode]) {
+        allData[mode].push({ group, timeUTC, players });
       }
-      return groups;
     }
 
-    const allData = {
-      normal: generateGroups("Group"),
-      hard: generateGroups("Hard Group"),
-      rerun: generateGroups("Rerun")
-    };
-
-    function renderGroups(data) {
-      const container = document.getElementById('roster');
-      container.innerHTML = '';
-      data.forEach(group => {
-        const div = document.createElement('div');
-        div.className = 'group';
-        div.innerHTML = `
-          <h2>${group.group}</h2>
-          <div class="timezone">Time (UTC): ${group.timeUTC}</div>
-          <ul class="player-list">
-            ${group.players.map(name => `<li>${name || "- empty -"}</li>`).join('')}
-          </ul>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function setSection(section) {
-      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(`btn-${section}`).classList.add('active');
-      renderGroups(allData[section]);
-    }
-
-    // Initial load
+    window.allData = allData;
     setSection('normal');
-  </script>
+  }
+
+  function renderGroups(data) {
+    const container = document.getElementById('roster');
+    container.innerHTML = '';
+    data.forEach(group => {
+      const div = document.createElement('div');
+      div.className = 'group';
+      div.innerHTML = `
+        <h2>${group.group}</h2>
+        <div class="timezone">Time (UTC): ${group.timeUTC}</div>
+        <ul class="player-list">
+          ${group.players.map(name => `<li>${name || "- empty -"}</li>`).join('')}
+        </ul>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function setSection(section) {
+    document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(`btn-${section}`).classList.add('active');
+    renderGroups(window.allData[section]);
+  }
+
+  // Initial data load
+  fetchSheetData();
+</script>
 </body>
 </html>
