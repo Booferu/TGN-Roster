@@ -29,6 +29,7 @@
       --radius-sm: 6px;
       --radius-md: 10px;
       --radius-lg: 16px;
+      --filled-glow: #e6973b; /* Orange-gold color for filled group glow */
     }
     
     * {
@@ -166,7 +167,7 @@ nav button:hover {
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-md);
       padding: 1.5rem;
-      transition: transform 0.2s ease-in-out;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       border: 1px solid var(--border-light);
       position: relative;
       overflow: hidden;
@@ -187,6 +188,17 @@ nav button:hover {
       box-shadow: var(--shadow-lg);
     }
     
+    /* Static orange-gold glow for filled groups */
+    .group.filled {
+      box-shadow: 0 0 10px 0 rgba(230, 151, 59, 0.35);
+      border: 1px solid rgba(230, 151, 59, 0.3);
+    }
+    
+    /* Orange-gold header line for filled groups */
+    .group.filled::before {
+      background: var(--filled-glow);
+    }
+    
     .group h2 {
       font-size: 1.3rem;
       margin-bottom: 1rem;
@@ -194,6 +206,11 @@ nav button:hover {
       padding-bottom: 0.5rem;
       font-weight: 600;
       color: var(--text-primary);
+    }
+    
+    /* Orange-gold text color for filled group headers */
+    .group.filled h2 {
+      color: var(--filled-glow);
     }
     
     .player-list {
@@ -426,6 +443,21 @@ nav button:hover {
       });
     }
 
+    // Function to check if a group is filled (has all 5 players)
+    function isGroupFilled(players) {
+      if (!Array.isArray(players)) return false;
+      
+      // Count actual players (non-empty strings)
+      let filledSlots = 0;
+      for (let i = 0; i < players.length; i++) {
+        if (players[i] && players[i].trim() !== '') {
+          filledSlots++;
+        }
+      }
+      
+      return filledSlots === 5;
+    }
+
     // Function to render groups
     function renderGroups(data) {
       const container = document.getElementById('roster');
@@ -439,6 +471,11 @@ nav button:hover {
       data.forEach(group => {
         const div = document.createElement('div');
         div.className = 'group';
+        
+        // Check if the group is filled and add the 'filled' class if so
+        if (isGroupFilled(group.players)) {
+          div.classList.add('filled');
+        }
         
         let playerListHTML = '';
         // Process players to determine if they're guild or merc
