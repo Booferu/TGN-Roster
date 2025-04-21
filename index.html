@@ -774,14 +774,14 @@
     const allData = {
       normal: [],
       hard: [],
-      rerun: []
+      reruns: []
     };
     
     // Store authenticated user info
     let currentUser = null;
     
     // Initialize the app
-    function init() {
+    async function init() {
       // Set up Firebase auth state listener
       auth.onAuthStateChanged(user => {
         if (user) {
@@ -801,6 +801,50 @@
         }
       });
       
+	// Initialize the database with default structure if empty
+	async function initializeDatabase() {
+	  try {
+		const snapshot = await database.ref('roster').once('value');
+		if (!snapshot.exists()) {
+		  console.log('Creating initial database structure');
+		  // Default empty structure
+		  const defaultData = {
+			normal: [
+			  {
+				group: "Group 1",
+				timeUTC: "20:00",
+				players: ["", "", "", "", ""]
+			  },
+			  {
+				group: "Group 2",
+				timeUTC: "22:00",
+				players: ["", "", "", "", ""]
+			  }
+			],
+			hard: [
+			  {
+				group: "Hard Group 1",
+				timeUTC: "21:00",
+				players: ["", "", "", "", ""]
+			  }
+			],
+			reruns: [
+			  {
+				group: "Rerun Group",
+				timeUTC: "19:00",
+				players: ["", "", "", "", ""]
+			  }
+			]
+		  };
+		  
+		  await database.ref('roster').set(defaultData);
+		  console.log('Database initialized with default structure');
+		}
+	  } catch (error) {
+		console.error('Error initializing database:', error);
+	  }
+	}
+	  
       // Set up event listeners
       document.getElementById('loginSubmitBtn').addEventListener('click', handleLogin);
       document.getElementById('registerSubmitBtn').addEventListener('click', handleRegister);
@@ -820,6 +864,7 @@
       document.getElementById('resetRosterBtn').addEventListener('click', resetRoster);
       document.getElementById('exportRosterBtn').addEventListener('click', exportRoster);
       
+	  await initializeDatabase();
       // Initial data fetch
       fetchAllData();
     }
@@ -1190,7 +1235,9 @@
       group.players[emptySlotIndex] = symbol + currentUser.username;
       
       // Save to Firebase
-      await database.ref(`roster/${sectionName}/${groupIndex}`).set(group);
+      // Save to Firebase
+	  const sectionPath = sectionName === 'rerun' ? 'reruns' : sectionName;
+	  await database.ref(`roster/${sectionPath}/${groupIndex}`).set(group);
       
       // Re-render the roster
       renderGroups(allData[currentSection]);
@@ -1223,8 +1270,9 @@
         group.players.push('');
       }
       
-      // Save to Firebase
-      await database.ref(`roster/${sectionName}/${groupIndex}`).set(group);
+	  // Save to Firebase
+	  const sectionPath = sectionName === 'rerun' ? 'reruns' : sectionName;
+	  await database.ref(`roster/${sectionPath}/${groupIndex}`).set(group);
       
       // Re-render the roster
       renderGroups(allData[currentSection]);
@@ -1253,7 +1301,7 @@
       // Update the UI
       allData.normal = emptyData.normal;
       allData.hard = emptyData.hard;
-      allData.rerun = emptyData.reruns;
+      allData.reruns = emptyData.reruns;
       
       // Reset UI
       renderGroups(allData[currentSection]);
@@ -1445,58 +1493,62 @@
       closeModal('editGroupModal');
     }
 
-    // Function to set active section
-    function setSection(section) {
-      currentSection = section;
-      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(`btn-${section}`).classList.add('active');
-      renderGroups(allData[section]);
-    }
+	// Function to set active section
+	function setSection(section) {
+	  currentSection = section;
+	  document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+	  document.getElementById(`btn-${section}`).classList.add('active');
+	  
+	  // Use correct property name for reruns
+	  if (section === 'rerun') {
+		renderGroups(allData.reruns);
+	  } else {
+		renderGroups(allData[section]);
+	  }
+	}
 
-    // Function to fetch all data from Firebase
-    async function fetchAllData() {
-      document.getElementById('roster').innerHTML = '<div class="loading">Loading roster data...</div>';
-      
-      try {
-        const snapshot = await database.ref('roster').once('value');
-        const data = snapshot.val() || {
-          normal: [],
-          hard: [],
-          reruns: []
-        };
-        
-        allData.normal = data.normal || [];
-        allData.hard = data.hard || [];
-        allData.rerun = data.reruns || data.rerun || [];
-        
-        // Update the last fetched time
-        const now = new Date();
-        document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleString()}`;
-        
-        // Render the active section
-        setSection(currentSection);
-        
-        // Set up realtime listener
-        database.ref('roster').on('value', (snapshot) => {
-          const updatedData = snapshot.val() || {
-            normal: [],
-            hard: [],
-            reruns: []
-          };
-          
-          allData.normal = updatedData.normal || [];
-          allData.hard = updatedData.hard || [];
-          allData.rerun = updatedData.reruns || updatedData.rerun || [];
-          
-          // Only update if we're viewing the same section
-          renderGroups(allData[currentSection]);
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        document.getElementById('roster').innerHTML = '<div class="loading">Error loading roster data</div>';
-        document.getElementById('lastUpdated').textContent = `Error: ${error.message}`;
-      }
-    }
+	// Function to fetch all data from Firebase
+	async function fetchAllData() {
+	  document.getElementById('roster').innerHTML = '<div class="loading">Loading roster data...</div>';
+	  
+	  try {
+		const snapshot = await database.ref('roster').once('value');
+		const data = snapshot.val();
+		
+		if (!data) {
+		  document.getElementById('roster').innerHTML = '<div class="loading">No roster data found. Please check back later or contact an administrator.</div>';
+		  return;
+		}
+		
+		allData.normal = data.normal || [];
+		allData.hard = data.hard || [];
+		allData.reruns = data.reruns || [];
+		
+		// Update the last fetched time
+		const now = new Date();
+		document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleString()}`;
+		
+		// Render the active section
+		setSection(currentSection);
+		
+		// Set up realtime listener
+		database.ref('roster').on('value', (snapshot) => {
+		  const updatedData = snapshot.val();
+		  if (!updatedData) return;
+		  
+		  allData.normal = updatedData.normal || [];
+		  allData.hard = updatedData.hard || [];
+		  allData.reruns = updatedData.reruns || [];
+		  
+		  // Only update if we're viewing the same section
+		  renderGroups(allData[currentSection]);
+		});
+	  } catch (error) {
+		console.error('Error fetching data:', error);
+		document.getElementById('roster').innerHTML = `<div class="loading">Error loading roster data: ${error.message}</div>`;
+		document.getElementById('lastUpdated').textContent = `Error: ${error.message}`;
+	  }
+	}
 
     // Initial load
     document.addEventListener('DOMContentLoaded', init);
