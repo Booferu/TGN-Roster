@@ -800,7 +800,35 @@
           updateUserPanel();
         }
       });
+	  
+      // Set up event listeners
+      document.getElementById('loginSubmitBtn').addEventListener('click', handleLogin);
+      document.getElementById('registerSubmitBtn').addEventListener('click', handleRegister);
       
+      // Register role selection
+      document.getElementById('registerRole').addEventListener('change', function() {
+        const officerCodeGroup = document.getElementById('officerCodeGroup');
+        if (this.value === 'officer') {
+          officerCodeGroup.style.display = 'block';
+        } else {
+          officerCodeGroup.style.display = 'none';
+        }
+      });
+      
+      // Admin panel functionality
+      document.getElementById('updateRoleBtn').addEventListener('click', updateUserRole);
+      document.getElementById('resetRosterBtn').addEventListener('click', resetRoster);
+      document.getElementById('exportRosterBtn').addEventListener('click', exportRoster);
+      
+	try {
+	  await initializeDatabase();
+	  // Initial data fetch only after database is initialized
+	  await fetchAllData();
+	} catch (error) {
+	  console.error("Initialization error:", error);
+	  document.getElementById('roster').innerHTML = `<div class="loading">Error initializing application: ${error.message}</div>`;
+	}
+    
 	// Initialize the database with default structure if empty
 	async function initializeDatabase() {
 	  try {
@@ -844,31 +872,7 @@
 		console.error('Error initializing database:', error);
 	  }
 	}
-	  
-      // Set up event listeners
-      document.getElementById('loginSubmitBtn').addEventListener('click', handleLogin);
-      document.getElementById('registerSubmitBtn').addEventListener('click', handleRegister);
-      
-      // Register role selection
-      document.getElementById('registerRole').addEventListener('change', function() {
-        const officerCodeGroup = document.getElementById('officerCodeGroup');
-        if (this.value === 'officer') {
-          officerCodeGroup.style.display = 'block';
-        } else {
-          officerCodeGroup.style.display = 'none';
-        }
-      });
-      
-      // Admin panel functionality
-      document.getElementById('updateRoleBtn').addEventListener('click', updateUserRole);
-      document.getElementById('resetRosterBtn').addEventListener('click', resetRoster);
-      document.getElementById('exportRosterBtn').addEventListener('click', exportRoster);
-      
-	  await initializeDatabase();
-      // Initial data fetch
-      fetchAllData();
-    }
-    
+	
     // =====================
     // User Authentication
     // =====================
@@ -1495,15 +1499,22 @@
 
 	// Function to set active section
 	function setSection(section) {
+	  // Set current section for tracking
 	  currentSection = section;
+	  
+	  // Update UI to show active button
 	  document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
 	  document.getElementById(`btn-${section}`).classList.add('active');
 	  
-	  // Use correct property name for reruns
-	  if (section === 'rerun') {
-		renderGroups(allData.reruns);
+	  // Map 'rerun' to 'reruns' in the data structure
+	  const dataSection = section === 'rerun' ? 'reruns' : section;
+	  
+	  // Check if we have data for this section
+	  if (allData[dataSection] && Array.isArray(allData[dataSection])) {
+		renderGroups(allData[dataSection]);
 	  } else {
-		renderGroups(allData[section]);
+		console.error(`No valid data for section: ${dataSection}`);
+		document.getElementById('roster').innerHTML = '<div class="loading">No data available for this section.</div>';
 	  }
 	}
 
@@ -1512,36 +1523,47 @@
 	  document.getElementById('roster').innerHTML = '<div class="loading">Loading roster data...</div>';
 	  
 	  try {
+		console.log("Fetching roster data...");
 		const snapshot = await database.ref('roster').once('value');
 		const data = snapshot.val();
 		
+		console.log("Roster data received:", data);
+		
 		if (!data) {
+		  console.warn("No roster data found");
 		  document.getElementById('roster').innerHTML = '<div class="loading">No roster data found. Please check back later or contact an administrator.</div>';
 		  return;
 		}
 		
-		allData.normal = data.normal || [];
-		allData.hard = data.hard || [];
-		allData.reruns = data.reruns || [];
+		// Ensure we have arrays for each section
+		allData.normal = Array.isArray(data.normal) ? data.normal : [];
+		allData.hard = Array.isArray(data.hard) ? data.hard : [];
+		allData.reruns = Array.isArray(data.reruns) ? data.reruns : [];
+		
+		console.log("Data processed:", allData);
 		
 		// Update the last fetched time
 		const now = new Date();
 		document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleString()}`;
 		
-		// Render the active section
-		setSection(currentSection);
+		// Render the active section (use correct section name mapping)
+		const dataSection = currentSection === 'rerun' ? 'reruns' : currentSection;
+		renderGroups(allData[dataSection]);
 		
 		// Set up realtime listener
 		database.ref('roster').on('value', (snapshot) => {
 		  const updatedData = snapshot.val();
 		  if (!updatedData) return;
 		  
-		  allData.normal = updatedData.normal || [];
-		  allData.hard = updatedData.hard || [];
-		  allData.reruns = updatedData.reruns || [];
+		  console.log("Real-time update received:", updatedData);
 		  
-		  // Only update if we're viewing the same section
-		  renderGroups(allData[currentSection]);
+		  allData.normal = Array.isArray(updatedData.normal) ? updatedData.normal : [];
+		  allData.hard = Array.isArray(updatedData.hard) ? updatedData.hard : [];
+		  allData.reruns = Array.isArray(updatedData.reruns) ? updatedData.reruns : [];
+		  
+		  // Use the correct section mapping when rendering
+		  const dataSection = currentSection === 'rerun' ? 'reruns' : currentSection;
+		  renderGroups(allData[dataSection]);
 		});
 	  } catch (error) {
 		console.error('Error fetching data:', error);
