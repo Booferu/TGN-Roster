@@ -781,54 +781,55 @@
     let currentUser = null;
     
     // Initialize the app
-    async function init() {
-      // Set up Firebase auth state listener
-      auth.onAuthStateChanged(user => {
-        if (user) {
-          // User is signed in
-          getUserData(user.uid).then(userData => {
-            currentUser = {
-              uid: user.uid,
-              username: userData.username,
-              role: userData.role
-            };
-            updateUserPanel();
-          });
-        } else {
-          // User is signed out
-          currentUser = null;
-          updateUserPanel();
-        }
-      });
+	async function init() {
+	  // Set up Firebase auth state listener
+	  auth.onAuthStateChanged(user => {
+		if (user) {
+		  // User is signed in
+		  getUserData(user.uid).then(userData => {
+			currentUser = {
+			  uid: user.uid,
+			  username: userData.username,
+			  role: userData.role
+			};
+			updateUserPanel();
+		  });
+		} else {
+		  // User is signed out
+		  currentUser = null;
+		  updateUserPanel();
+		}
+	  });
 	  
-      // Set up event listeners
-      document.getElementById('loginSubmitBtn').addEventListener('click', handleLogin);
-      document.getElementById('registerSubmitBtn').addEventListener('click', handleRegister);
-      
-      // Register role selection
-      document.getElementById('registerRole').addEventListener('change', function() {
-        const officerCodeGroup = document.getElementById('officerCodeGroup');
-        if (this.value === 'officer') {
-          officerCodeGroup.style.display = 'block';
-        } else {
-          officerCodeGroup.style.display = 'none';
-        }
-      });
-      
-      // Admin panel functionality
-      document.getElementById('updateRoleBtn').addEventListener('click', updateUserRole);
-      document.getElementById('resetRosterBtn').addEventListener('click', resetRoster);
-      document.getElementById('exportRosterBtn').addEventListener('click', exportRoster);
-      
-	try {
-	  await initializeDatabase();
-	  // Initial data fetch only after database is initialized
-	  await fetchAllData();
-	} catch (error) {
-	  console.error("Initialization error:", error);
-	  document.getElementById('roster').innerHTML = `<div class="loading">Error initializing application: ${error.message}</div>`;
+	  // Set up event listeners
+	  document.getElementById('loginSubmitBtn').addEventListener('click', handleLogin);
+	  document.getElementById('registerSubmitBtn').addEventListener('click', handleRegister);
+	  
+	  // Register role selection
+	  document.getElementById('registerRole').addEventListener('change', function() {
+		const officerCodeGroup = document.getElementById('officerCodeGroup');
+		if (this.value === 'officer') {
+		  officerCodeGroup.style.display = 'block';
+		} else {
+		  officerCodeGroup.style.display = 'none';
+		}
+	  });
+	  
+	  // Admin panel functionality
+	  document.getElementById('updateRoleBtn').addEventListener('click', updateUserRole);
+	  document.getElementById('resetRosterBtn').addEventListener('click', resetRoster);
+	  document.getElementById('exportRosterBtn').addEventListener('click', exportRoster);
+	  
+	  try {
+		await initializeDatabase();
+		// Initial data fetch only after database is initialized
+		await fetchAllData();
+	  } catch (error) {
+		console.error("Initialization error:", error);
+		document.getElementById('roster').innerHTML = `<div class="loading">Error initializing application: ${error.message}</div>`;
+	  }
 	}
-    
+
 	// Initialize the database with default structure if empty
 	async function initializeDatabase() {
 	  try {
@@ -870,6 +871,7 @@
 		}
 	  } catch (error) {
 		console.error('Error initializing database:', error);
+		throw error; // Re-throw to be caught by the calling function
 	  }
 	}
 	
