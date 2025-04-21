@@ -574,6 +574,44 @@
       color: white;
     }
   </style>
+
+<!-- Firebase SDKs for HTML without modules -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+  // Your Firebase config (you gave me this)
+  const firebaseConfig = {
+    apiKey: "AIzaSyANFiNgI5AElip2yg1s1j8X_C_fySX0b38",
+    authDomain: "tgn-roster.firebaseapp.com",
+    projectId: "tgn-roster",
+    storageBucket: "tgn-roster.firebasestorage.app",
+    messagingSenderId: "680550686349",
+    appId: "1:680550686349:web:bf8d53910264c3a5004cc4",
+    measurementId: "G-CN0HQ0HH8K",
+    databaseURL: "https://tgn-roster-default-rtdb.firebaseio.com"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
+  function saveRoster(roster) {
+    database.ref("roster").set(roster);
+  }
+
+  function listenToRosterUpdates(callback) {
+    database.ref("roster").on("value", (snapshot) => {
+      callback(snapshot.val() || []);
+    });
+  }
+
+  // Example: Hook to your UI initialization
+  listenToRosterUpdates(function(roster) {
+    console.log("Updated Roster:", roster);
+    // TODO: Update the UI with this roster
+  });
+</script>
+
 </head>
 <body>
   <div class="container">
@@ -761,8 +799,7 @@
 	  };
 	  
 	  // Save to localStorage
-	  localStorage.setItem('tgnRosterData', JSON.stringify({
-		data: emptyData,
+	  		data: emptyData,
 		timestamp: new Date().getTime()
 	  }));
 	  
@@ -813,13 +850,13 @@
     
     // Load user from localStorage
     function loadUserFromLocalStorage() {
-      const userData = localStorage.getItem('tgnUser');
+      const userData = 
       if (userData) {
         try {
           currentUser = JSON.parse(userData);
         } catch (err) {
           console.error('Error parsing user data:', err);
-          localStorage.removeItem('tgnUser');
+          
         }
       }
     }
@@ -827,9 +864,9 @@
     // Save user to localStorage
     function saveUserToLocalStorage() {
       if (currentUser) {
-        localStorage.setItem('tgnUser', JSON.stringify(currentUser));
+        
       } else {
-        localStorage.removeItem('tgnUser');
+        
       }
     }
     
@@ -890,7 +927,7 @@
       }
       
       // Check if user exists in localStorage
-      const users = JSON.parse(localStorage.getItem('tgnUsers') || '{}');
+      const users = JSON.parse(
       
       if (!users[username]) {
         showAlert(alertElement, 'User not found', 'error');
@@ -939,7 +976,7 @@
       }
       
       // Get stored users
-      const users = JSON.parse(localStorage.getItem('tgnUsers') || '{}');
+      const users = JSON.parse(
       
       // Check if username already exists
       if (users[username]) {
@@ -950,7 +987,7 @@
       // Check officer code if trying to register as officer
       let finalRole = role;
       if (role === 'officer' && officerCode) {
-        const savedOfficerCode = localStorage.getItem('officerCode') || DEFAULT_OFFICER_CODE;
+        const savedOfficerCode = 
         
         if (officerCode === ADMIN_CODE) {
           finalRole = 'admin';
@@ -967,7 +1004,7 @@
       };
       
       // Save users to localStorage
-      localStorage.setItem('tgnUsers', JSON.stringify(users));
+      
       
       // Login the new user
       currentUser = {
@@ -990,7 +1027,7 @@
     // Handle logout
     function handleLogout() {
       currentUser = null;
-      localStorage.removeItem('tgnUser');
+      
       updateUserPanel();
     }
     
@@ -1019,7 +1056,7 @@
         return;
       }
       
-      localStorage.setItem('officerCode', newCode);
+      
       showAlert(alertElement, 'Officer code updated successfully', 'success');
       
       // Clear the input
@@ -1130,7 +1167,7 @@
 	async function fetchData() {
 	  try {
 		// Try to get data from localStorage
-		const cachedData = localStorage.getItem('tgnRosterData');
+		const cachedData = 
 		
 		if (cachedData) {
 		  const parsedCache = JSON.parse(cachedData);
@@ -1145,8 +1182,7 @@
 		  };
 		  
 		  // Save the empty structure to localStorage
-		  localStorage.setItem('tgnRosterData', JSON.stringify({
-			data: emptyData,
+		  			data: emptyData,
 			timestamp: new Date().getTime()
 		  }));
 		  
@@ -1293,8 +1329,7 @@
 
     // Save roster data to localStorage
     function saveRosterToLocalStorage() {
-      localStorage.setItem('tgnRosterData', JSON.stringify({
-        data: {
+              data: {
           normal: allData.normal,
           hard: allData.hard,
           reruns: allData.rerun
