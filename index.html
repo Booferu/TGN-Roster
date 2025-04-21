@@ -66,10 +66,7 @@
       font-size: 2.5rem;
       font-weight: 600;
       margin-bottom: 1.5rem;
-      background: linear-gradient(120deg, var(--accent-primary), var(--accent-secondary));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      color: var(--text-primary); /* Changed to white as requested */
     }
     
     .description {
@@ -117,35 +114,31 @@
     }
     
     #btn-normal { 
-      background-color: var(--accent-primary);
+      background-color: #568ade; /* blue */
     }
-    
-    #btn-normal { 
-	  background-color: #568ade; /* blue */
-	}
 
-	#btn-hard { 
+    #btn-hard { 
       background-color: #e44f4f; /* red */
-	}
+    }
 
-	#btn-rerun { 
+    #btn-rerun { 
       background-color: #e251a3; /* pink */
       color: white; /* Changed to white for better contrast */
-	}
+    }
 
-/* Active button state with brighter border */
-nav button.active {
-  transform: translateY(1px);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-  outline: 2px solid rgba(255, 255, 255, 0.6); /* Brighter white border */
-}
+    /* Active button state with brighter border */
+    nav button.active {
+      transform: translateY(1px);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+      outline: 2px solid rgba(255, 255, 255, 0.6); /* Brighter white border */
+    }
 
-/* Hover effects to match the new colors */
-nav button:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-  filter: brightness(1.1); /* Slightly brighten on hover */
-}
+    /* Hover effects to match the new colors */
+    nav button:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      filter: brightness(1.1); /* Slightly brighten on hover */
+    }
     
     .time-notice {
       text-align: center;
@@ -224,6 +217,7 @@ nav button:hover {
       border-bottom: 1px solid var(--border-light);
       display: flex;
       align-items: center;
+      justify-content: space-between;
       transition: background-color 0.2s ease;
     }
     
@@ -320,31 +314,429 @@ nav button:hover {
         grid-template-columns: 1fr;
       }
     }
+
+    /* NEW STYLES FOR USER FEATURES */
+    .user-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 0.8rem 1.2rem;
+      background-color: var(--bg-tertiary);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--accent-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .user-actions {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .btn {
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-light);
+    }
+
+    .btn-danger {
+      background-color: #e44f4f;
+      color: white;
+    }
+
+    .btn-success {
+      background-color: var(--guild-color);
+      color: black;
+    }
+
+    .btn:hover {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .join-btn {
+      background-color: var(--accent-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .join-btn:hover {
+      filter: brightness(1.1);
+    }
+
+    .leave-btn {
+      background-color: #e44f4f;
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.3rem 0.7rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .leave-btn:hover {
+      filter: brightness(1.1);
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background-color: var(--bg-secondary);
+      padding: 2rem;
+      border-radius: var(--radius-md);
+      width: 90%;
+      max-width: 500px;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border-light);
+    }
+
+    .modal h3 {
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: var(--radius-sm);
+      background-color: var(--bg-tertiary);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      font-family: inherit;
+    }
+
+    .form-group input:focus {
+      outline: 2px solid var(--accent-primary);
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .alert {
+      padding: 0.8rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .alert-error {
+      background-color: rgba(228, 79, 79, 0.2);
+      border: 1px solid rgba(228, 79, 79, 0.5);
+      color: #f8b3b3;
+    }
+
+    .alert-success {
+      background-color: rgba(74, 222, 128, 0.2);
+      border: 1px solid rgba(74, 222, 128, 0.5);
+      color: #b3f8c4;
+    }
+
+    .countdown {
+      display: inline-block;
+      margin-left: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--accent-tertiary);
+    }
+
+    /* Tooltip styles */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltip-text {
+      visibility: hidden;
+      width: 200px;
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+      text-align: center;
+      border-radius: var(--radius-sm);
+      padding: 0.5rem;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -100px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--border-light);
+      font-size: 0.9rem;
+    }
+
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Role badges */
+    .role-badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      margin-left: 0.5rem;
+      font-weight: 500;
+    }
+
+    .role-badge.admin {
+      background-color: #e44f4f;
+      color: white;
+    }
+
+    .role-badge.officer {
+      background-color: var(--accent-primary);
+      color: white;
+    }
+
+    .role-badge.member {
+      background-color: var(--guild-color);
+      color: black;
+    }
+
+    .role-badge.mercenary {
+      background-color: var(--merc-color);
+      color: white;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>TGN Party Boss Blitz Roster</h1>
+    
+    <!-- User panel: Login/Register or User Info -->
+    <div class="user-panel" id="userPanel">
+      <!-- Content will be dynamically generated -->
+    </div>
+    
     <div class="description">
       This page organizes static groups for the weekly <strong>Party Boss Blitz</strong> content.<br>
       <strong><span class="player-guild">Guild members (✔)</span> have priority</strong>. <span class="player-merc">Mercenaries (✦)</span> are welcome to fill in but may be replaced if a guild member signs up.
     </div>
+    
     <nav>
       <button onclick="setSection('normal')" id="btn-normal" class="active">Normal Mode</button>
       <button onclick="setSection('hard')" id="btn-hard">Hard Mode</button>
       <button onclick="setSection('rerun')" id="btn-rerun">Re-runs / Fill-ins</button>
     </nav>
+    
     <div class="time-notice">Times are displayed in your local time zone</div>
+    
     <div class="roster" id="roster">
       <div class="loading">Loading roster data...</div>
     </div>
+    
     <div class="last-updated" id="lastUpdated"></div>
+    
     <footer>
-      Powered by TGN &middot; Connected to Google Sheets
+      Powered by TGN &middot; User Managed Roster
     </footer>
   </div>
 
+  <!-- Login Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-content">
+      <h3>Login</h3>
+      <div id="loginAlert" class="alert alert-error" style="display: none;"></div>
+      <div class="form-group">
+        <label for="loginUsername">Username</label>
+        <input type="text" id="loginUsername" placeholder="Enter your character name">
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password">
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="closeModal('loginModal')">Cancel</button>
+        <button class="btn btn-primary" id="loginSubmitBtn">Login</button>
+      </div>
+      <p style="text-align: center; margin-top: 1rem; color: var(--text-tertiary);">
+        Don't have an account? <a href="#" onclick="openModal('registerModal'); closeModal('loginModal');" style="color: var(--accent-primary);">Register</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal" id="registerModal">
+    <div class="modal-content">
+      <h3>Register</h3>
+      <div id="registerAlert" class="alert alert-error" style="display: none;"></div>
+      <div class="form-group">
+        <label for="registerUsername">Character Name</label>
+        <input type="text" id="registerUsername" placeholder="Enter your character name">
+      </div>
+      <div class="form-group">
+        <label for="registerPassword">Password</label>
+        <input type="password" id="registerPassword" placeholder="Create a password">
+      </div>
+      <div class="form-group">
+        <label for="registerConfirmPassword">Confirm Password</label>
+        <input type="password" id="registerConfirmPassword" placeholder="Confirm your password">
+      </div>
+      <div class="form-group">
+        <label for="registerRole">Role</label>
+        <select id="registerRole" style="width: 100%; padding: 0.8rem; border-radius: var(--radius-sm); background-color: var(--bg-tertiary); border: 1px solid var(--border-light); color: var(--text-primary); font-family: inherit;">
+          <option value="member">Guild Member</option>
+          <option value="mercenary">Mercenary</option>
+        </select>
+      </div>
+      <div class="form-group" id="officerCodeGroup" style="display: none;">
+        <label for="officerCode">Officer Code</label>
+        <input type="password" id="officerCode" placeholder="Enter officer access code">
+        <small style="color: var(--text-tertiary); display: block; margin-top: 0.5rem;">
+          Only required for officers. Ask your guild leader for the code.
+        </small>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="closeModal('registerModal')">Cancel</button>
+        <button class="btn btn-primary" id="registerSubmitBtn">Register</button>
+      </div>
+      <p style="text-align: center; margin-top: 1rem; color: var(--text-tertiary);">
+        Already have an account? <a href="#" onclick="openModal('loginModal'); closeModal('registerModal');" style="color: var(--accent-primary);">Login</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Admin Panel Modal -->
+  <div class="modal" id="adminModal">
+    <div class="modal-content">
+      <h3>Admin Panel</h3>
+      <div id="adminAlert" class="alert" style="display: none;"></div>
+      
+      <div style="margin-bottom: 1.5rem;">
+        <h4 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Officer Management</h4>
+        <div class="form-group">
+          <label for="newOfficerCode">Set Officer Access Code</label>
+          <input type="password" id="newOfficerCode" placeholder="Create new officer code">
+        </div>
+        <button class="btn btn-primary" id="updateOfficerCodeBtn" style="margin-top: 0.5rem;">Update Code</button>
+      </div>
+      
+	  <div style="margin-bottom: 1.5rem;">
+		<h4 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Roster Management</h4>
+	    <button class="btn btn-danger" id="syncRosterBtn">Reset Roster</button>
+		<button class="btn btn-secondary" id="exportRosterBtn" style="margin-left: 0.5rem;">Export Roster</button>
+	  </div>
+      
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="closeModal('adminModal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Group Modal -->
+  <div class="modal" id="editGroupModal">
+    <div class="modal-content">
+      <h3>Edit Group</h3>
+      <div id="editGroupAlert" class="alert" style="display: none;"></div>
+      
+      <div class="form-group">
+        <label for="editGroupName">Group Name</label>
+        <input type="text" id="editGroupName" placeholder="Group name">
+      </div>
+      
+      <div class="form-group">
+        <label for="editGroupTime">Time (UTC)</label>
+        <input type="text" id="editGroupTime" placeholder="Example: 20:00">
+      </div>
+      
+      <div class="form-group">
+        <label>Group Members</label>
+        <div id="editGroupMembers">
+          <!-- Dynamically generated member list -->
+        </div>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="closeModal('editGroupModal')">Cancel</button>
+        <button class="btn btn-primary" id="saveGroupChangesBtn">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Current active section
+    let currentSection = 'normal';
+        
+    // Access codes - change these to your own!
+    const ADMIN_CODE = "TGN-Admin-2024"; // This is the admin code, only share with guild leader
+    const DEFAULT_OFFICER_CODE = "TGN-Officer-2024"; // This is the default officer code, will be changeable by admin
+    
     // Store the fetched data
     const allData = {
       normal: [],
@@ -352,12 +744,337 @@ nav button:hover {
       rerun: []
     };
     
-    // Current active section
-    let currentSection = 'normal';
+    // Store authenticated user info
+    let currentUser = null;
     
-    // Your Google Apps Script Web App URL
-    const API_URL = "https://script.google.com/macros/s/AKfycbzAYEA7H1o3Doxjtux-j0sVzoUEIiCoZ6wM-9sA3qbAHwWHdeTKigrrQpJRXSSx9cDXRA/exec";
-
+	// Function to reset or initialize the roster
+	function resetRoster() {
+	  if (!confirm("Are you sure you want to reset the roster? This will clear all current data.")) {
+		return;
+	  }
+	  
+	  // Create empty structure
+	  const emptyData = {
+		normal: [],
+		hard: [],
+		reruns: []
+	  };
+	  
+	  // Save to localStorage
+	  localStorage.setItem('tgnRosterData', JSON.stringify({
+		data: emptyData,
+		timestamp: new Date().getTime()
+	  }));
+	  
+	  // Update the UI
+	  allData.normal = emptyData.normal;
+	  allData.hard = emptyData.hard;
+	  allData.rerun = emptyData.reruns;
+	  
+	  // Reset UI
+	  renderGroups(allData[currentSection]);
+	  
+	  const alertElement = document.getElementById('adminAlert');
+	  showAlert(alertElement, 'Roster has been reset', 'success');
+	}	
+	
+    // Initialize the app
+    function init() {
+      // Check if user is logged in
+      loadUserFromLocalStorage();
+      updateUserPanel();
+      
+      // Set up event listeners
+      document.getElementById('loginSubmitBtn').addEventListener('click', handleLogin);
+      document.getElementById('registerSubmitBtn').addEventListener('click', handleRegister);
+      
+      // Register role selection
+      document.getElementById('registerRole').addEventListener('change', function() {
+        const officerCodeGroup = document.getElementById('officerCodeGroup');
+        if (this.value === 'officer') {
+          officerCodeGroup.style.display = 'block';
+        } else {
+          officerCodeGroup.style.display = 'none';
+        }
+      });
+      
+      // Admin panel functionality
+      document.getElementById('updateOfficerCodeBtn').addEventListener('click', updateOfficerCode);
+      document.getElementById('syncRosterBtn').addEventListener('click', resetRoster);
+      document.getElementById('exportRosterBtn').addEventListener('click', exportRoster);
+      
+      // Initial data fetch
+      fetchAllData();
+    }
+    
+    // =====================
+    // User Authentication
+    // =====================
+    
+    // Load user from localStorage
+    function loadUserFromLocalStorage() {
+      const userData = localStorage.getItem('tgnUser');
+      if (userData) {
+        try {
+          currentUser = JSON.parse(userData);
+        } catch (err) {
+          console.error('Error parsing user data:', err);
+          localStorage.removeItem('tgnUser');
+        }
+      }
+    }
+    
+    // Save user to localStorage
+    function saveUserToLocalStorage() {
+      if (currentUser) {
+        localStorage.setItem('tgnUser', JSON.stringify(currentUser));
+      } else {
+        localStorage.removeItem('tgnUser');
+      }
+    }
+    
+    // Update the user panel based on login status
+    function updateUserPanel() {
+      const panel = document.getElementById('userPanel');
+      
+      if (currentUser) {
+        // User is logged in
+        let roleBadge = '';
+        if (currentUser.role === 'admin') {
+          roleBadge = '<span class="role-badge admin">Admin</span>';
+        } else if (currentUser.role === 'officer') {
+          roleBadge = '<span class="role-badge officer">Officer</span>';
+        } else if (currentUser.role === 'member') {
+          roleBadge = '<span class="role-badge member">Member</span>';
+        } else if (currentUser.role === 'mercenary') {
+          roleBadge = '<span class="role-badge mercenary">Mercenary</span>';
+        }
+        
+        panel.innerHTML = `
+          <div class="user-info">
+            <div class="user-avatar">${currentUser.username.charAt(0).toUpperCase()}</div>
+            <div>
+              <span>${currentUser.username}</span>
+              ${roleBadge}
+            </div>
+          </div>
+          <div class="user-actions">
+            ${currentUser.role === 'admin' || currentUser.role === 'officer' ? 
+              `<button class="btn btn-secondary" onclick="openModal('adminModal')">Admin Panel</button>` : ''}
+            <button class="btn btn-danger" onclick="handleLogout()">Logout</button>
+          </div>
+        `;
+		} else {
+        // User is not logged in
+        panel.innerHTML = `
+          <div class="user-info">
+            <span>Not logged in</span>
+          </div>
+          <div class="user-actions">
+            <button class="btn btn-secondary" onclick="openModal('registerModal')">Register</button>
+            <button class="btn btn-primary" onclick="openModal('loginModal')">Login</button>
+          </div>
+        `;
+      }
+    }
+    
+    // Handle login form submission
+    function handleLogin() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      const alertElement = document.getElementById('loginAlert');
+      
+      if (!username || !password) {
+        showAlert(alertElement, 'Please enter both username and password', 'error');
+        return;
+      }
+      
+      // Check if user exists in localStorage
+      const users = JSON.parse(localStorage.getItem('tgnUsers') || '{}');
+      
+      if (!users[username]) {
+        showAlert(alertElement, 'User not found', 'error');
+        return;
+      }
+      
+      // Check password (using simple hash for demo purposes)
+      const hashedPassword = simpleHash(password);
+      if (users[username].password !== hashedPassword) {
+        showAlert(alertElement, 'Incorrect password', 'error');
+        return;
+      }
+      
+      // Login successful
+      currentUser = {
+        username: username,
+        role: users[username].role
+      };
+      
+      saveUserToLocalStorage();
+      updateUserPanel();
+      closeModal('loginModal');
+      
+      // Clear form
+      document.getElementById('loginUsername').value = '';
+      document.getElementById('loginPassword').value = '';
+    }
+    
+    // Handle registration form submission
+    function handleRegister() {
+      const username = document.getElementById('registerUsername').value.trim();
+      const password = document.getElementById('registerPassword').value.trim();
+      const confirmPassword = document.getElementById('registerConfirmPassword').value.trim();
+      const role = document.getElementById('registerRole').value;
+      const officerCode = document.getElementById('officerCode').value.trim();
+      const alertElement = document.getElementById('registerAlert');
+      
+      if (!username || !password || !confirmPassword) {
+        showAlert(alertElement, 'Please fill in all fields', 'error');
+        return;
+      }
+      
+      if (password !== confirmPassword) {
+        showAlert(alertElement, 'Passwords do not match', 'error');
+        return;
+      }
+      
+      // Get stored users
+      const users = JSON.parse(localStorage.getItem('tgnUsers') || '{}');
+      
+      // Check if username already exists
+      if (users[username]) {
+        showAlert(alertElement, 'Username already exists', 'error');
+        return;
+      }
+      
+      // Check officer code if trying to register as officer
+      let finalRole = role;
+      if (role === 'officer' && officerCode) {
+        const savedOfficerCode = localStorage.getItem('officerCode') || DEFAULT_OFFICER_CODE;
+        
+        if (officerCode === ADMIN_CODE) {
+          finalRole = 'admin';
+        } else if (officerCode !== savedOfficerCode) {
+          showAlert(alertElement, 'Invalid officer code', 'error');
+          return;
+        }
+      }
+      
+      // Create new user with hashed password
+      users[username] = {
+        password: simpleHash(password),
+        role: finalRole
+      };
+      
+      // Save users to localStorage
+      localStorage.setItem('tgnUsers', JSON.stringify(users));
+      
+      // Login the new user
+      currentUser = {
+        username: username,
+        role: finalRole
+      };
+      
+      saveUserToLocalStorage();
+      updateUserPanel();
+      closeModal('registerModal');
+      
+      // Clear form
+      document.getElementById('registerUsername').value = '';
+      document.getElementById('registerPassword').value = '';
+      document.getElementById('registerConfirmPassword').value = '';
+      document.getElementById('registerRole').value = 'member';
+      document.getElementById('officerCode').value = '';
+    }
+    
+    // Handle logout
+    function handleLogout() {
+      currentUser = null;
+      localStorage.removeItem('tgnUser');
+      updateUserPanel();
+    }
+    
+    // Simple password hashing function (not secure, but better than plaintext)
+    function simpleHash(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        const char = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+      }
+      return hash.toString(36);
+    }
+    
+    // Update officer code
+    function updateOfficerCode() {
+      if (!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'officer')) {
+        return;
+      }
+      
+      const newCode = document.getElementById('newOfficerCode').value.trim();
+      const alertElement = document.getElementById('adminAlert');
+      
+      if (!newCode) {
+        showAlert(alertElement, 'Please enter a new officer code', 'error');
+        return;
+      }
+      
+      localStorage.setItem('officerCode', newCode);
+      showAlert(alertElement, 'Officer code updated successfully', 'success');
+      
+      // Clear the input
+      document.getElementById('newOfficerCode').value = '';
+    }
+    
+    // Export roster data
+    function exportRoster() {
+      const dataStr = JSON.stringify(allData, null, 2);
+      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+      
+      const exportFileDefaultName = 'tgn_roster.json';
+      
+      let linkElement = document.createElement('a');
+      linkElement.setAttribute('href', dataUri);
+      linkElement.setAttribute('download', exportFileDefaultName);
+      linkElement.click();
+    }
+    
+    // =====================
+    // UI Helpers
+    // =====================
+    
+    // Open modal
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('show');
+    }
+    
+    // Close modal
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('show');
+      
+      // Clear alerts
+      const alertElement = document.getElementById(`${modalId.replace('Modal', '')}Alert`);
+      if (alertElement) {
+        alertElement.style.display = 'none';
+      }
+    }
+    
+    // Show alert message
+    function showAlert(element, message, type = 'error') {
+      element.textContent = message;
+      element.className = `alert alert-${type}`;
+      element.style.display = 'block';
+      
+      // Auto-hide after 5 seconds
+      setTimeout(() => {
+        element.style.display = 'none';
+      }, 5000);
+    }
+    
+    // =====================
+    // Roster Management
+    // =====================
+    
     // Function to determine if a player is a guild member or mercenary
     function getPlayerType(name) {
       if (!name) return 'none';
@@ -409,25 +1126,39 @@ nav button:hover {
       }
     }
 
-    // Function to fetch data from the API
-    async function fetchData() {
-      try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.status}`);
-        }
-        const data = await response.json();
-        
-        // Debug logging to help diagnose issues
-        console.log("Received data:", data);
-        
-        return data;
-      } catch (error) {
-        console.error(`Error fetching data:`, error);
-        document.getElementById('lastUpdated').textContent = `Error: ${error.message}`;
-        return null;
-      }
-    }
+	// Function to fetch data from localStorage instead of the API
+	async function fetchData() {
+	  try {
+		// Try to get data from localStorage
+		const cachedData = localStorage.getItem('tgnRosterData');
+		
+		if (cachedData) {
+		  const parsedCache = JSON.parse(cachedData);
+		  document.getElementById('lastUpdated').textContent = `Last updated: ${new Date(parsedCache.timestamp).toLocaleString()}`;
+		  return parsedCache.data;
+		} else {
+		  // If no data exists, initialize with empty structure
+		  const emptyData = {
+			normal: [],
+			hard: [],
+			reruns: []
+		  };
+		  
+		  // Save the empty structure to localStorage
+		  localStorage.setItem('tgnRosterData', JSON.stringify({
+			data: emptyData,
+			timestamp: new Date().getTime()
+		  }));
+		  
+		  document.getElementById('lastUpdated').textContent = `New roster initialized`;
+		  return emptyData;
+		}
+	  } catch (error) {
+		console.error(`Error fetching data:`, error);
+		document.getElementById('lastUpdated').textContent = `Error: ${error.message}`;
+		return null;
+	  }
+	}
 
     // Function to process player data
     function processPlayers(players) {
@@ -458,6 +1189,120 @@ nav button:hover {
       return filledSlots === 5;
     }
 
+    // Function to check if current user can join a group
+    function canJoinGroup(groupData) {
+      if (!currentUser) return false;
+      
+      // Officers and admins can always edit
+      if (currentUser.role === 'admin' || currentUser.role === 'officer') return true;
+      
+      const processedPlayers = processPlayers(groupData.players || []);
+      
+      // Check if user is already in the group
+      const isAlreadyInGroup = processedPlayers.some(p => p.name === currentUser.username);
+      if (isAlreadyInGroup) return false;
+      
+      // Check if group is full
+      if (isGroupFilled(groupData.players)) return false;
+      
+      return true;
+    }
+
+    // Function to check if current user can leave a group
+    function canLeaveGroup(groupData) {
+      if (!currentUser) return false;
+      
+      const processedPlayers = processPlayers(groupData.players || []);
+      
+      // Check if user is in the group
+      return processedPlayers.some(p => p.name === currentUser.username);
+    }
+
+    // Function to join a group
+    function joinGroup(sectionName, groupIndex) {
+      if (!currentUser) {
+        openModal('loginModal');
+        return;
+      }
+      
+      const group = allData[sectionName][groupIndex];
+      if (!group) return;
+      
+      // Find an empty slot
+      let emptySlotIndex = -1;
+      for (let i = 0; i < (group.players || []).length; i++) {
+        if (!group.players[i] || group.players[i].trim() === '') {
+          emptySlotIndex = i;
+          break;
+        }
+      }
+      
+      if (emptySlotIndex === -1 && group.players.length < 5) {
+        emptySlotIndex = group.players.length;
+      }
+      
+      if (emptySlotIndex === -1) {
+        alert('No empty slots available');
+        return;
+      }
+      
+      // Add user to the group with appropriate symbol
+      const symbol = currentUser.role === 'member' ? '✔ ' : '✦ ';
+      group.players[emptySlotIndex] = symbol + currentUser.username;
+      
+      // Save to localStorage
+      saveRosterToLocalStorage();
+      
+      // Re-render the roster
+      renderGroups(allData[currentSection]);
+    }
+
+    // Function to leave a group
+    function leaveGroup(sectionName, groupIndex) {
+      if (!currentUser) return;
+      
+      const group = allData[sectionName][groupIndex];
+      if (!group) return;
+      
+      // Find the user in the group
+      let userSlotIndex = -1;
+      for (let i = 0; i < (group.players || []).length; i++) {
+        if (group.players[i] && cleanPlayerName(group.players[i]) === currentUser.username) {
+          userSlotIndex = i;
+          break;
+        }
+      }
+      
+      if (userSlotIndex === -1) return;
+      
+      // Remove user from the group
+      group.players[userSlotIndex] = '';
+      
+      // Reorder players to remove gaps
+      group.players = group.players.filter(p => p && p.trim() !== '');
+      while (group.players.length < 5) {
+        group.players.push('');
+      }
+      
+      // Save to localStorage
+      saveRosterToLocalStorage();
+      
+      // Re-render the roster
+      renderGroups(allData[currentSection]);
+    }
+
+    // Save roster data to localStorage
+    function saveRosterToLocalStorage() {
+      localStorage.setItem('tgnRosterData', JSON.stringify({
+        data: {
+          normal: allData.normal,
+          hard: allData.hard,
+          reruns: allData.rerun
+        },
+        timestamp: new Date().getTime()
+      }));
+    }
+
     // Function to render groups
     function renderGroups(data) {
       const container = document.getElementById('roster');
@@ -468,7 +1313,7 @@ nav button:hover {
         return;
       }
       
-      data.forEach(group => {
+      data.forEach((group, groupIndex) => {
         const div = document.createElement('div');
         div.className = 'group';
         
@@ -484,19 +1329,42 @@ nav button:hover {
         // Make sure we always show 5 slots
         for (let i = 0; i < 5; i++) {
           const player = processedPlayers[i] || null;
-          if (player) {
+          if (player && player.name) {
+            // Player slot with the option to leave if it's the current user
+            const isCurrentUser = currentUser && player.name === currentUser.username;
+            const leaveButton = isCurrentUser ? 
+              `<button class="leave-btn" onclick="leaveGroup('${currentSection}', ${groupIndex})">Leave</button>` : '';
+              
             const symbol = player.type === 'guild' ? '✔ ' : player.type === 'merc' ? '✦ ' : '';
-            playerListHTML += `<li class="player-${player.type}">${symbol}${player.name}</li>`;
+            playerListHTML += `
+              <li class="player-${player.type}">
+                <span>${symbol}${player.name}</span>
+                ${leaveButton}
+              </li>
+            `;
           } else {
-            playerListHTML += `<li>- empty -</li>`;
+            // Empty slot with the option to join
+            const joinButton = currentUser && canJoinGroup(group) ?
+              `<button class="join-btn" onclick="joinGroup('${currentSection}', ${groupIndex})">Join</button>` : '';
+              
+            playerListHTML += `
+              <li>
+                <span>- empty -</span>
+                ${joinButton}
+              </li>
+            `;
           }
         }
+        
+        // Admin/Officer edit button
+        const editButton = currentUser && (currentUser.role === 'admin' || currentUser.role === 'officer') ?
+          `<button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.3rem 0.7rem;" onclick="editGroup('${currentSection}', ${groupIndex})">Edit</button>` : '';
         
         // Convert UTC time to local time
         const localTime = convertUTCToLocal(group.timeUTC);
         
         div.innerHTML = `
-          <h2>${group.group}</h2>
+          <h2>${group.group} ${editButton}</h2>
           <div class="timezone">${localTime}</div>
           <ul class="player-list">
             ${playerListHTML}
@@ -504,6 +1372,75 @@ nav button:hover {
         `;
         container.appendChild(div);
       });
+    }
+
+    // Function to edit a group (for admins/officers)
+    function editGroup(section, groupIndex) {
+      if (!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'officer')) {
+        return;
+      }
+      
+      const group = allData[section][groupIndex];
+      if (!group) return;
+      
+      // Fill the form with group data
+      document.getElementById('editGroupName').value = group.group || '';
+      document.getElementById('editGroupTime').value = group.timeUTC || '';
+      
+      // Fill member list
+      const membersContainer = document.getElementById('editGroupMembers');
+      membersContainer.innerHTML = '';
+      
+      for (let i = 0; i < 5; i++) {
+        const playerName = group.players[i] || '';
+        
+        const memberInput = document.createElement('div');
+        memberInput.className = 'form-group';
+        memberInput.style.marginBottom = '0.5rem';
+        memberInput.innerHTML = `
+          <input type="text" id="editMember${i}" value="${playerName}" placeholder="Empty slot">
+        `;
+        
+        membersContainer.appendChild(memberInput);
+      }
+      
+      // Set up the save button
+      document.getElementById('saveGroupChangesBtn').onclick = function() {
+        saveGroupChanges(section, groupIndex);
+      };
+      
+      // Open the modal
+      openModal('editGroupModal');
+    }
+
+    // Function to save group changes
+    function saveGroupChanges(section, groupIndex) {
+      if (!currentUser || (currentUser.role !== 'admin' && currentUser.role !== 'officer')) {
+        return;
+      }
+      
+      const group = allData[section][groupIndex];
+      if (!group) return;
+      
+      // Get values from form
+      group.group = document.getElementById('editGroupName').value.trim();
+      group.timeUTC = document.getElementById('editGroupTime').value.trim();
+      
+      // Get member list
+      group.players = [];
+      for (let i = 0; i < 5; i++) {
+        const memberInput = document.getElementById(`editMember${i}`);
+        group.players.push(memberInput.value.trim());
+      }
+      
+      // Save to localStorage
+      saveRosterToLocalStorage();
+      
+      // Re-render the roster
+      renderGroups(allData[currentSection]);
+      
+      // Close the modal
+      closeModal('editGroupModal');
     }
 
     // Function to set active section
@@ -514,30 +1451,27 @@ nav button:hover {
       renderGroups(allData[section]);
     }
 
-    // Function to fetch all data
-    async function fetchAllData() {
-      document.getElementById('roster').innerHTML = '<div class="loading">Loading roster data...</div>';
-      
-      const data = await fetchData();
-      if (data) {
-        allData.normal = data.normal || [];
-        allData.hard = data.hard || [];
-        allData.rerun = data.reruns || data.rerun || []; // Try both names
-        
-        // Log what we received for debugging
-        console.log("Processed data:", allData);
-        
-        // Update the last fetched time
-        const now = new Date();
-        document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleString()}`;
-        
-        // Render the active section
-        setSection(currentSection);
-      }
-    }
+	// Function to fetch all data
+	async function fetchAllData() {
+	  document.getElementById('roster').innerHTML = '<div class="loading">Loading roster data...</div>';
+	  
+	  const data = await fetchData();
+	  if (data) {
+		allData.normal = data.normal || [];
+		allData.hard = data.hard || [];
+		allData.rerun = data.reruns || data.rerun || []; // Try both names
+		
+		// Update the last fetched time
+		const now = new Date();
+		document.getElementById('lastUpdated').textContent = `Last updated: ${now.toLocaleString()}`;
+		
+		// Render the active section
+		setSection(currentSection);
+	  }
+	}
 
     // Initial load
-    fetchAllData();
+    document.addEventListener('DOMContentLoaded', init);
     
     // Set up periodic refresh (every 5 minutes)
     setInterval(fetchAllData, 5 * 60 * 1000);
