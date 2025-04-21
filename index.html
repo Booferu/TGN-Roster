@@ -838,32 +838,21 @@
 		  console.log('Creating initial database structure');
 		  // Default empty structure
 		  const defaultData = {
-			normal: [
-			  {
-				group: "Group 1",
-				timeUTC: "20:00",
-				players: ["", "", "", "", ""]
-			  },
-			  {
-				group: "Group 2",
-				timeUTC: "22:00",
-				players: ["", "", "", "", ""]
-			  }
-			],
-			hard: [
-			  {
-				group: "Hard Group 1",
-				timeUTC: "21:00",
-				players: ["", "", "", "", ""]
-			  }
-			],
-			reruns: [
-			  {
-				group: "Rerun Group",
-				timeUTC: "19:00",
-				players: ["", "", "", "", ""]
-			  }
-			]
+		    normal: Array.from({ length: 10 }, (_, i) => ({
+			  group: `Normal Group ${i + 1}`,
+			  timeUTC: i % 2 === 0 ? "20:00" : "22:00",
+			  players: ["", "", "", "", ""]
+		    })),
+		    hard: Array.from({ length: 10 }, (_, i) => ({
+			  group: `Hard Group ${i + 1}`,
+			  timeUTC: i % 2 === 0 ? "19:00" : "21:00",
+			  players: ["", "", "", "", ""]
+		    })),
+		    reruns: Array.from({ length: 10 }, (_, i) => ({
+			  group: `Rerun Group ${i + 1}`,
+			  timeUTC: i % 2 === 0 ? "18:00" : "23:00",
+			  players: ["", "", "", "", ""]
+		    }))
 		  };
 		  
 		  await database.ref('roster').set(defaultData);
