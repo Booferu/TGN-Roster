@@ -1398,7 +1398,8 @@
         return;
       }
       
-      const group = allData[sectionName][groupIndex];
+      const actualSection = sectionName === 'rerun' ? 'reruns' : sectionName;
+      const group = allData[actualSection][groupIndex];
       if (!group) return;
       
       // Find an empty slot
@@ -1436,7 +1437,8 @@
     async function leaveGroup(sectionName, groupIndex) {
       if (!currentUser) return;
       
-      const group = allData[sectionName][groupIndex];
+      const actualSection = sectionName === 'rerun' ? 'reruns' : sectionName;
+      const group = allData[actualSection][groupIndex];
       if (!group) return;
       
       // Find the user in the group
