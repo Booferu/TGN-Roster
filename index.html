@@ -1398,8 +1398,7 @@
         return;
       }
       
-      const actualSection = sectionName === 'rerun' ? 'reruns' : sectionName;
-      const group = allData[actualSection][groupIndex];
+      const group = allData[sectionName][groupIndex];
       if (!group) return;
       
       // Find an empty slot
@@ -1430,16 +1429,14 @@
 	  await database.ref(`roster/${sectionPath}/${groupIndex}`).set(group);
       
       // Re-render the roster
-	  const actualSection = sectionName === 'rerun' ? 'reruns' : sectionName;
-	  renderGroups(allData[actualSection]);
+      renderGroups(allData[currentSection]);
     }
 
     // Function to leave a group
     async function leaveGroup(sectionName, groupIndex) {
       if (!currentUser) return;
       
-      const actualSection = sectionName === 'rerun' ? 'reruns' : sectionName;
-      const group = allData[actualSection][groupIndex];
+      const group = allData[sectionName][groupIndex];
       if (!group) return;
       
       // Find the user in the group
@@ -1467,8 +1464,7 @@
 	  await database.ref(`roster/${sectionPath}/${groupIndex}`).set(group);
       
       // Re-render the roster
-	  const actualSection = sectionName === 'rerun' ? 'reruns' : sectionName;
-	  renderGroups(allData[actualSection]);
+      renderGroups(allData[currentSection]);
     }
 
     // Reset roster (admin function)
