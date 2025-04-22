@@ -1430,7 +1430,8 @@
 	  await database.ref(`roster/${sectionPath}/${groupIndex}`).set(group);
       
       // Re-render the roster
-      renderGroups(allData[currentSection]);
+	  const actualSection = sectionName === 'rerun' ? 'reruns' : sectionName;
+	  renderGroups(allData[actualSection]);
     }
 
     // Function to leave a group
@@ -1466,7 +1467,8 @@
 	  await database.ref(`roster/${sectionPath}/${groupIndex}`).set(group);
       
       // Re-render the roster
-      renderGroups(allData[currentSection]);
+	  const actualSection = sectionName === 'rerun' ? 'reruns' : sectionName;
+	  renderGroups(allData[actualSection]);
     }
 
     // Reset roster (admin function)
