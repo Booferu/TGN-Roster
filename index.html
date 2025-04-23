@@ -578,6 +578,44 @@
       color: white;
     }
 
+    /* Autocomplete Styles */
+    .autocomplete-wrapper {
+      position: relative;
+    }
+
+    .autocomplete-results {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg-secondary);
+      max-height: 250px;
+      overflow-y: auto;
+      border: 1px solid var(--border-light);
+      border-top: none;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      z-index: 200;
+      display: none;
+      box-shadow: var(--shadow-md);
+    }
+
+    .autocomplete-option {
+      padding: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .autocomplete-option:hover {
+      background-color: var(--bg-tertiary);
+    }
+
+    .autocomplete-option:last-child {
+      border-bottom: none;
+    }
+	  
     /* For small devices */
     @media (max-width: 768px) {
       body {
@@ -752,7 +790,10 @@
         <h4 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Role Management</h4>
         <div class="form-group">
           <label for="adminUsername">Username</label>
-          <input type="text" id="adminUsername" placeholder="Enter username to modify">
+	  <div class="autocomplete-wrapper">
+	    <input type="text" id="adminUsername" placeholder="Enter username to modify" autocomplete="off">
+	    <div id="userSuggestions" class="autocomplete-results"></div>
+	  </div>
         </div>
         <div class="form-group">
           <label for="adminRole">New Role</label>
@@ -902,6 +943,94 @@
 	window.allUserRoles[user.username] = user.role;
       }
     }
+
+    // Helper function to load all suggestions
+    function loadAllSuggestions(container, input) {
+      const allUsers = Object.keys(window.allUserRoles || {})
+	.sort((a, b) => a.localeCompare(b))
+        .slice(0, 50); // limit to 50 results
+      showSuggestions(allUsers, container, input);
+    }
+
+    // Helper function to filter suggestions
+    function filterSuggestions(search, container, input) {
+      if (search === '') {
+        loadAllSuggestions(container, input);
+        return;
+      }
+
+      const matchedUsers = Object.keys(window.allUserRoles || {})
+        .filter(name => name.toLowerCase().includes(search))
+	.sort((a, b) => a.localeCompare(b))
+        .slice(0, 50); // limit to 50 results
+
+      showSuggestions(matchedUsers, container, input);
+    }
+
+    // Helper function to display suggestions
+    function showSuggestions(users, container, input) {
+      container.innerHTML = '';
+  
+      if (users.length === 0) {
+        container.style.display = 'none';
+        return;
+      }
+
+      users.forEach(name => {
+        const avatar = window.allUserPhotos[name] || null;
+        const role = window.allUserRoles[name] || 'member';
+        const option = document.createElement('div');
+        option.className = 'autocomplete-option';
+        option.innerHTML = `
+          ${avatar ? `<img src="${avatar}" style="width: 24px; height: 24px; border-radius: 50%;">` : ''}
+          <strong>${name}</strong>
+          <span class="role-badge ${role}" style="margin-left: auto;">${role.replace('-', ' ')}</span>
+        `;
+        option.addEventListener("click", () => {
+          input.value = name;
+          container.style.display = 'none';
+        });
+        container.appendChild(option);
+      });
+  
+      container.style.display = 'block';
+    }
+
+    function setupAdminAutocomplete() {
+      const input = document.getElementById("adminUsername");
+      const suggestionsBox = document.getElementById("userSuggestions");
+
+      if (!input || !suggestionsBox) return;
+
+      // Clear previous event listeners to avoid duplicates
+      const newInput = input.cloneNode(true);
+      input.parentNode.replaceChild(newInput, input);
+      const newSuggestionsBox = suggestionsBox.cloneNode(true);
+      suggestionsBox.parentNode.replaceChild(newSuggestionsBox, suggestionsBox);
+
+      // Get fresh references
+      const freshInput = document.getElementById("adminUsername");
+      const freshSuggestionsBox = document.getElementById("userSuggestions");
+
+      // Only show suggestions when input is focused/clicked
+      freshInput.addEventListener("focus", function() {
+        loadAllSuggestions(freshSuggestionsBox, freshInput);
+        freshSuggestionsBox.style.display = 'block';
+      });
+
+      // Handle input typing
+      freshInput.addEventListener("input", function() {
+        const search = freshInput.value.toLowerCase().trim();
+        filterSuggestions(search, freshSuggestionsBox, freshInput);
+      });
+
+      // Hide suggestions when clicking outside
+      document.addEventListener("click", function(e) {
+        if (!freshInput.contains(e.target) && !freshSuggestionsBox.contains(e.target)) {
+          freshSuggestionsBox.style.display = 'none';
+        }
+      });
+    }
     
     // Initialize the app
 	async function init() {
@@ -959,8 +1088,9 @@
 	  try {
 		await initializeDatabase();
 		await loadAllUserPhotos();
+		setupAdminAutocomplete();
 		await fetchAllData();
-	  } catch (error) {
+	      } catch (error) {
 		console.error("Initialization error:", error);
 		document.getElementById('roster').innerHTML = `<div class="loading">Error initializing application: ${error.message}</div>`;
 	  }
@@ -1535,6 +1665,19 @@
       if (alertElement) {
         alertElement.style.display = 'none';
       }
+
+      // Reset autocomplete specifically for admin modal
+      if (modalId === 'adminModal') {
+        const suggestionsBox = document.getElementById("userSuggestions");
+        if (suggestionsBox) {
+          suggestionsBox.innerHTML = '';
+          suggestionsBox.style.display = 'none';
+        }
+        const usernameInput = document.getElementById("adminUsername");
+        if (usernameInput) {
+          usernameInput.value = '';
+        }
+      }	    
     }
     
     // Show alert message
