@@ -879,7 +879,11 @@
       hard: [],
       reruns: []
     };
-    
+
+    function getActualSection(sectionName) {
+      return sectionName === 'rerun' ? 'reruns' : sectionName;
+    }
+
     // Store authenticated user info
     let currentUser = null;
 
@@ -1047,7 +1051,7 @@
 	  </div>
 	  <div class="user-actions">
 	    <input type="file" id="profilePicInput" accept="image/*" style="display:none" onchange="uploadToImgur(this.files[0])" />
-	    <button class="btn btn-secondary" onclick="document.getElementById('profilePicInput').click()">Upload Picture</button>
+	    <button class="btn btn-secondary" onclick="document.getElementById('profilePicInput').click()">Upload Profile Picture</button>
 	    ${['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role) ? 
 	      `<button class="btn btn-secondary" onclick="openModal('adminModal')">Admin Panel</button>` : ''}
 	    <button class="btn btn-danger" onclick="handleLogout()">Logout</button>
@@ -1398,7 +1402,8 @@
         return;
       }
       
-      const group = allData[sectionName][groupIndex];
+      renderGroups(allData[getActualSection(sectionName)]);
+      const group = allData[getActualSection(sectionName)][groupIndex];
       if (!group) return;
       
       // Find an empty slot
@@ -1425,47 +1430,47 @@
       
       // Save to Firebase
       // Save to Firebase
-	  const sectionPath = sectionName === 'rerun' ? 'reruns' : sectionName;
+	  const sectionPath = getActualSection(sectionName);
 	  await database.ref(`roster/${sectionPath}/${groupIndex}`).set(group);
       
       // Re-render the roster
-      renderGroups(allData[currentSection]);
+	  renderGroups(allData[getActualSection(sectionName)]);
     }
 
-    // Function to leave a group
-    async function leaveGroup(sectionName, groupIndex) {
-      if (!currentUser) return;
-      
-      const group = allData[sectionName][groupIndex];
-      if (!group) return;
-      
+      // Function to leave a group
+      async function leaveGroup(sectionName, groupIndex) {
+        if (!currentUser) return;
+
+        const sectionKey = getActualSection(sectionName);
+        const group = allData[sectionKey][groupIndex];
+        if (!group) return;
+
       // Find the user in the group
-      let userSlotIndex = -1;
-      for (let i = 0; i < (group.players || []).length; i++) {
-        if (group.players[i] && cleanPlayerName(group.players[i]) === currentUser.username) {
-          userSlotIndex = i;
-          break;
+        let userSlotIndex = -1;
+        for (let i = 0; i < (group.players || []).length; i++) {
+          if (group.players[i] && cleanPlayerName(group.players[i]) === currentUser.username) {
+            userSlotIndex = i;
+            break;
+          }
         }
+
+        if (userSlotIndex === -1) return;
+
+      // Remove the user
+        group.players[userSlotIndex] = '';
+
+      // Clean up gaps
+        group.players = group.players.filter(p => p && p.trim() !== '');
+        while (group.players.length < 5) {
+          group.players.push('');
+        }
+
+      // Save to Firebase
+        await database.ref(`roster/${sectionKey}/${groupIndex}`).set(group);
+
+      // ✅ NOW re-render
+        renderGroups(allData[sectionKey]);
       }
-      
-      if (userSlotIndex === -1) return;
-      
-      // Remove user from the group
-      group.players[userSlotIndex] = '';
-      
-      // Reorder players to remove gaps
-      group.players = group.players.filter(p => p && p.trim() !== '');
-      while (group.players.length < 5) {
-        group.players.push('');
-      }
-      
-	  // Save to Firebase
-	  const sectionPath = sectionName === 'rerun' ? 'reruns' : sectionName;
-	  await database.ref(`roster/${sectionPath}/${groupIndex}`).set(group);
-      
-      // Re-render the roster
-      renderGroups(allData[currentSection]);
-    }
 
     // Reset roster (admin function)
     async function resetRoster() {
@@ -1792,7 +1797,7 @@
 	  document.getElementById('editOverlay').classList.remove('active');
 	  document.getElementById('toggleEditModeBtn').style.display = 'inline-block';
 	  document.getElementById('saveEditModeBtn').style.display = 'none';
-	  renderGroups(allData[currentSection]);
+	  renderGroups(allData[getActualSection(currentSection)]);
 	});
 	
 	// Enables SortableJS on all lists with swap behavior
@@ -1879,7 +1884,7 @@
 		}
 
 		alert("Roster changes saved!");
-		renderGroups(allData[sectionName]);
+		renderGroups(allData[getActualSection(currentSection)]);
 	}
 	  
     // Initial load
