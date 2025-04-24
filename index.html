@@ -93,7 +93,7 @@
     .container {
       position: relative;
       z-index: 50;
-      max-width: calc(1200px);
+      max-width: 1200px;
       margin: 2rem auto;
       padding: 2rem;
       background-color: rgba(30, 30, 30, 0.7);
@@ -101,13 +101,6 @@
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg);
       border: 1px solid var(--border-light);
-    }
-
-    /* On smaller screens, restore full width */
-    @media (max-width: 1200px) {
-      .container {
-        max-width: 1200px;
-      }
     }
 
     .dragging {
@@ -201,8 +194,8 @@
 
     nav button.active {
       transform: translateY(1px);
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0);
-      outline: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+      outline: 2px solid rgba(255, 255, 255, 0.6);
     }
 
     nav button:hover {
@@ -622,131 +615,6 @@
     .autocomplete-option:last-child {
       border-bottom: none;
     }
-
-    /* Sidebar styles */
-    #userSidebar {
-      position: fixed;
-      right: 20px;
-      top: 100px;
-      width: 280px;
-      background-color: var(--bg-secondary);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--border-light);
-      z-index: 40;
-      max-height: calc(100vh - 140px);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      transition: transform 0.3s ease;
-    }
-
-    .sidebar-header {
-      padding: 1rem;
-      background-color: var(--bg-tertiary);
-      border-bottom: 1px solid var(--border-light);
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 60px;
-    }
-
-    .sidebar-header h3 {
-      margin: 0;
-      font-size: 1.2rem;
-      color: var(--text-primary);
-      font-weight: 500; /* Slightly bolder */
-      letter-spacing: 0.5px; /* Small spacing improvement */
-    }
-
-    .sidebar-content {
-      padding: 0.5rem;
-      overflow-y: auto;
-      flex-grow: 1;
-      scrollbar-gutter: stable; /* Prevents content shift when scrollbar appears */
-      padding-right: 4px; /* Add small padding to prevent scrollbar overlapping content */
-    }
-
-    .user-list-item {
-      display: flex;
-      align-items: center;
-      padding: 0.8rem 1rem;
-      margin: 0.3rem 0;
-      border-radius: var(--radius-sm);
-      background-color: var(--bg-tertiary);
-      transition: background-color 0.2s ease;
-    }
-
-    .user-list-item:hover {
-      background-color: rgba(255, 255, 255, 0.05);
-    }
-
-    .user-list-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 1rem;
-      object-fit: cover;
-    }
-
-    .user-list-name {
-      font-size: 1.1rem;
-      color: var(--text-primary);
-      flex-grow: 1;
-    }
-
-    .user-list-role {
-      margin-left: 0.5rem;
-    }
-
-    /* Hide sidebar on mobile */
-    @media (max-width: 1200px) {
-      #userSidebar {
-        display: none;
-      }
-    }
-
-    /* Custom scrollbar for sidebar */
-    .sidebar-content::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .sidebar-content::-webkit-scrollbar-track {
-      background: var(--bg-tertiary);
-      border-radius: 4px;
-    }
-
-    .sidebar-content::-webkit-scrollbar-thumb {
-      background: var(--accent-primary);
-      border-radius: 4px;
-    }
-
-    .sidebar-content::-webkit-scrollbar-thumb:hover {
-      background: var(--accent-secondary);
-    }
-
-    /* For Firefox */
-    .sidebar-content {
-      scrollbar-width: thin;
-      scrollbar-color: var(--accent-primary) var(--bg-tertiary);
-    }
-
-    /* Drop target highlighting */
-    .player-list li.highlight-drop {
-      background-color: rgba(61, 132, 247, 0.5) !important;
-      transform: scale(1.02);
-      transition: all 0.2s ease;
-    }
-
-    /* Draggable user items */
-    .user-list-item[draggable="true"] {
-      cursor: grab;
-    }
-
-    .user-list-item[draggable="true"]:active {
-      cursor: grabbing;
-    }
 	  
     /* For small devices */
     @media (max-width: 768px) {
@@ -807,14 +675,6 @@
 </head>
 <body>
   <div id="editOverlay" class="edit-overlay"></div>
-    <div id="userSidebar">
-    <div class="sidebar-header">
-      <h3>Registered Users</h3>
-    </div>
-    <div class="sidebar-content" id="userList">
-      <div class="loading">Loading users...</div>
-    </div>
-  </div>
   <header>
     <div class="header-container">
       <div class="header-title">TGN</div>
@@ -1179,22 +1039,21 @@
 	    if (user) {
 	      try {
 	        const userData = await getUserData(user.uid);
-	        
+	      
 	        if (!userData) {
 	          // User document doesn't exist - this shouldn't normally happen
 	          console.error('User data not found for UID:', user.uid);
 	          await auth.signOut(); // Force logout since data is missing
 	          return;
 	        }
-	        
-	        currentUser = {
-	          uid: user.uid,
-	          username: userData.username || 'Unknown',
-	          role: userData.role || 'member',
-	          photoURL: userData.photoURL || null
-	        };
+	      
+		currentUser = {
+		  uid: user.uid,
+		  username: userData.username || 'Unknown',
+		  role: userData.role || 'member',
+		  photoURL: userData.photoURL || null
+		};
 	        updateUserPanel();
-		await loadAllUsers();
 	      } catch (error) {
 	        console.error('Error loading user data:', error);
 	        currentUser = null;
@@ -1204,7 +1063,6 @@
 	      // User is signed out
 	      currentUser = null;
 	      updateUserPanel();
-	      await loadAllUsers();
 	    }
 	  });
 	  
@@ -1214,12 +1072,12 @@
 	  
 	  // Register role selection
 	  document.getElementById('registerRole').addEventListener('change', function() {
-	    const officerCodeGroup = document.getElementById('officerCodeGroup');
-	    if (this.value === 'officer') {
-	      officerCodeGroup.style.display = 'block';
-	    } else {
-	      officerCodeGroup.style.display = 'none';
-	    }
+		const officerCodeGroup = document.getElementById('officerCodeGroup');
+		if (this.value === 'officer') {
+		  officerCodeGroup.style.display = 'block';
+		} else {
+		  officerCodeGroup.style.display = 'none';
+		}
 	  });
 	  
 	  // Admin panel functionality
@@ -1228,14 +1086,13 @@
 	  document.getElementById('exportRosterBtn').addEventListener('click', exportRoster);
 	  
 	  try {
-	    await initializeDatabase();
-	    await loadAllUserPhotos();
-	    setupAdminAutocomplete();
-	    await loadAllUsers();
-	    await fetchAllData();
-	  } catch (error) {
-	    console.error("Initialization error:", error);
-	    document.getElementById('roster').innerHTML = `<div class="loading">Error initializing application: ${error.message}</div>`;
+		await initializeDatabase();
+		await loadAllUserPhotos();
+		setupAdminAutocomplete();
+		await fetchAllData();
+	      } catch (error) {
+		console.error("Initialization error:", error);
+		document.getElementById('roster').innerHTML = `<div class="loading">Error initializing application: ${error.message}</div>`;
 	  }
 	}
 
@@ -1918,11 +1775,6 @@
         `;
         container.appendChild(div);
       });
-
-      // Set up drop targets after rendering
-      if (currentUser && ['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role)) {
-        setupPlayerSlotDropTargets();
-      }
     }
 
     // Function to edit a group (for admins/officers)
@@ -2176,213 +2028,6 @@
 
 		alert("Roster changes saved!");
 		renderGroups(allData[getActualSection(currentSection)]);
-	}
-
-	// Function to load and display all users
-	async function loadAllUsers() {
-	  try {
-	    const snapshot = await database.ref('users').once('value');
-	    const users = snapshot.val() || {};
-	    const userList = document.getElementById('userList');
-	    
-	    if (Object.keys(users).length === 0) {
-	      userList.innerHTML = '<div class="loading">No users found</div>';
-	      return;
-	    }
-	    
-	    userList.innerHTML = '';
-	    
-	    // Convert to array and sort alphabetically
-	    const userArray = Object.values(users)
-	      .filter(user => user.username) // Only include users with usernames
-	      .sort((a, b) => a.username.localeCompare(b.username));
-	    
-	    userArray.forEach(user => {
-	      const userItem = document.createElement('div');
-	      userItem.className = 'user-list-item';
-	      
-	      // Make item draggable only for admins/officers
-	      if (currentUser && ['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role)) {
-	        userItem.draggable = true;
-	        userItem.style.cursor = 'grab';
-	        userItem.addEventListener('dragstart', handleUserDragStart);
-	      }
-	      
-	      const avatarUrl = user.photoURL || '';
-	      const roleBadge = getRoleBadgeImage(user.role);
-	      
-	      userItem.innerHTML = `
-	        ${avatarUrl ? `<img src="${avatarUrl}" class="user-list-avatar" alt="${user.username}">` : 
-	          `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${user.username.charAt(0).toUpperCase()}</div>`}
-	        <span class="user-list-name">${user.username}</span>
-	        ${roleBadge ? `<img src="${roleBadge}" class="user-list-role" alt="${user.role}" style="width: 24px; height: 24px;">` : ''}
-	      `;
-	      
-	      // Store user data on the element
-	      userItem.dataset.username = user.username;
-	      userItem.dataset.role = user.role;
-	      
-	      userList.appendChild(userItem);
-	    });
-	    
-	    // Rest of the function remains the same...
-	    // Set up realtime updates
-	    database.ref('users').on('value', (snapshot) => {
-	      const updatedUsers = snapshot.val() || {};
-	      const updatedList = document.getElementById('userList');
-	      updatedList.innerHTML = '';
-	      
-	      const updatedArray = Object.values(updatedUsers)
-	        .filter(user => user.username)
-	        .sort((a, b) => a.username.localeCompare(b.username));
-	      
-	      updatedArray.forEach(user => {
-	        const userItem = document.createElement('div');
-	        userItem.className = 'user-list-item';
-	        
-	        // Make item draggable only for admins/officers
-	        if (currentUser && ['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role)) {
-	          userItem.draggable = true;
-	          userItem.style.cursor = 'grab';
-	          userItem.addEventListener('dragstart', handleUserDragStart);
-	        }
-	        
-	        const avatarUrl = user.photoURL || '';
-	        const roleBadge = getRoleBadgeImage(user.role);
-	        
-	        userItem.innerHTML = `
-	          ${avatarUrl ? `<img src="${avatarUrl}" class="user-list-avatar" alt="${user.username}">` : 
-	            `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${user.username.charAt(0).toUpperCase()}</div>`}
-	          <span class="user-list-name">${user.username}</span>
-	          ${roleBadge ? `<img src="${roleBadge}" class="user-list-role" alt="${user.role}" style="width: 24px; height: 24px;">` : ''}
-	        `;
-	        
-	        // Store user data on the element
-	        userItem.dataset.username = user.username;
-	        userItem.dataset.role = user.role;
-	        
-	        updatedList.appendChild(userItem);
-	      });
-	    });
-	    
-	  } catch (error) {
-	    console.error('Error loading users:', error);
-	    document.getElementById('userList').innerHTML = `<div class="loading">Error loading users: ${error.message}</div>`;
-	  }
-	}
-
-	// Handle drag start from user list
-	function handleUserDragStart(e) {
-	  // Set the drag data
-	  e.dataTransfer.setData('text/plain', JSON.stringify({
-	    username: e.target.dataset.username,
-	    role: e.target.dataset.role
-	  }));
-	  e.dataTransfer.effectAllowed = 'copy';
-	  
-	  // Create a drag image (optional but makes it look better)
-	  const dragImage = e.target.cloneNode(true);
-	  dragImage.style.position = 'absolute';
-	  dragImage.style.top = '-9999px';
-	  document.body.appendChild(dragImage);
-	  e.dataTransfer.setDragImage(dragImage, 0, 0);
-	  
-	  // Remove the drag image after a short delay
-	  setTimeout(() => document.body.removeChild(dragImage), 0);
-	}
-	
-	// Set up drop targets on player slots
-	function setupPlayerSlotDropTargets() {
-	  const playerSlots = document.querySelectorAll('.player-list li');
-	  
-	  playerSlots.forEach(slot => {
-	    // Only make slots droppable if user has permission
-	    if (currentUser && ['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role)) {
-	      slot.addEventListener('dragover', handleSlotDragOver);
-	      slot.addEventListener('dragenter', handleSlotDragEnter);
-	      slot.addEventListener('dragleave', handleSlotDragLeave);
-	      slot.addEventListener('drop', handleSlotDrop);
-	      slot.addEventListener('dragend', handleSlotDragEnd);
-	    }
-	  });
-	}
-	
-	function handleSlotDragOver(e) {
-	  e.preventDefault();
-	  e.dataTransfer.dropEffect = 'copy';
-	}
-	
-	function handleSlotDragEnter(e) {
-	  e.preventDefault();
-	  e.target.classList.add('highlight-drop');
-	}
-	
-	function handleSlotDragLeave(e) {
-	  e.preventDefault();
-	  e.target.classList.remove('highlight-drop');
-	}
-	
-	function handleSlotDragEnd(e) {
-	  e.preventDefault();
-	  document.querySelectorAll('.player-list li').forEach(slot => {
-	    slot.classList.remove('highlight-drop');
-	  });
-	}
-	
-	async function handleSlotDrop(e) {
-	  e.preventDefault();
-	  e.target.classList.remove('highlight-drop');
-	  
-	  try {
-	    // Get the dragged element's username directly from DOM
-	    const draggedItem = document.querySelector('.sortable-drag'); // The element being dragged
-	    if (!draggedItem) return;
-	    
-	    // Get username from data attributes (more reliable than JSON parse)
-	    const username = draggedItem.dataset.username;
-	    if (!username) return;
-	    
-	    // Get role from data attribute or default to member
-	    const role = draggedItem.dataset.role || 'member';
-	    
-	    // Find which group and slot this is
-	    const groupElement = e.target.closest('.group');
-	    if (!groupElement) return;
-	    
-	    const groupIndex = Array.from(document.querySelectorAll('.group')).indexOf(groupElement);
-	    const slotIndex = Array.from(e.target.parentNode.children).indexOf(e.target);
-	    
-	    // Preserve existing symbol logic
-	    const symbol = role === 'mercenary' ? '✦ ' : '✔ ';
-	    const playerName = symbol + username;
-	    
-	    // Update the roster data
-	    const sectionName = currentSection === 'rerun' ? 'reruns' : currentSection;
-	    allData[sectionName][groupIndex].players[slotIndex] = playerName;
-	    
-	    // Save to Firebase
-	    await database.ref(`roster/${sectionName}/${groupIndex}`).set(allData[sectionName][groupIndex]);
-	    
-	    // Re-render the roster
-	    renderGroups(allData[sectionName]);
-	  } catch (error) {
-	    // Silently ignore errors since the functionality works
-	    console.debug('Drag operation completed (non-critical parse error)'); 
-	  }
-	}
-	
-	// Helper function to generate a color from a string
-	function stringToColor(str) {
-	  let hash = 0;
-	  for (let i = 0; i < str.length; i++) {
-	    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-	  }
-	  let color = '#';
-	  for (let i = 0; i < 3; i++) {
-	    const value = (hash >> (i * 8)) & 0xFF;
-	    color += ('00' + value.toString(16)).substr(-2);
-	  }
-	  return color;
 	}
 	  
     // Initial load
