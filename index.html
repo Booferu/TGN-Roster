@@ -1927,42 +1927,44 @@
 
     // Function to edit a group (for admins/officers)
     function editGroup(section, groupIndex) {
-      if (!currentUser || !['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role)) {
-        return;
-      }
-      
-      const group = allData[section][groupIndex];
-      if (!group) return;
-      
-      // Fill the form with group data
-      document.getElementById('editGroupName').value = group.group || '';
-      document.getElementById('editGroupTime').value = group.timeUTC || '';
-      document.getElementById('editGroupDate').value = group.dateLabel || '';
-      
-      // Fill member list
-      const membersContainer = document.getElementById('editGroupMembers');
-      membersContainer.innerHTML = '';
-      
-      for (let i = 0; i < 5; i++) {
-        const playerName = group.players[i] || '';
+        if (!currentUser || !['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role)) {
+            return;
+        }
+    
+        // Handle rerun section name mapping
+        const actualSection = section === 'rerun' ? 'reruns' : section;
+        const group = allData[actualSection][groupIndex];
+        if (!group) return;
+
+        // Fill the form with group data
+        document.getElementById('editGroupName').value = group.group || '';
+        document.getElementById('editGroupTime').value = group.timeUTC || '';
+        document.getElementById('editGroupDate').value = group.dateLabel || '';
+
+        // Fill member list
+        const membersContainer = document.getElementById('editGroupMembers');
+        membersContainer.innerHTML = '';
+    
+        for (let i = 0; i < 5; i++) {
+            const playerName = group.players[i] || '';
         
-        const memberInput = document.createElement('div');
-        memberInput.className = 'form-group';
-        memberInput.style.marginBottom = '0.5rem';
-        memberInput.innerHTML = `
-          <input type="text" id="editMember${i}" value="${playerName}" placeholder="Empty slot">
-        `;
+            const memberInput = document.createElement('div');
+            memberInput.className = 'form-group';
+            memberInput.style.marginBottom = '0.5rem';
+            memberInput.innerHTML = `
+                <input type="text" id="editMember${i}" value="${playerName}" placeholder="Empty slot">
+            `;
         
-        membersContainer.appendChild(memberInput);
-      }
-      
-      // Set up the save button
-      document.getElementById('saveGroupChangesBtn').onclick = function() {
-        saveGroupChanges(section, groupIndex);
-      };
-      
-      // Open the modal
-      openModal('editGroupModal');
+            membersContainer.appendChild(memberInput);
+        }
+    
+        // Set up the save button
+        document.getElementById('saveGroupChangesBtn').onclick = function() {
+            saveGroupChanges(actualSection, groupIndex);
+        };
+    
+        // Open the modal
+        openModal('editGroupModal');
     }
 
     // Function to save group changes
