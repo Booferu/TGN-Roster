@@ -700,13 +700,6 @@
       margin-left: 0.5rem;
     }
 
-    /* Hide sidebar on mobile */
-    @media (max-width: 1200px) {
-      #userSidebar {
-        display: none;
-      }
-    }
-
     /* Custom scrollbar for sidebar */
     .sidebar-content::-webkit-scrollbar {
       width: 8px;
@@ -739,6 +732,21 @@
       transition: all 0.2s ease;
     }
 
+    .player-list li[draggable="true"] {
+      cursor: grab;
+    }
+    .player-list li[draggable="true"]:active {
+      cursor: grabbing;
+    }
+
+    /* ONLY show hand cursors during drag mode */
+    .edit-overlay.active ~ .container .player-list li:not([data-empty-slot="true"]) {
+      cursor: grab !important;
+    }
+    .edit-overlay.active ~ .container .player-list li:not([data-empty-slot="true"]):active {
+      cursor: grabbing !important;
+    }
+
     /* Draggable user items */
     .user-list-item[draggable="true"] {
       cursor: grab;
@@ -746,6 +754,13 @@
 
     .user-list-item[draggable="true"]:active {
       cursor: grabbing;
+    }
+
+    /* Hide sidebar on mobile */
+    @media (max-width: 1200px) {
+      #userSidebar {
+        display: none;
+      }
     }
 	  
     /* For small devices */
@@ -2123,6 +2138,7 @@
 		  swap: true, // Enable swap mode
 		  swapClass: 'highlight-drop', // Class for the drop target
 		  invertSwap: true, // Always show swap position
+		  dragCursor: 'grab',
 		  onStart: function(evt) {
 			evt.item.classList.add('dragging');
 		  },
