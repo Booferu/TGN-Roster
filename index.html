@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Modern dark theme colors */
+      /*  Dark theme colors */
       --bg-primary: #121212;
       --bg-secondary: #1e1e1e;
       --bg-tertiary: #252525;
@@ -113,25 +113,6 @@
     .dragging {
       opacity: 0.6;
       background-color: var(--bg-tertiary);
-    }
-
-    .edit-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      backdrop-filter: blur(8px);
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 40;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-    }
-
-    .edit-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
     }
 
     h1 {
@@ -551,7 +532,7 @@
     }
 
     .role-badge.admin {
-      background-color: #f87171; /* red-ish */
+      background-color: #f87171;
       color: white;
     }
 	  
@@ -656,8 +637,8 @@
       margin: 0;
       font-size: 1.2rem;
       color: var(--text-primary);
-      font-weight: 500; /* Slightly bolder */
-      letter-spacing: 0.5px; /* Small spacing improvement */
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
 
     .sidebar-content {
@@ -739,14 +720,6 @@
       cursor: grabbing;
     }
 
-    /* ONLY show hand cursors during drag mode */
-    .edit-overlay.active ~ .container .player-list li:not([data-empty-slot="true"]) {
-      cursor: grab !important;
-    }
-    .edit-overlay.active ~ .container .player-list li:not([data-empty-slot="true"]):active {
-      cursor: grabbing !important;
-    }
-
     /* Draggable user items */
     .user-list-item[draggable="true"] {
       cursor: grab;
@@ -821,8 +794,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 </head>
 <body>
-  <div id="editOverlay" class="edit-overlay"></div>
-    <div id="userSidebar">
+  <div id="userSidebar">
     <div class="sidebar-header">
       <h3>Users</h3>
     </div>
@@ -852,11 +824,6 @@
       <button onclick="setSection('hard')" id="btn-hard">Hard Mode</button>
       <button onclick="setSection('rerun')" id="btn-rerun">Re-runs / Fill-ins</button>
     </nav>
-
-    <div style="text-align: center; margin-bottom: 1rem;">
-      <button class="btn btn-secondary" id="toggleEditModeBtn" style="display: none;">Enter Drag & Drop Mode</button>
-      <button class="btn btn-success" id="saveEditModeBtn" style="display: none;">Save + Exit Drag & Drop Mode</button>
-    </div>
 	  
     <div class="time-notice">Times are displayed in your local time zone</div>
 	  
@@ -1308,11 +1275,6 @@
 	if (currentUser.role === 'admin') {
 	  roleBadge = '<span class="role-badge admin">Admin</span>';
 	}
-        if (['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role)) {
-          document.getElementById('toggleEditModeBtn').style.display = 'inline-block';
-        } else {
-          document.getElementById('toggleEditModeBtn').style.display = 'none';
-        }
         if (currentUser.role === 'guild-master') {
           roleBadge = '<span class="role-badge guild-master">Guild Master</span>';
         } else if (currentUser.role === 'advisor') {
@@ -1397,7 +1359,6 @@
       }
     }
     
-    // Handle registration form submission
     // Handle registration form submission
     async function handleRegister() {
       const username = document.getElementById('registerUsername').value.trim();
@@ -1568,7 +1529,7 @@
     // =====================
 
     function getRoleBadgeImage(role) {
-      const base = "https://raw.githubusercontent.com/Booferu/TGN-Roster/refs/heads/main/Badges"; // 🔁 Replace with your real path
+      const base = "https://raw.githubusercontent.com/Booferu/TGN-Roster/refs/heads/main/Badges";
       const badges = {
         "admin": "admin.png",
         "guild-master": "guild-master.png",
@@ -1854,78 +1815,79 @@
     function renderGroups(data) {
       const container = document.getElementById('roster');
       container.innerHTML = '';
-      
+  
       if (!data || data.length === 0) {
         container.innerHTML = '<div class="loading">No data available for this section.</div>';
         return;
       }
-      
+  
       data.forEach((group, groupIndex) => {
         const div = document.createElement('div');
         div.className = 'group';
-        
+    
         if (isGroupFilled(group.players)) {
           div.classList.add('filled');
         }
-        
-		let playerListHTML = '';
-		const processedPlayers = processPlayers(group.players || []);
+    
+        let playerListHTML = '';
+        const processedPlayers = processPlayers(group.players || []);
 
-		// Make sure we always show 5 slots
-		for (let i = 0; i < 5; i++) {
-			const player = processedPlayers[i] || null;
-			
-			if (player && player.name) {
-				// Player slot with the option to leave if it's the current user
-				const isCurrentUser = currentUser && player.name === currentUser.username;
-				const leaveButton = isCurrentUser ? 
-					`<button class="leave-btn" onclick="leaveGroup('${currentSection}', ${groupIndex})">Leave</button>` : '';
-					
-				const symbol = player.type === 'guild' ? '✔ ' : player.type === 'merc' ? '✦ ' : '';
-				const photoURL = (window.allUserPhotos && window.allUserPhotos[player.name]) || null;
+        // Make sure we always show 5 slots
+        for (let i = 0; i < 5; i++) {
+          const player = processedPlayers[i] || null;
+      
+          if (player && player.name) {
+            // Player slot with the option to leave if it's the current user
+            const isCurrentUser = currentUser && player.name === currentUser.username;
+            const leaveButton = isCurrentUser ? 
+              `<button class="leave-btn" onclick="leaveGroup('${currentSection}', ${groupIndex})">Leave</button>` : '';
+          
+            const symbol = player.type === 'guild' ? '✔ ' : player.type === 'merc' ? '✦ ' : '';
+            const photoURL = (window.allUserPhotos && window.allUserPhotos[player.name]) || null;
 
-				playerListHTML += `
-				  <li class="player-${player.type}" 
-				      data-original-name="${symbol}${player.name}"
-				      style="display: flex; align-items: center; justify-content: space-between;">
-				    <div style="display: flex; align-items: center; gap: 0.5rem;">
-				      ${photoURL ? `<img src="${photoURL}" alt="avatar" style="width:24px;height:24px;border-radius:50%;">` : ''}
-				      <span>
-				        ${symbol}${player.name}
-				        ${window.allUserRoles && getRoleBadgeImage(window.allUserRoles[player.name]) 
-				          ? `<img src="${getRoleBadgeImage(window.allUserRoles[player.name])}" alt="${window.allUserRoles[player.name]}" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 5px;">`
-				          : ''}
-				      </span>
-				    </div>
-				    ${leaveButton}
-				  </li>
-				`;
-			} else {
-				// Empty slot with the option to join
-				const joinButton = currentUser && canJoinGroup(group) ?
-					`<button class="join-btn" onclick="joinGroup('${currentSection}', ${groupIndex})">Join</button>` : '';
-					
-				playerListHTML += `
-					<li data-empty-slot="true">
-						<span>- empty -</span>
-						${joinButton}
-					</li>
-				`;
-			}
-		}
-        
+            playerListHTML += `
+              <li class="player-${player.type}" 
+                  data-original-name="${symbol}${player.name}"
+                  style="display: flex; align-items: center; justify-content: space-between;"
+                  ${currentUser && ['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role) ? 'draggable="true"' : ''}>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  ${photoURL ? `<img src="${photoURL}" alt="avatar" style="width:24px;height:24px;border-radius:50%;">` : ''}
+                  <span>
+                    ${symbol}${player.name}
+                    ${window.allUserRoles && getRoleBadgeImage(window.allUserRoles[player.name]) 
+                      ? `<img src="${getRoleBadgeImage(window.allUserRoles[player.name])}" alt="${window.allUserRoles[player.name]}" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 5px;">`
+                      : ''}
+                  </span>
+                </div>
+                ${leaveButton}
+              </li>
+            `;
+          } else {
+            // Empty slot with the option to join
+            const joinButton = currentUser && canJoinGroup(group) ?
+              `<button class="join-btn" onclick="joinGroup('${currentSection}', ${groupIndex})">Join</button>` : '';
+          
+            playerListHTML += `
+              <li data-empty-slot="true">
+                <span>- empty -</span>
+                ${joinButton}
+              </li>
+            `;
+          }
+        }
+    
         // Admin/Officer edit button
         const editButton = currentUser && ['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role) ?
           `<button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.3rem 0.7rem;" onclick="editGroup('${currentSection}', ${groupIndex})">Edit</button>` : '';
-        
+    
         // Convert UTC time to local time
         const localTime = convertUTCToLocal(group.timeUTC);
-	const groupDate = group.dateLabel ? `<div class="timezone">📅 ${group.dateLabel}</div>` : '';
-        
+        const groupDate = group.dateLabel ? `<div class="timezone">📅 ${group.dateLabel}</div>` : '';
+    
         div.innerHTML = `
           <h2>${group.group} ${editButton}</h2>
-	  <div class="timezone">${localTime}</div>
-	  ${groupDate}
+          <div class="timezone">${localTime}</div>
+          ${groupDate}
 
           <ul class="player-list">
             ${playerListHTML}
@@ -1934,9 +1896,9 @@
         container.appendChild(div);
       });
 
-      // Set up drop targets after rendering
+      // Enable drag and drop for authorized users
       if (currentUser && ['admin', 'guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role)) {
-        setupPlayerSlotDropTargets();
+        enableDragAndDrop();
       }
     }
 
@@ -2089,115 +2051,107 @@
 		document.getElementById('lastUpdated').textContent = `Error: ${error.message}`;
 	  }
 	}
-
-	let isEditMode = false;
-	let currentSortables = [];
-	
-	document.getElementById('toggleEditModeBtn').addEventListener('click', () => {
-	  isEditMode = true;
-	  document.getElementById('editOverlay').classList.add('active');
-	  document.getElementById('toggleEditModeBtn').style.display = 'none';
-	  document.getElementById('saveEditModeBtn').style.display = 'inline-block';
-	  enableDragAndDrop();
-	});
-	
-	document.getElementById('saveEditModeBtn').addEventListener('click', async () => {
-	  await saveEditedRoster();
-	  isEditMode = false;
-	  document.getElementById('editOverlay').classList.remove('active');
-	  document.getElementById('toggleEditModeBtn').style.display = 'inline-block';
-	  document.getElementById('saveEditModeBtn').style.display = 'none';
-	  renderGroups(allData[getActualSection(currentSection)]);
-	});
 	
 	// Enables SortableJS on all lists with swap behavior
 	function enableDragAndDrop() {
 	  const lists = document.querySelectorAll('.player-list');
-	  currentSortables = [];
-
+	  
 	  // Add hover effect styles dynamically
 	  const style = document.createElement('style');
 	  style.textContent = `
-		.player-list li.sortable-ghost {
-		  background-color: rgba(61, 132, 247, 0.3) !important;
-		}
-		.player-list li.highlight-drop {
-		  background-color: rgba(61, 132, 247, 0.5) !important;
-		  transform: scale(1.02);
-		  transition: all 0.2s ease;
-		}
+	    .player-list li.sortable-ghost {
+	      background-color: rgba(61, 132, 247, 0.3) !important;
+	    }
+	    .player-list li.highlight-drop {
+	      background-color: rgba(61, 132, 247, 0.5) !important;
+	      transform: scale(1.02);
+	      transition: all 0.2s ease;
+	    }
+	    .player-list li[draggable="true"] {
+	      cursor: grab;
+	    }
+	    .player-list li[draggable="true"]:active {
+	      cursor: grabbing;
+	    }
 	  `;
 	  document.head.appendChild(style);
-
-	  lists.forEach((list) => {
-		const sortable = new Sortable(list, {
-		  group: 'shared',
-		  animation: 150,
-		  ghostClass: 'sortable-ghost',
-		  dragClass: 'sortable-drag',
-		  swap: true, // Enable swap mode
-		  swapClass: 'highlight-drop', // Class for the drop target
-		  invertSwap: true, // Always show swap position
-		  dragCursor: 'grab',
-		  onStart: function(evt) {
-			evt.item.classList.add('dragging');
-		  },
-		  onEnd: function(evt) {
-			evt.item.classList.remove('dragging');
-		  },
-		  onChoose: function(evt) {
-			evt.item.style.opacity = '0.5';
-		  },
-		  onUnchoose: function(evt) {
-			evt.item.style.opacity = '';
-		  }
-		});
-		currentSortables.push(sortable);
-	  });
-	}
 	
-	// Save edited players to Firebase
-	async function saveEditedRoster() {
-		const sectionName = currentSection === 'rerun' ? 'reruns' : currentSection;
-		const groups = document.querySelectorAll('.group');
-
-		for (let i = 0; i < groups.length; i++) {
-			const listItems = groups[i].querySelectorAll('.player-list li');
-			const newPlayers = [];
-
-			listItems.forEach(li => {
-				// Handle empty slots
-				if (li.hasAttribute('data-empty-slot')) {
-					newPlayers.push('');
-					return;
-				}
-
-				// Get player name from data attribute or content
-				let rawName = li.dataset.originalName || 
-							 (li.querySelector('span') ? li.querySelector('span').textContent.trim() : '');
-
-				if (!rawName || rawName === '- empty -') {
-					newPlayers.push('');
-				} else {
-					const symbol = rawName.includes('✦') ? '✦ ' : '✔ ';
-					const cleanedName = rawName.replace(/^✔\s*|^✦\s*/, '').trim();
-					newPlayers.push(symbol + cleanedName);
-				}
-			});
-
-			// Ensure we have exactly 5 slots
-			while (newPlayers.length < 5) {
-				newPlayers.push('');
-			}
-
-			allData[sectionName][i].players = newPlayers;
-			await database.ref(`roster/${sectionName}/${i}`).set(allData[sectionName][i]);
-		}
-
-		alert("Roster changes saved!");
-		renderGroups(allData[getActualSection(currentSection)]);
+	  lists.forEach((list) => {
+	    new Sortable(list, {
+	      group: 'shared',
+	      animation: 150,
+	      ghostClass: 'sortable-ghost',
+	      dragClass: 'sortable-drag',
+	      swap: true,
+	      swapClass: 'highlight-drop',
+	      invertSwap: true,
+	      dragCursor: 'grab',
+	      onStart: function(evt) {
+	        evt.item.classList.add('dragging');
+	      },
+	      onEnd: function(evt) {
+	        evt.item.classList.remove('dragging');
+	        saveDragChanges(); // Save changes immediately after drag ends
+	      },
+	      onChoose: function(evt) {
+	        evt.item.style.opacity = '0.5';
+	      },
+	      onUnchoose: function(evt) {
+	        evt.item.style.opacity = '';
+	      }
+	    });
+	  });
+	
+	  // Set up drop targets for player slots
+	  setupPlayerSlotDropTargets();
 	}
 
+	async function saveDragChanges() {
+	  const sectionName = currentSection === 'rerun' ? 'reruns' : currentSection;
+	  const groups = document.querySelectorAll('.group');
+	
+	  for (let i = 0; i < groups.length; i++) {
+	    const listItems = groups[i].querySelectorAll('.player-list li');
+	    const newPlayers = [];
+	
+	    listItems.forEach(li => {
+	      if (li.hasAttribute('data-empty-slot')) {
+	        newPlayers.push('');
+	        return;
+	      }
+	
+	      let rawName = li.dataset.originalName || 
+	                   (li.querySelector('span') ? li.querySelector('span').textContent.trim() : '');
+	
+	      if (!rawName || rawName === '- empty -') {
+	        newPlayers.push('');
+	      } else {
+	        const symbol = rawName.includes('✦') ? '✦ ' : '✔ ';
+	        const cleanedName = rawName.replace(/^✔\s*|^✦\s*/, '').trim();
+	        newPlayers.push(symbol + cleanedName);
+	      }
+	    });
+	
+	    while (newPlayers.length < 5) {
+	      newPlayers.push('');
+	    }
+
+	    // ✅ Remove duplicate entries from other groups
+	    for (let j = 0; j < allData[sectionName].length; j++) {
+	      if (j !== i) {
+	        allData[sectionName][j].players = allData[sectionName][j].players.map(p =>
+	          cleanPlayerName(p) === cleanPlayerName(newPlayers.find(n => n && cleanPlayerName(n) === cleanPlayerName(p))) ? '' : p
+	        );
+	      }
+	    }
+		  
+	    allData[sectionName][i].players = newPlayers;
+	    await database.ref(`roster/${sectionName}/${i}`).set(allData[sectionName][i]);
+	  }
+	  
+	  // No alert here - changes save silently
+	}
+	  
 	// Function to load and display all users
 	async function loadAllUsers() {
 	  try {
@@ -2313,7 +2267,7 @@
 	  
 	  e.dataTransfer.effectAllowed = 'copy';
 	
-	  // Drag image code (keep your original)
+	  // Drag image code
 	  const dragImage = e.target.cloneNode(true);
 	  dragImage.style.position = 'absolute';
 	  dragImage.style.top = '-9999px';
