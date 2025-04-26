@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TGN Party Boss Blitz Roster</title>
-  <link rel="icon" type="image/png" sizes="16x16" href="https://raw.githubusercontent.com/Booferu/TGN-Roster/refs/heads/main/favicon-16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/Booferu/TGN-Roster/refs/heads/main/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -1584,15 +1584,14 @@
     // =====================
 
     function getRoleBadgeImage(role) {
-      const base = "https://raw.githubusercontent.com/Booferu/TGN-Roster/refs/heads/main/Badges";
       const badges = {
-        "admin": "admin.png",
-        "guild-master": "guild-master.png",
-        "advisor": "advisor.png",
-        "staff": "staff.png",
-        "officer": "officer.png"
+        "admin": "assets/images/badges/admin.png",
+        "guild-master": "assets/images/badges/guild-master.png",
+        "advisor": "assets/images/badges/advisor.png",
+        "staff": "assets/images/badges/staff.png",
+        "officer": "assets/images/badges/officer.png"
       };
-      return badges[role] ? `${base}/${badges[role]}` : null;
+      return badges[role] || null;
     }
 	  
     // Function to determine if a player is a guild member or mercenary
