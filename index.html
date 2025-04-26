@@ -1154,36 +1154,29 @@
       });
     }
     
-	// Initialize the app
+    // Initialize the app
 	async function init() {
 	  // Set up Firebase auth state listener
 	  auth.onAuthStateChanged(async user => {
 	    if (user) {
 	      try {
-	        let userData = await getUserData(user.uid);
-	
+	        const userData = await getUserData(user.uid);
+	        
 	        if (!userData) {
-	          console.warn('User data not found immediately, retrying in 500ms...');
-	          await new Promise(resolve => setTimeout(resolve, 500)); // wait 0.5 seconds
-	          userData = await getUserData(user.uid); // Try again
-	        }
-	
-	        if (!userData) {
-	          console.error('User data STILL not found for UID:', user.uid);
+	          // User document doesn't exist - this shouldn't normally happen
+	          console.error('User data not found for UID:', user.uid);
 	          await auth.signOut(); // Force logout since data is missing
 	          return;
 	        }
-	
+	        
 	        currentUser = {
 	          uid: user.uid,
 	          username: userData.username || 'Unknown',
 	          role: userData.role || 'member',
 	          photoURL: userData.photoURL || null
 	        };
-	
 	        updateUserPanel();
-	        await loadAllUsers();
-	
+		await loadAllUsers();
 	      } catch (error) {
 	        console.error('Error loading user data:', error);
 	        currentUser = null;
@@ -1196,7 +1189,6 @@
 	      await loadAllUsers();
 	    }
 	  });
-	}
 	  
 	  // Set up event listeners
 	  document.getElementById('loginSubmitBtn').addEventListener('click', handleLogin);
