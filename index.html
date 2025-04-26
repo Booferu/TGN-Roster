@@ -1409,14 +1409,21 @@
         const userCredential = await auth.createUserWithEmailAndPassword(fakeEmail, password);
         const uid = userCredential.user.uid;
 
-        // Save user to database
-        await database.ref(`users/${uid}`).set({
-          username: username,
-          role: finalRole
-        });
-
-        // Create username mapping
-        await database.ref(`usernames/${username}`).set(uid);
+	// Save user to database and map username to UID
+	try {
+	  await Promise.all([
+	    database.ref(`users/${uid}`).set({
+	      username: username,
+	      role: finalRole
+	    }),
+	    database.ref(`usernames/${username}`).set(uid)
+	  ]);
+	  console.log(`✅ Registered ${username} as ${uid}`);
+	} catch (err) {
+	  console.error('❌ Failed to write user data or username mapping:', err);
+	  showAlert(alertElement, 'Registration failed: ' + err.message, 'error');
+	  return;
+	}
 
         // Close modal and reset form
         closeModal('registerModal');
