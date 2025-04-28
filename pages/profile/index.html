@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" 
+        content="default-src 'self'; 
+                 script-src 'self' https://www.gstatic.com; 
+                 connect-src 'self' https://*.firebaseio.com https://api.imgur.com;
+                 frame-ancestors 'none'">
   <title>TGN Profile</title>
   <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
@@ -399,22 +404,47 @@
         window.location.href = 'index.html';
       });
 
+  // Initialize Firebase with persistence FIRST
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+    .then(() => {
+      // Then handle auth state
       auth.onAuthStateChanged(async user => {
-        if (!user) {
-          window.location.href = 'index.html'; // Redirect to home page
+        // Frame busting protection
+        if (window.self !== window.top) {
+          window.location.href = '/index.html';
           return;
         }
-    
+  
+        // Redirect protection
+        const redirectCount = parseInt(sessionStorage.getItem('redirectCount') || '0');
+        if (redirectCount > 3) {
+          sessionStorage.removeItem('redirectCount');
+          await auth.signOut();
+          window.location.href = '/index.html';
+          return;
+        }
+  
+        if (!user) {
+          if (!window.location.pathname.endsWith('/index.html') && 
+              !window.location.pathname.endsWith('/')) {
+            sessionStorage.setItem('redirectCount', (redirectCount + 1).toString());
+            window.location.href = '/index.html';
+          }
+          return;
+        }
+  
         try {
+          sessionStorage.removeItem('redirectCount'); // Reset on successful auth
+          
           const userSnapshot = await database.ref(`users/${user.uid}`).once('value');
           const userData = userSnapshot.val();
-    
+  
           if (!userData) {
             alert('User data not found.');
-            auth.signOut();
+            await auth.signOut();
             return;
           }
-    
+  
           // Set global currentUser
           window.currentUser = {
             uid: user.uid,
@@ -422,30 +452,39 @@
             role: userData.role || 'member',
             photoURL: userData.photoURL || 'https://cdn.discordapp.com/embed/avatars/0.png'
           };
-    
-          // Update user panel in header
+  
           updateUserPanel();
-          
-          // Now load profile
           loadProfile(user.uid);
-    
-          // Set up avatar upload
+  
+          // Avatar upload setup
+          document.getElementById('profileAvatar').addEventListener('click', () => {
+            document.getElementById('avatarUpload').click();
+          });
+  
           document.getElementById('avatarUpload').addEventListener('change', (e) => {
             if (e.target.files && e.target.files[0]) {
               uploadAvatar(user.uid, e.target.files[0]);
             }
           });
-    
+  
           // Save profile
           document.getElementById('saveProfileBtn').addEventListener('click', () => {
             saveProfile(user.uid);
           });
-    
+  
+          // 5-second failsafe
+          setTimeout(() => {
+            sessionStorage.setItem('forceStop', 'true');
+          }, 5000);
+  
         } catch (error) {
           console.error('Failed to load user profile:', error);
-          auth.signOut();
+          await auth.signOut();
         }
       });
+    })
+    .catch(error => {
+      console.error("Auth persistence error:", error);
     });
 
     function updateUserPanel() {
