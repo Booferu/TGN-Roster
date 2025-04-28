@@ -2723,15 +2723,6 @@
 	  
     // Initial load
     document.addEventListener('DOMContentLoaded', init);
-		
-		// Add this to your main index.html
-		if ('serviceWorker' in navigator) {
-		  window.addEventListener('load', () => {
-		    navigator.serviceWorker.register('/sw.js')
-		      .then(registration => console.log('SW registered'))
-		      .catch(err => console.log('SW registration failed: ', err));
-		  });
-		}
   </script>
 </body>
 </html>
