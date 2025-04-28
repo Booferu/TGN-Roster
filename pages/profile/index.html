@@ -466,12 +466,6 @@
 
     async function loadProfile(uid) {
       try {
-        // First check if user has permission to read profiles
-        const userToken = await auth.currentUser.getIdTokenResult();
-        if (!userToken.claims.canReadProfiles) {
-          throw new Error('You do not have permission to view profiles');
-        }
-
         const snapshot = await database.ref(`profiles/${uid}`).once('value');
         const profile = snapshot.val() || {};
         
