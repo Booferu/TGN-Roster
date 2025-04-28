@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TGN Profile</title>
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Dark theme colors */
+      --bg-primary: #121212;
+      --bg-secondary: #1e1e1e;
+      --bg-tertiary: #252525;
+      --accent-primary: #3d84f7;
+      --accent-secondary: #ed4b9e;
+      --accent-tertiary: #f2c94c;
+      --text-primary: #ffffff;
+      --text-secondary: #e0e0e0;
+      --text-tertiary: #b0b0b0;
+      --guild-color: #4ade80;
+      --merc-color: #c084fc;
+      --border-light: rgba(255, 255, 255, 0.1);
+      --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
+      --grid-gap: 1.5rem;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 8px;
+      --filled-glow: #e6973b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(61, 132, 247, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(237, 75, 158, 0.05) 0%, transparent 20%);
+    }
+
+    header {
+      background-color: var(--bg-secondary);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-title {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      padding-left: 30px;
+      position: relative;
+    }
+
+    .header-title::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      background-image: url('assets/images/favicon-32x32.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
+    }
+
+    .user-panel {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent-primary);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .user-avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .admin-panel-btn {
+      background-color: var(--accent-secondary);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .admin-panel-btn:hover {
+      background-color: #d43d8a;
+      box-shadow: 0 0 10px rgba(237, 75, 158, 0.5);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .main-container {
+      background-color: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-top: 2rem;
+      position: relative;
+      box-shadow: var(--shadow-md);
+    }
+
+    .main-container::before {
+      content: '';
+      display: block;
+      height: 5px;
+      width: 100%;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    }
+
+    .profile-container {
+      padding: 2rem;
+    }
+
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .profile-avatar {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      border: 3px solid var(--accent-primary);
+      background-color: var(--bg-tertiary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-upload-btn {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.5rem;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+
+    .avatar-upload-btn:hover {
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .profile-section {
+      margin-bottom: 2rem;
+      background-color: var(--bg-tertiary);
+      padding: 1.5rem;
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--accent-primary);
+    }
+
+    .profile-section h2 {
+      color: var(--accent-primary);
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      font-family: 'Poppins', sans-serif;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 2px rgba(61, 132, 247, 0.2);
+    }
+
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .profile-actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--accent-primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #2c6fd6;
+      box-shadow: 0 0 10px rgba(61, 132, 247, 0.5);
+    }
+
+    .btn-secondary {
+      background-color: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-light);
+    }
+
+    .btn-secondary:hover {
+      background-color: #333;
+      border-color: var(--accent-primary);
+    }
+
+    .role-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: capitalize;
+      margin-top: 0.5rem;
+    }
+
+    .role-badge.admin {
+      background-color: #f43f5e;
+      color: white;
+    }
+
+    .role-badge.guild-master {
+      background-color: var(--filled-glow);
+      color: #121212;
+    }
+
+    .role-badge.staff {
+      background-color: #8b5cf6;
+      color: white;
+    }
+
+    .role-badge.officer {
+      background-color: #10b981;
+      color: white;
+    }
+
+    .role-badge.member {
+      background-color: #3b82f6;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="header-title">TGN</div>
+      <div class="user-panel" id="userPanel">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="main-container">
+      <div class="profile-container">
+        <div class="profile-header">
+          <div class="profile-avatar" id="profileAvatar">
+            <img id="avatarImage" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Profile Picture">
+            <label class="avatar-upload-btn">
+              <input type="file" id="avatarUpload" accept="image/*" style="display:none">
+              Change Avatar
+            </label>
+          </div>
+          <h1 id="profileUsername">Loading...</h1>
+          <div id="profileRoleBadge" class="role-badge">Member</div>
+        </div>
+
+        <div class="profile-section">
+          <h2>Character Information</h2>
+          <div class="form-group">
+            <label for="characterName">Character Name</label>
+            <input type="text" id="characterName" placeholder="Your in-game character name">
+          </div>
+          <div class="form-group">
+            <label for="characterClass">Class</label>
+            <input type="text" id="characterClass" placeholder="Warrior/Mage/Archer etc.">
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h2>Player Bio</h2>
+          <div class="form-group">
+            <textarea id="playerBio" rows="5" placeholder="Tell us about yourself and your playstyle..."></textarea>
+          </div>
+        </div>
+
+        <div class="profile-actions">
+          <button id="backBtn" class="btn btn-secondary">Back to Home</button>
+          <button id="saveProfileBtn" class="btn btn-primary">Save Profile</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script>
+    // Initialize Firebase with your existing config
+    const firebaseConfig = {
+      apiKey: "AIzaSyANFiNgI5AElip2yg1s1j8X_C_fySX0b38",
+      authDomain: "tgn-roster.firebaseapp.com",
+      databaseURL: "https://tgn-roster-default-rtdb.firebaseio.com",
+      projectId: "tgn-roster",
+      storageBucket: "tgn-roster.appspot.com",
+      appId: "1:680550686349:web:bf8d53910264c3a5004cc4"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const auth = firebase.auth();
+
+    // Profile Management
+    document.addEventListener('DOMContentLoaded', () => {
+      // Back button functionality
+      document.getElementById('backBtn').addEventListener('click', () => {
+        window.location.href = 'index.html';
+      });
+
+      auth.onAuthStateChanged(async user => {
+        if (!user) {
+          window.location.href = 'index.html'; // Redirect to home page
+          return;
+        }
+    
+        try {
+          const userSnapshot = await database.ref(`users/${user.uid}`).once('value');
+          const userData = userSnapshot.val();
+    
+          if (!userData) {
+            alert('User data not found.');
+            auth.signOut();
+            return;
+          }
+    
+          // Set global currentUser
+          window.currentUser = {
+            uid: user.uid,
+            username: userData.username || 'Unknown',
+            role: userData.role || 'member',
+            photoURL: userData.photoURL || 'https://cdn.discordapp.com/embed/avatars/0.png'
+          };
+    
+          // Update user panel in header
+          updateUserPanel();
+          
+          // Now load profile
+          loadProfile(user.uid);
+    
+          // Set up avatar upload
+          document.getElementById('avatarUpload').addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+              uploadAvatar(user.uid, e.target.files[0]);
+            }
+          });
+    
+          // Save profile
+          document.getElementById('saveProfileBtn').addEventListener('click', () => {
+            saveProfile(user.uid);
+          });
+    
+        } catch (error) {
+          console.error('Failed to load user profile:', error);
+          auth.signOut();
+        }
+      });
+    });
+
+    function updateUserPanel() {
+      const userPanel = document.getElementById('userPanel');
+      if (!userPanel || !currentUser) return;
+      
+      userPanel.innerHTML = `
+        ${['admin', 'guild-master', 'staff', 'officer'].includes(currentUser.role) ? 
+          `<button class="admin-panel-btn" onclick="window.location.href='admin.html'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            Admin Panel
+          </button>` : ''}
+        <img class="user-avatar" src="${currentUser.photoURL}" alt="User Avatar" onclick="window.location.href='profile.html'">
+      `;
+    }
+
+    async function loadProfile(uid) {
+      try {
+        // First check if user has permission to read profiles
+        const userToken = await auth.currentUser.getIdTokenResult();
+        if (!userToken.claims.canReadProfiles) {
+          throw new Error('You do not have permission to view profiles');
+        }
+
+        const snapshot = await database.ref(`profiles/${uid}`).once('value');
+        const profile = snapshot.val() || {};
+        
+        // Set basic info
+        document.getElementById('profileUsername').textContent = currentUser.username;
+        
+        // Set role badge
+        const roleBadge = document.getElementById('profileRoleBadge');
+        roleBadge.className = `role-badge ${currentUser.role}`;
+        roleBadge.textContent = currentUser.role.split('-').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        
+        // Set avatar - ensure we have a valid URL
+        const avatarImg = document.getElementById('avatarImage');
+        avatarImg.src = currentUser.photoURL;
+        avatarImg.onerror = function() {
+          this.src = 'https://cdn.discordapp.com/embed/avatars/0.png';
+        };
+        
+        // Fill form fields
+        document.getElementById('characterName').value = profile.characterName || '';
+        document.getElementById('characterClass').value = profile.characterClass || '';
+        document.getElementById('playerBio').value = profile.bio || '';
+      } catch (error) {
+        console.error('Error loading profile:', error);
+        alert('Error loading profile: ' + error.message);
+      }
+    }
+
+    async function saveProfile(uid) {
+      const profileData = {
+        characterName: document.getElementById('characterName').value.trim(),
+        characterClass: document.getElementById('characterClass').value.trim(),
+        bio: document.getElementById('playerBio').value.trim(),
+        lastUpdated: firebase.database.ServerValue.TIMESTAMP
+      };
+      
+      try {
+        await database.ref(`profiles/${uid}`).update(profileData);
+        alert('Profile saved successfully!');
+      } catch (error) {
+        console.error('Error saving profile:', error);
+        alert('Failed to save profile. Please try again.');
+      }
+    }
+
+    async function uploadAvatar(uid, file) {
+      if (!file) return;
+      
+      // Use your existing Imgur API implementation
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const response = await fetch("https://api.imgur.com/3/image", {
+          method: "POST",
+          headers: {
+            Authorization: `Client-ID 39f8c230782d6da` // Your Imgur Client ID
+          },
+          body: formData
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          // Update Firebase
+          await database.ref(`users/${uid}/photoURL`).set(data.data.link);
+          
+          // Update the image source and currentUser
+          document.getElementById('avatarImage').src = data.data.link;
+          currentUser.photoURL = data.data.link;
+          
+          // Update the avatar in the user panel
+          updateUserPanel();
+          
+          alert('Avatar updated successfully!');
+        } else {
+          throw new Error(data.data.error || 'Failed to upload avatar');
+        }
+      } catch (error) {
+        console.error("Upload error:", error);
+        alert('Error uploading avatar: ' + error.message);
+      }
+    }
+  </script>
+</body>
+</html>
