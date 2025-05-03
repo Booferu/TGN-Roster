@@ -2086,7 +2086,7 @@
 
     // Reset roster (admin function)
     async function resetRoster() {
-      if (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role))
+      if (!currentUser || !(currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role))) {
         return;
       }
       
