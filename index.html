@@ -6,51 +6,60 @@
   <title>TGN Party Boss Blitz Roster</title>
   <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* Root variables for theming */
     :root {
-      /*  Dark theme colors */
+      /* Dark theme colors */
       --bg-primary: #121212;
       --bg-secondary: #1e1e1e;
       --bg-tertiary: #252525;
-      --accent-primary: #3d84f7;
-      --accent-secondary: #ed4b9e;
+      --accent-primary: #7da8f8;
+      --accent-secondary: #be6fbe;
       --accent-tertiary: #f2c94c;
       --text-primary: #ffffff;
       --text-secondary: #e0e0e0;
       --text-tertiary: #b0b0b0;
       --guild-color: #4ade80;
       --merc-color: #c084fc;
-      --border-light: rgba(255, 255, 255, 0.1);
+      --border-light: rgba(255, 159, 204, 0.3);
       --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
       --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.3);
       --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.4);
-      --grid-gap: 1.5rem;
+      --grid-gap: 1.7rem;
       --radius-sm: 6px;
       --radius-md: 10px;
       --radius-lg: 8px;
-      --filled-glow: #e6973b;
+      --filled-glow: #ffd3a1;
     }
     
+    /* Reset and base styles */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
     
+    /* Body styles */
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Marcellus';
+      font-style: normal;
       background-color: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
       min-height: 100vh;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(61, 132, 247, 0.05) 0%, transparent 20%),
-        radial-gradient(circle at 90% 80%, rgba(237, 75, 158, 0.05) 0%, transparent 20%);
+
+      background-image: url(assets/images/background/bg.webp);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* Optional: enables subtle parallax effect */
     }
 
+    /* Header styles */
     header {
-      background-color: var(--bg-secondary);
+      background-color: rgba(30, 30, 30, 0.7);
+      backdrop-filter: blur(10px);
       padding: 1rem 2rem;
       position: sticky;
       top: 0;
@@ -71,14 +80,20 @@
       align-items: center;
       font-size: 1.5rem;
       font-weight: 600;
-      color: var(--text-primary);
       padding-left: 0px; /* Make space for icon */
       cursor: pointer; /* Shows it's clickable */
       transition: transform 0.2s ease; /* Optional: Add hover effect */
+      overflow: hidden;
+
+      background: linear-gradient(to right, #bee2ff, #c999eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
     }
 
     .header-title:hover {
-      text-shadow: 0 0 15px rgba(61, 132, 247, 0.8); /* Optional: Glow effect */
+      text-shadow: 0 0 15px rgba(135, 247, 255, 0.4); /* Optional: Glow effect */
     }
     
     .header-title::before {
@@ -95,6 +110,7 @@
       cursor: pointer; /* Makes header icon clickable */
     }
     
+    /* Main container styles */
     .container {
       position: relative;
       z-index: 50;
@@ -108,49 +124,70 @@
       border: 1px solid var(--border-light);
     }
 
-    /* On smaller screens, restore full width */
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    /* Responsive container */
     @media (max-width: 1200px) {
       .container {
         max-width: 1200px;
       }
     }
 
+    /* Dragging state */
     .dragging {
       opacity: 0.6;
       background-color: var(--bg-tertiary);
     }
 
+    /* Heading styles */
     h1 {
       text-align: center;
       font-size: 2.5rem;
-      font-weight: 600;
+      font-weight: normal;
       margin-bottom: 1.5rem;
-      color: var(--text-primary);
+      
+      background: linear-gradient(to right, #a2e9ff, #ce74ce);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
     }
     
+    /* Description text */
     .description {
       text-align: center;
       max-width: 700px;
       margin: 0 auto 2rem;
       font-size: 1.1rem;
-      color: var(--text-secondary);
+      color: rgb(255, 196, 221);
       line-height: 1.7;
       padding: 1rem;
-      background-color: var(--bg-secondary);
+      background-color: rgba(30, 30, 30, 0.7);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
     }
     
+    /* Player type indicators */
     .player-guild {
       color: var(--guild-color);
-      font-weight: 500;
+      font-weight: normal;
     }
     
     .player-merc {
       color: var(--merc-color);
-      font-weight: 500;
+      font-weight: normal;
     }
     
+    /* Navigation styles */
     nav {
       display: flex;
       justify-content: center;
@@ -164,7 +201,7 @@
       padding: 0.7rem 1.5rem;
       border-radius: var(--radius-sm);
       cursor: pointer;
-      font-weight: 600;
+      font-weight: normal;
       color: var(--text-primary);
       font-family: inherit;
       transition: all 0.2s ease-in-out;
@@ -192,84 +229,91 @@
       filter: brightness(1.1);
     }
     
+    /* Admin panel button */
     .admin-panel-btn {
-      background-color: var(--accent-secondary);
+      background-color: #d8638a;
       color: white;
       border: none;
       padding: 0.5rem 1rem;
       border-radius: var(--radius-sm);
-      font-weight: 500;
+      font-weight: normal;
+      text-transform: uppercase;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Marcellus';
+      font-style: normal;
       box-shadow: var(--shadow-sm);
     }
     
     .admin-panel-btn:hover {
-      background-color: #d43d8a;
+      background-color: #d8638a;
       box-shadow: 0 0 10px rgba(237, 75, 158, 0.5);
       transform: translateY(-1px);
     }
     
-    .admin-panel-btn svg {
+    nav button svg {
       width: 16px;
       height: 16px;
     }
     
+    /* Mode buttons */
     #btn-normal { 
-      background-color: #357fda;
+      background-color: #197f99;
     }
 
     #btn-normal.active {
-      background-color: #3d84f7;
-      outline: 2px solid rgba(0, 182, 255, 1);
+      background-color: #197f99;
+      outline: 2px solid rgb(77, 172, 209);
     }
 
     #btn-hard { 
-      background-color: #c62d3c;
+      background-color: #962e3c;
     }
 
     #btn-hard.active {
-      background-color: #D63141;
-      outline: 2px solid rgba(255, 132, 0, 1);
+      background-color: #86323d;
+      outline: 2px solid rgb(184, 74, 89);
     }
     
     #btn-rerun { 
-      background-color: #e251a3;
+      background-color: #d8638a;
       color: white;
     }
 
     #btn-rerun.active {
-      background-color: #ed4b9e;
+      background-color: #d8638a;
       outline: 2px solid rgba(255, 148, 178, 1);
     }
     
-    nav button:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      filter: brightness(1.1);
-    }
-    
+    /* Time notice */
     .time-notice {
       text-align: center;
       margin: 0 auto 2rem;
       font-size: 0.95rem;
-      color: #a0c4fe;
-      font-style: italic;
+      color: rgb(177, 243, 255);
+      font-style: normal;
       opacity: 0.8;
     }
     
+    /* Roster grid layout */
     .roster {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: var(--grid-gap);
     }
     
+    /* Remove borders globally */
+    /* remove this and !important from .player-list li { and .hover-card-header { to restore original behavior */
+    * {
+      border: none !important;
+    }
+
+    /* Group styling */
     .group {
-      background: var(--bg-secondary);
+      background: rgba(30, 30, 30, 0.7);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-md);
       padding: 1.5rem;
@@ -294,8 +338,9 @@
       box-shadow: var(--shadow-lg);
     }
     
+    /* Filled group styling */
     .group.filled {
-      box-shadow: 0 0 10px 0 rgba(230, 151, 59, 0.35);
+      box-shadow: 0 0 10px 0 rgba(255, 226, 173, 0.5);
       border: 1px solid rgba(230, 151, 59, 0.3);
     }
     
@@ -308,23 +353,25 @@
       margin-bottom: 1rem;
       border-bottom: 1px solid var(--border-light);
       padding-bottom: 0.5rem;
-      font-weight: 600;
-      color: var(--text-primary);
+      font-weight: normal;
+      color: rgb(255, 196, 221);
     }
     
     .group.filled h2 {
       color: var(--filled-glow);
     }
-    
+
+    /* Player list styling */
     .player-list {
       list-style: none;
       padding: 0;
       margin-top: 1rem;
+      color: rgb(255, 196, 221);
     }
     
     .player-list li {
       padding: 0.7rem 0.5rem;
-      border-bottom: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light) !important;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -337,32 +384,43 @@
     }
     
     .player-list li:last-child {
+      
       border-bottom: none;
     }
     
+    /* Timezone indicator */
     .timezone {
       font-size: 1rem;
       margin-top: 0.5rem;
-      color: var(--text-tertiary);
+      color: rgba(255, 196, 221, 0.7);
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
     
     .timezone::before {
-      content: '🕒';
-      font-size: 0.9rem;
+      content: '';
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      background-image: url('data:image/svg+xml;utf8,<svg fill="rgba(161, 221, 255,0.9)" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 1.75A10.25 10.25 0 1 1 1.75 12 10.26 10.26 0 0 1 12 1.75Zm0 1.5a8.75 8.75 0 1 0 8.75 8.75A8.76 8.76 0 0 0 12 3.25Zm.75 4.5v4.19l3.47 2.08-.75 1.23-4.22-2.53V7.75Z"/></svg>');
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin-right: 0.25rem;
+      vertical-align: middle;
     }
     
+    /* Footer styles */
     footer {
       text-align: center;
       margin-top: 3rem;
       font-size: 0.9rem;
-      color: var(--text-tertiary);
+      color: rgb(255, 196, 221);
       padding: 1rem 0;
       border-top: 1px solid var(--border-light);
     }
     
+    /* Loading indicator */
     .loading {
       text-align: center;
       padding: 3rem;
@@ -389,12 +447,13 @@
       100% { transform: rotate(360deg); }
     }
     
+    /* Last updated text */
     .last-updated {
       text-align: center;
       margin-top: 2rem;
       font-size: 0.9rem;
-      color: var(--text-tertiary);
-      font-style: italic;
+      color: rgb(255, 196, 221);
+      font-style: normal;
     }
     
     /* User panel styles */
@@ -418,7 +477,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: bold;
+      font-weight: normal;
     }
 
     .user-actions {
@@ -426,30 +485,36 @@
       gap: 0.8rem;
     }
 
+    /* Button styles */
     .btn {
       border: none;
       border-radius: var(--radius-sm);
       padding: 0.5rem 1rem;
       cursor: pointer;
       font-family: inherit;
-      font-weight: 500;
+      font-weight: normal;
       transition: all 0.2s ease;
     }
 
     .btn-primary {
-      background-color: var(--accent-primary);
-      color: white;
+      background-color: rgba(21, 51, 71, 0.6);
+      color: rgb(255, 196, 221);
+      font-style: normal !important;
+      font-weight: normal;
     }
 
     .btn-secondary {
-      background-color: var(--bg-secondary);
-      color: var(--text-primary);
+      background-color: rgba(30, 30, 30, 0.6);
+      color: rgb(255, 196, 221);
       border: 1px solid var(--border-light);
+      font-style: normal !important;
+      font-weight: normal;
     }
 
     .btn-danger {
-      background-color: #e44f4f;
+      background-color: #9b2737;
       color: white;
+      font-weight: normal;
     }
 
     .btn-success {
@@ -467,8 +532,11 @@
       cursor: not-allowed;
     }
 
+    /* Join/leave buttons */
     .join-btn {
-      background-color: var(--accent-primary);
+      font-family: 'Marcellus';
+      font-style: normal;
+      background-color: rgb(111, 105, 192);
       color: white;
       border: none;
       border-radius: var(--radius-sm);
@@ -483,7 +551,9 @@
     }
 
     .leave-btn {
-      background-color: #e44f4f;
+      font-family: 'Marcellus';
+      font-style: normal;
+      background-color: #d8638a;
       color: white;
       border: none;
       border-radius: var(--radius-sm);
@@ -527,11 +597,12 @@
 
     .modal h3 {
       margin-bottom: 1.5rem;
-      color: var(--text-primary);
+      color: rgb(255, 196, 221);
       font-size: 1.5rem;
       text-align: center;
     }
 
+    /* Form group styling */
     .form-group {
       margin-bottom: 1.5rem;
     }
@@ -556,6 +627,7 @@
       outline: 2px solid var(--accent-primary);
     }
 
+    /* Form actions */
     .form-actions {
       display: flex;
       justify-content: flex-end;
@@ -563,6 +635,7 @@
       margin-top: 2rem;
     }
 
+    /* Alert messages */
     .alert {
       padding: 0.8rem;
       border-radius: var(--radius-sm);
@@ -589,42 +662,201 @@
       border-radius: var(--radius-lg);
       font-size: 0.75rem;
       margin-left: 0.5rem;
-      font-weight: 500;
+      font-weight: normal;
+      border-radius: 6px;
+      vertical-align: middle;
     }
 
     .role-badge.admin {
-      background-color: #f87171;
-      color: white;
+      background: linear-gradient(135deg, #d8638a, #d8638a);
+      color: rgb(255, 255, 255);
+      font-weight: normal;
+      text-shadow: 0 1px 2px rgba(107, 0, 0, 0);
+      border: 1px solid #ffaad4;
+      border-radius: 6px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        0 0 8px rgba(255, 160, 200, 0.5),
+        0 0 4px rgba(255, 160, 200, 0.3) inset;
+      animation: floatyGlow 4s ease-in-out infinite;
+    }
+
+    /* Shimmer sweep */
+    .role-badge.admin::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+      transform: skewX(-25deg);
+      /* animation: shimmerSweep 3s ease-in-out infinite; */ /* Uncomment for shimmer effect */
+      z-index: 0;
+    }
+
+    /* Keep text above shimmer */
+    .role-badge.admin span,
+    .role-badge.admin {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Floating + glowing animation */
+    @keyframes floatyGlow {
+      0%, 100% {
+        /* transform: translateY(0); */
+        box-shadow: 0 0 8px rgba(55, 0, 255, 0);
+      }
+      50% {
+        /* transform: translateY(-2px); */
+        box-shadow: 0 0 12px rgb(255, 0, 140);
+      }
+    }
+
+    /* Shimmer effect animation */
+    @keyframes shimmerSweep {
+      0% {
+        left: -75%;
+      }
+      60% {
+        left: 125%;
+      }
+      100% {
+        left: 125%;
+      }
     }
     
     .role-badge.guild-master {
-      background-color: #e68c1a;
-      color: white;
+      background: linear-gradient(135deg, 
+        #ffae00 0%, 
+        #f59921 25%, 
+        #ffbb00 50%, 
+        #ffe15a 75%, 
+        #ff9900 100%);
+      color: #000000;
+      font-weight: bold;
+      font-family: 'Math Serif Italic v2';
+      text-shadow: 0 1px 1px rgb(255, 255, 255);
+      border: 1px solid #D4AF37;
+      box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 1px 3px rgb(255, 255, 255),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Optional: Add animated shine effect */
+    .role-badge.guild-master::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 50%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: rotate(30deg);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -60%; }
+      20% { left: 110%; }
+      100% { left: 110%; }
     }
 
     .role-badge.advisor {
-      background-color: #8b5cf6;
-      color: white;
+      background: linear-gradient(135deg, 
+        #b8bec5 0%, 
+        #a8b4c5 25%, 
+        #c0d2e2 50%, 
+        #b3bbcc 75%, 
+        #7a8da3 100%);
+      color: #000000;
+      font-weight: bold;
+      font-family: 'Math Serif Italic v2';
+      text-shadow: 0 1px 1px rgb(255, 255, 255);
+      border: 1px solid #bdbdbd;
+      box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.3),
+        inset 0 1px 3px rgb(255, 255, 255),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Optional: Add animated shine effect */
+    .role-badge.advisor::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 50%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: rotate(30deg);
+      animation: shine 3s infinite;
     }
 
     .role-badge.staff {
-      background-color: #ec4899;
+      background-color: #9e5ba5;
       color: white;
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+
+    .role-badge.secretary {
+      background-color: rgb(84, 135, 202);
+      color: rgb(255, 255, 255);
+      font-weight: normal;
+      text-transform: uppercase;
     }
 
     .role-badge.officer {
-      background-color: var(--accent-primary);
+      background-color: #3f8388;
       color: white;
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+
+    .role-badge.cannoneer {
+      background-color: #777777;
+      color: white;
+      font-weight: normal;
+      text-transform: uppercase;
+    }
+    
+    .role-badge.mission-specialist {
+      background-color: #595bc5;
+      color: white;
+      font-weight: normal;
+      text-transform: uppercase;
     }
 
     .role-badge.member {
-      background-color: #2d9a51;
+      background-color: #3f853c;
       color: white;
+      font-weight: normal;
+      text-transform: uppercase;
     }
 
     .role-badge.mercenary {
-      background-color: var(--merc-color);
+      background-color: #7c4197;
       color: white;
+      font-weight: normal;
+      text-transform: uppercase;
     }
 
     /* Autocomplete Styles */
@@ -669,9 +901,10 @@
     #userSidebar {
       position: fixed;
       left: 20px;
-      top: 103px;
+      top: 102.4px;
       width: 280px;
-      background-color: var(--bg-secondary);
+      background-color: rgba(30, 30, 30, 0.7);
+      backdrop-filter: blur(10px);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-lg);
       border: 1px solid var(--border-light);
@@ -683,9 +916,20 @@
       transition: transform 0.3s ease;
     }
 
+    #userSidebar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px; /* Same height as other gradients */
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      z-index: 2; /* Ensures it appears above the sidebar content */
+    }
+
     .sidebar-header {
       padding: 1rem;
-      background-color: var(--bg-tertiary);
+      background-color: rgba(30, 30, 30, 0.4);
       border-bottom: 1px solid var(--border-light);
       text-align: center;
       display: flex;
@@ -697,9 +941,13 @@
     .sidebar-header h3 {
       margin: 0;
       font-size: 1.2rem;
-      color: var(--text-primary);
-      font-weight: 500;
+      color: rgb(255, 196, 221);
+      font-weight: normal;
       letter-spacing: 0.5px;
+    }
+
+    .sidebar-content .loading {
+      color: rgb(255, 196, 221);
     }
 
     .sidebar-content {
@@ -710,13 +958,14 @@
       padding-right: 4px; /* Add small padding to prevent scrollbar overlapping content */
     }
 
+    /* User list items */
     .user-list-item {
       display: flex;
       align-items: center;
       padding: 0.8rem 1rem;
       margin: 0.3rem 0;
       border-radius: var(--radius-sm);
-      background-color: var(--bg-tertiary);
+      background-color: rgba(30, 30, 30, 0.4);
       transition: background-color 0.2s ease;
     }
 
@@ -734,7 +983,7 @@
 
     .user-list-name {
       font-size: 1.1rem;
-      color: var(--text-primary);
+      color: rgb(255, 196, 221);
       flex-grow: 1;
     }
 
@@ -840,23 +1089,101 @@
       cursor: grabbing;
     }
 
-    #floating-user-info {
-      z-index: 40;
+    #user-info-clickable {
+      position: relative; /* Needed for absolute positioning of the gradient */
+      padding: 8px 12px;
+      background: rgba(30, 30, 30, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
     }
 
-    @media (max-width: 768px) {
-      #floating-user-info {
-        position: static;
-        margin: 10px;
-        text-align: center;
-      }
-  
-      #floating-user-info .user-info {
-        position: static !important;
-        display: inline-flex !important;
-        justify-content: center !important;
-        width: 100%;
-      }
+    #user-info-clickable::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    #floating-user-info {
+      z-index: 40;
+      max-width: 300px; /* Limit the maximum width */
+    }
+
+    /* Style for the floating user info container */
+    #floating-user-info #user-info-clickable {
+      top: 102.4px !important;
+      background: rgba(30, 30, 30, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 11px 15px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      width: auto; /* Let it size naturally up to max-width */
+      display: inline-flex; /* Use flex for better layout control */
+      flex-wrap: wrap; /* Allow content to wrap */
+      align-items: center; /* Center items vertically */
+    }
+
+    /* Hover effect */
+    #floating-user-info #user-info-clickable:hover {
+      background: rgba(40, 40, 40, 0.8);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Adjust avatar positioning */
+    #floating-user-info .user-avatar {
+      margin-right: 6px;
+      flex-shrink: 0; /* Prevent avatar from shrinking */
+    }
+
+    /* Username and badges container */
+    #floating-user-info .user-info-content {
+      display: flex;
+      flex-direction: column;
+      min-width: 0; /* Allow text truncation */
+      flex-grow: 1;
+    }
+
+    /* Username text styling */
+    #floating-user-info .username-display {
+      color: var(--accent-secondary) !important;
+      font-weight: normal;
+      font-size: large;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    /* Badges container */
+    #floating-user-info .badges-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px; /* Small gap between badges */
+      margin-top: 4px; /* Space between name and badges */
+      align-items: center;
+    }
+
+    /* Individual badge styling */
+    #floating-user-info .role-badge {
+      margin-left: 0 !important; /* Remove left margin */
+      flex-shrink: 0; /* Prevent badges from shrinking */
+      margin-right: 3px;
+    }
+
+    /* Badge images */
+    #floating-user-info .role-badge img {
+      width: 20px;
+      height: 20px;
+      object-fit: contain; /* Prevent stretching */
     }
 
     /* User Dropdown Styles */
@@ -864,7 +1191,8 @@
       position: fixed;
       top: 120px;
       right: 20px;
-      background-color: var(--bg-secondary);
+      background-color: rgba(30, 30, 30, 0.7);
+      backdrop-filter: blur(10px);
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-lg);
       border: 1px solid var(--border-light);
@@ -881,7 +1209,7 @@
     .dropdown-item {
       display: block;
       padding: 0.5rem 1rem;
-      color: var(--text-primary);
+      color: rgb(255, 196, 221);
       text-decoration: none;
       transition: background-color 0.2s;
       border: none;
@@ -942,7 +1270,7 @@
       background-color: var(--accent-primary);
       color: white;
       font-size: 40px;
-      font-weight: bold;
+      font-weight: normal;
     }
 
     /* Avatar Image */
@@ -963,7 +1291,7 @@
       align-items: center;
       justify-content: center;
       font-size: 40px;
-      font-weight: bold;
+      font-weight: normal;
       transition: inherit;
       margin: 0; /* Remove any default margins */
       flex: 1; /* Fill available space */
@@ -1003,6 +1331,7 @@
       margin: 0.5rem 0;
     }
 
+    /* SortableJS classes */
     .sortable-ghost {
       opacity: 0.5;
       background-color: rgba(61, 132, 247, 0.3) !important;
@@ -1015,6 +1344,7 @@
       transition: all 0.3s ease !important;
     }
 
+    /* Profile hover card */
     .profile-hover-card {
       position: fixed;
       width: 400px;
@@ -1023,7 +1353,6 @@
       border-radius: var(--radius-md);
       overflow: hidden;
       box-shadow: var(--shadow-lg);
-   /* border: 1px solid var(--border-light); */
       z-index: 1000;
       display: none;
       opacity: 0;
@@ -1054,7 +1383,7 @@
       margin: 0.15rem 0.25rem 0.15rem 0 !important;
       display: inline-block;
     }
-	  
+    
     .hover-card-header {
       display: flex;
       align-items: center;
@@ -1063,6 +1392,7 @@
       background: rgba(30, 30, 30, 0.7); /* Semi-transparent dark background */
       position: relative;
       z-index: 2;
+      color: rgba(255, 148, 178, 1) !important;
     }
     
     .hover-avatar-container {
@@ -1083,6 +1413,10 @@
       object-fit: cover;
     }
     
+    #hoverClass {
+      margin-right: 0.2rem;
+    }
+
     .hover-name-role {
       flex: 1;
       position: relative;
@@ -1092,6 +1426,27 @@
       align-items: center;
       gap: 0.25rem;
     }
+
+    .hover-name-role .role-badge {
+      margin-left: 0 !important;
+    }
+
+    .hover-name-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      align-items: center;
+    }
+
+    #hoverRoleBadgeContainer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.1rem;
+    }
+
+    #hoverRoleBadgeContainer .role-badge {
+      margin-left: 0 !important;
+    }
     
     .hover-card-body {
       padding: 1rem;
@@ -1100,6 +1455,7 @@
     }
     
     .hover-stats {
+      font-weight: bold;
       display: flex;
       justify-content: space-between;
       margin-bottom: 1rem;
@@ -1111,13 +1467,13 @@
       background: rgba(30, 30, 30, 0.7);
       padding: 0.9rem;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--border-light) !important;
     }
     
     .hover-stat span {
       display: block;
       font-size: 0.8rem;
-      color: var(--text-tertiary);
+      color: rgba(255, 148, 178, 1) !important;
     }
     
     .hover-stat strong {
@@ -1126,9 +1482,10 @@
     }
 
     .hover-class {
+      vertical-align: middle;
       font-size: 0.9rem;
-      color: var(--text-secondary);
       margin-top: 0.25rem;
+      color: rgba(255, 148, 178, 1) !important;
     }
     
     .hover-screenshot-container {
@@ -1204,6 +1561,10 @@
         gap: 0.5rem;
       }
       
+      .username-display {
+        color: rgb(0, 0, 0);
+      }
+
       .user-actions {
         width: 100%;
         justify-content: flex-end;
@@ -1212,6 +1573,70 @@
         border-radius: 2px;
         vertical-align: middle;
       }
+    }
+
+    .decorative-symbols {
+      white-space: nowrap;
+    }
+    @media (max-width: 480px) {
+      .decorative-symbols {
+        display: none;
+      }
+    }
+
+    #adminModal {
+      color: rgb(255, 196, 221) !important;
+    }
+
+    /* Modal header */
+    #adminModal h3 {
+      color: rgb(255, 196, 221) !important;
+    }
+
+    /* Form labels */
+    #adminModal .form-group label {
+      color: rgb(255, 196, 221) !important;
+    }
+
+    /* Input text */
+    #adminModal input,
+    #adminModal select {
+      color: rgba(255, 196, 221, 0.5) !important;
+    }
+
+    /* Buttons text */
+    #adminModal .btn {
+      color: rgb(255, 196, 221) !important; /* Keep button text white for contrast */
+    }
+
+    /* Targets ONLY the "Roster Management" heading */
+    #adminModal h4 {
+      color: rgb(255, 196, 221) !important; /* Hot pink */
+    }
+
+    #adminModal input::placeholder {
+      color: rgba(255, 196, 221, 0.500) !important; /* Hot pink */
+    }
+
+    .date-label {
+      background-image: 📅;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      color: rgba(255, 196, 221, 0.7);
+    }
+
+    .date-label::before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='rgba(161, 221, 255,0.7)'%3E%3Cpath d='M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      margin-right: 9px;
+      vertical-align: middle;
+      position: relative;
+      top: -1px; /* Adjust alignment if needed */
     }
   </style>
 
@@ -1238,9 +1663,11 @@
   </div>
   <header>
     <div class="header-container">
-      <a href="./" class="header-title" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 8px;">
-        <img src="assets/images/favicon-32x32.png" alt="TGN Logo" width="24" height="24" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5))">
-        <span>TGN</span>
+      <a href="./" class="header-title" style="text-decoration: none; color: rgb(255, 196, 221); display: flex; align-items: center; gap: 8px;">
+        <img src="assets/images/favicon-32x32.png" alt="TGN Logo" width="32" height="32" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5))">
+        <span style="white-space: nowrap;">
+          <span>TGN</span>
+        </span>
       </a>
       <div class="user-panel" id="userPanel">
         <!-- Content will be dynamically generated -->
@@ -1264,13 +1691,13 @@
     </div>
     <a href="/TGN-Roster/pages/profile/index.html" class="dropdown-item" id="profile-link">Profile</a>
     <div class="dropdown-divider"></div>
-    <button class="dropdown-item" id="logout-btn">Logout</button>
+    <button class="dropdown-item" id="logout-btn"><span style="font-style: normal;">Logout</span></button>
   </div>
   
   <div id="floating-user-info"></div>
 
   <div class="container">
-    <h1>TGN Party Boss Blitz Roster</h1>
+    <h1><span>TGN Party Boss Blitz Roster</span></h1>
     
     <div class="description">
       This page organizes static groups for the weekly <strong>Party Boss Blitz</strong> content.<br>
@@ -1285,7 +1712,7 @@
 			<path d="m18 3l4-1l-1 4l-10 10l-2.5-.5L8 13zM2 20l2 2m1-8l1 4l4 1m-4-1l-3 3"/>
 		  </g>
 		</svg>
-		Normal Mode
+		<span style="font-style: normal;">Normal Mode</span>
 	  </button>
 
 	  <!-- Hard Mode - Crossed Swords (Lucide) -->
@@ -1296,7 +1723,7 @@
 			<path d="M15 6l5 5m-4-4l3 3" stroke="#ff6b6b"/>
 		  </g>
 		</svg>
-		Hard Mode
+		<span style="font-style: normal;">Hard Mode</span>
 	  </button>
 
 	  <!-- Re-runs - Circular Arrow -->
@@ -1307,7 +1734,7 @@
 			<path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
 		  </g>
 		</svg>
-		Re-runs / Fill-ins
+		<span style="font-style: normal;">Re-runs / Fill-ins</span>
 	  </button>
 	</nav>
     
@@ -1371,13 +1798,6 @@
           <option value="mercenary">Mercenary</option>
         </select>
       </div>
-      <div class="form-group" id="officerCodeGroup" style="display: none;">
-        <label for="officerCode">Officer Code</label>
-        <input type="password" id="officerCode" placeholder="Enter officer access code">
-        <small style="color: var(--text-tertiary); display: block; margin-top: 0.5rem;">
-          Only required for officer roles. Ask your guild leader for the code.
-        </small>
-      </div>
       <div class="form-actions">
         <button class="btn btn-secondary" onclick="closeModal('registerModal')">Cancel</button>
         <button class="btn btn-primary" id="registerSubmitBtn">Register</button>
@@ -1395,33 +1815,36 @@
       <div id="adminAlert" class="alert" style="display: none;"></div>
       
       <div style="margin-bottom: 1.5rem;">
-        <h4 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Role Management</h4>
+        <h4 style="margin-bottom: 0.5rem; color: rgb(255, 196, 221);">Role Management</h4>
         <div class="form-group">
           <label for="adminUsername">Username</label>
           <div class="autocomplete-wrapper">
-            <input type="text" id="adminUsername" placeholder="Enter username to modify" autocomplete="off">
+            <input type="text" id="adminUsername" style="font-style: normal;" placeholder="Enter username to modify" autocomplete="off">
             <div id="userSuggestions" class="autocomplete-results"></div>
           </div>
         </div>
         <div class="form-group">
           <label for="adminRole">New Role</label>
-          <select id="adminRole" style="width: 100%; padding: 0.8rem; border-radius: var(--radius-sm); background-color: var(--bg-tertiary); border: 1px solid var(--border-light); color: var(--text-primary); font-family: inherit;">
+          <select id="adminRole" style="font-style: normal; width: 100%; padding: 0.8rem; border-radius: var(--radius-sm); background-color: var(--bg-tertiary); border: 1px solid var(--border-light); color: var(--text-primary); font-family: inherit;">
             <option value="member">Member</option>
             <option value="mercenary">Mercenary</option>
+            <option value="mission-specialist">Mission Specialist</option>
+            <option value="cannoneer">Cannoneer</option>
             <option value="officer">Officer</option>
+            <option value="secretary">Secretary</option>
             <option value="staff">Staff</option>
             <option value="advisor">Advisor</option>
             <option value="guild-master">Guild Master</option>
             <option value="admin-toggle">Toggle Admin Status</option>
           </select>
         </div>
-        <button class="btn btn-primary" id="updateRoleBtn" style="margin-top: 0.5rem;">Update Role</button>
+        <button class="btn btn-primary" id="updateRoleBtn" style="font-style: normal; margin-top: 0.5rem;">Update Role</button>
       </div>
       
       <div style="margin-bottom: 1.5rem;">
         <h4 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Roster Management</h4>
-        <button class="btn btn-danger" id="resetRosterBtn">Reset Roster</button>
-        <button class="btn btn-secondary" id="exportRosterBtn" style="margin-left: 0.5rem;">Export Roster</button>
+        <button class="btn btn-danger" style="font-style: normal;" id="resetRosterBtn">Reset Roster</button>
+        <button class="btn btn-secondary" id="exportRosterBtn" style="font-style: normal; margin-left: 0.5rem;">Export Roster</button>
       </div>
       
       <div class="form-actions">
@@ -1472,9 +1895,11 @@
         <div class="default-avatar" style="display:none"></div>
       </div>
       <div class="hover-name-role">
-        <h3 id="hoverUsername"></h3>
-        <div id="hoverClass" class="hover-class"></div>
-        <span id="hoverRoleBadge" class="role-badge"></span>
+        <div class="hover-name-line">
+          <h3 style="font-weight: normal;" id="hoverUsername"></h3>
+          <div id="hoverClass" class="hover-class"></div>
+        </div>
+        <div id="hoverRoleBadgeContainer"></div>
       </div>
     </div>
     <div class="hover-card-body">
@@ -1516,7 +1941,7 @@
     const database = firebase.database();
     const auth = firebase.auth();
 
-    const IMGUR_CLIENT_ID = '39f8c230782d6da'; // Replace with Client ID from Imgur
+    const IMGUR_CLIENT_ID = '94040daf399a446'; // Replace with Client ID from Imgur
 
     async function uploadToImgur(file) {
       if (!file || !currentUser) return;
@@ -1585,11 +2010,12 @@
       for (const uid in users) {
         const user = users[uid];
         if (user.username) {
+          const normalized = user.username.toLowerCase(); // Normalize key
           if (user.photoURL) {
-            window.allUserPhotos[user.username] = user.photoURL;
+            window.allUserPhotos[normalized] = user.photoURL;
           }
-          window.allUserRoles[user.username] = user.role;
-          window.allUserAdmins[user.username] = user.isAdmin || false;
+          window.allUserRoles[normalized] = user.role;
+          window.allUserAdmins[normalized] = user.isAdmin || false;
         }
       }
     }
@@ -1727,16 +2153,6 @@
       document.getElementById('loginSubmitBtn').addEventListener('click', handleLogin);
       document.getElementById('registerSubmitBtn').addEventListener('click', handleRegister);
       
-      // Register role selection
-      document.getElementById('registerRole').addEventListener('change', function() {
-        const officerCodeGroup = document.getElementById('officerCodeGroup');
-        if (this.value === 'officer') {
-          officerCodeGroup.style.display = 'block';
-        } else {
-          officerCodeGroup.style.display = 'none';
-        }
-      });
-      
       // Admin panel functionality
       document.getElementById('updateRoleBtn').addEventListener('click', updateUserRole);
       document.getElementById('resetRosterBtn').addEventListener('click', resetRoster);
@@ -1815,8 +2231,14 @@
           roleBadge += '<span class="role-badge advisor">Advisor</span>';
         } else if (currentUser.role === 'staff') {
           roleBadge += '<span class="role-badge staff">Staff</span>';
+        } else if (currentUser.role === 'secretary') {
+          roleBadge += '<span class="role-badge secretary">Secretary</span>';
         } else if (currentUser.role === 'officer') {
           roleBadge += '<span class="role-badge officer">Officer</span>';
+        } else if (currentUser.role === 'cannoneer') {
+          roleBadge += '<span class="role-badge cannoneer">Cannoneer</span>';
+        } else if (currentUser.role === 'mission-specialist') {
+          roleBadge += '<span class="role-badge mission-specialist">Mission Specialist</span>';
         } else if (currentUser.role === 'member') {
           roleBadge += '<span class="role-badge member">Member</span>';
         } else if (currentUser.role === 'mercenary') {
@@ -1829,13 +2251,17 @@
 
         // Floating panel (avatar + username - now clickable)
         floatingPanel.innerHTML = `
-          <div class="user-info" style="position: fixed; top: 88px; right: 20px; display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 51;" id="user-info-clickable">
-            <div class="user-avatar" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: ${color}; color: white; font-weight: bold;">
-              ${currentUser.photoURL ? `<img src="${currentUser.photoURL}" alt="avatar" style="width:32px;height:32px;border-radius:50%;">` : initial}
-            </div>
-            <div>
-              <span>${currentUser.username}</span>
-              ${roleBadge}
+          <div class="user-info" style="color: rgb(255, 196, 221); position: fixed; top: 88px; right: 20px; cursor: pointer; z-index: 51; max-width: 300px;" id="user-info-clickable">
+            <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
+              <div class="user-avatar" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background-color: ${color}; color: white; font-weight: bold; flex-shrink: 0;">
+                ${currentUser.photoURL ? `<img src="${currentUser.photoURL}" alt="avatar" style="width:50px;height:50px;border-radius:50%;">` : initial}
+              </div>
+              <div style="display: flex; flex-direction: column; min-width: 0; flex-grow: 1;">
+                <span class="username-display" style="color: var(--accent-secondary); font-weight: normal; font-size: large; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${currentUser.username}</span>
+                <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; align-items: center;">
+                  ${roleBadge}
+                </div>
+              </div>
             </div>
           </div>
         `;
@@ -1844,7 +2270,7 @@
         panel.innerHTML = `
           <div class="user-actions">
             <input type="file" id="profilePicInput" accept="image/*" style="display:none" onchange="uploadToImgur(this.files[0])" />
-            ${currentUser?.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser?.role) ? 
+            ${currentUser?.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser?.role) ? 
               `<button class="admin-panel-btn" onclick="openModal('adminModal')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
@@ -1966,12 +2392,12 @@
         const usersSnapshot = await database.ref('usernames').once('value');
         const users = usersSnapshot.val() || {};
         
-        if (!users[username]) {
+        const normalized = username.toLowerCase();
+        if (!users[normalized]) {
           showAlert(alertElement, 'User not found', 'error');
           return;
         }
-        
-        const uid = users[username];
+        const uid = users[normalized];
         
         // Sign in with email/password (using the UID as email for simplicity)
         await auth.signInWithEmailAndPassword(`${username.toLowerCase()}@tgn.com`, password);
@@ -1988,15 +2414,31 @@
       }
     }
     
+    // Helper function to create user records
+    async function createUser(uid, username, email, role) {
+      const lowercaseUsername = username.toLowerCase();
+      
+      await database.ref(`users/${uid}`).set({
+        username: username,
+        lowercaseUsername: lowercaseUsername,
+        email: email,
+        role: role || 'member',
+        isAdmin: false,
+        createdAt: firebase.database.ServerValue.TIMESTAMP
+      });
+
+      await database.ref(`usernames/${lowercaseUsername}`).set(uid);
+    }
+    
     // Handle registration form submission
     async function handleRegister() {
       const username = document.getElementById('registerUsername').value.trim();
       const password = document.getElementById('registerPassword').value.trim();
       const confirmPassword = document.getElementById('registerConfirmPassword').value.trim();
       const role = document.getElementById('registerRole').value;
-      const officerCode = document.getElementById('officerCode').value.trim();
       const alertElement = document.getElementById('registerAlert');
 
+      // Input validation
       if (!username || !password || !confirmPassword) {
         showAlert(alertElement, 'Please fill in all fields', 'error');
         return;
@@ -2013,37 +2455,36 @@
       }
 
       try {
-        // 1. First check username availability
-        const usernameSnapshot = await database.ref(`usernames/${username}`).once('value');
-        if (usernameSnapshot.exists()) {
+        // Case-insensitive username check
+        if (!await isUsernameAvailable(username)) {
           showAlert(alertElement, 'Username already taken', 'error');
           return;
         }
-    
-        // 2. Create auth user
-        const fakeEmail = `${username}@tgn.com`;
+
+        // Create auth user with lowercase email
+        const fakeEmail = `${username.toLowerCase()}@tgn.com`;
         const userCredential = await auth.createUserWithEmailAndPassword(fakeEmail, password);
-        const uid = userCredential.user.uid;
-    
-        // 3. Prepare all database updates
-        const updates = {};
-        updates[`users/${uid}`] = {
-          username: username,
-          role: role,
-          isAdmin: false, // New users are not admins by default
-          createdAt: firebase.database.ServerValue.TIMESTAMP
-        };
-        updates[`usernames/${username}`] = uid;
-    
-        // 4. Execute all updates atomically
-        await database.ref().update(updates);
-    
-        // 5. Clear form and close modal
+        
+        // Create database records using helper
+        await createUser(userCredential.user.uid, username, fakeEmail, role);
+
+        // Success handling
         closeModal('registerModal');
         document.getElementById('registerUsername').value = '';
         document.getElementById('registerPassword').value = '';
         document.getElementById('registerConfirmPassword').value = '';
-    
+
+        showAlert(alertElement, 'Registration successful!', 'success');
+        
+        // Optional: Auto-login
+        currentUser = {
+          uid: userCredential.user.uid,
+          username: username,
+          role: role,
+          isAdmin: false
+        };
+        updateUserPanel();
+
       } catch (error) {
         console.error('Registration error:', error);
         
@@ -2055,13 +2496,24 @@
             console.error('Error cleaning up user:', deleteError);
           }
         }
-    
+
+        // User-friendly error messages
+        let errorMessage = error.message;
         if (error.code === 'auth/email-already-in-use') {
-          showAlert(alertElement, 'Username already registered', 'error');
-        } else {
-          showAlert(alertElement, error.message, 'error');
+          errorMessage = 'Username already registered';
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage = 'Password should be at least 6 characters';
         }
+
+        showAlert(alertElement, errorMessage, 'error');
       }
+    }
+
+    // Helper function to check username availability
+    async function isUsernameAvailable(username) {
+      const lowercaseUsername = username.toLowerCase();
+      const snapshot = await database.ref('usernames').child(lowercaseUsername).once('value');
+      return !snapshot.exists();
     }
     
     // Generate a simple UID
@@ -2080,7 +2532,7 @@
     
     // Update user role (admin function)
     async function updateUserRole() {
-      const username = document.getElementById('adminUsername').value.trim();
+      const username = document.getElementById('adminUsername').value.trim().toLowerCase();
       const newRole = document.getElementById('adminRole').value;
       const alertElement = document.getElementById('adminAlert');
     
@@ -2118,11 +2570,14 @@
     
           // Define assignable roles for each rank
           const assignableRoles = {
-            'admin': ['guild-master', 'advisor', 'staff', 'officer', 'member', 'mercenary'],
-            'guild-master': ['guild-master', 'advisor', 'staff', 'officer', 'member', 'mercenary'],
-            'advisor': ['advisor', 'staff', 'officer', 'member', 'mercenary'],
-            'staff': ['staff', 'officer', 'member', 'mercenary'],
-            'officer': ['officer', 'member', 'mercenary'],
+            'admin': ['guild-master', 'advisor', 'staff', 'secretary', 'officer', 'cannoneer', 'mission-specialist', 'member', 'mercenary'],
+            'guild-master': ['guild-master', 'advisor', 'staff', 'secretary', 'officer', 'cannoneer', 'mission-specialist', 'member', 'mercenary'],
+            'advisor': ['advisor', 'staff', 'secretary', 'officer', 'cannoneer', 'mission-specialist', 'member', 'mercenary'],
+            'staff': ['staff', 'secretary', 'officer', 'cannoneer', 'mission-specialist', 'member', 'mercenary'],
+            'secretary': ['secretary', 'officer', 'cannoneer', 'mission-specialist', 'member', 'mercenary'],
+            'officer': ['officer', 'cannoneer', 'mission-specialist', 'member', 'mercenary'],
+            'cannoneer': [],
+            'mission-specialist': [],
             'member': [],
             'mercenary': []
           };
@@ -2151,19 +2606,31 @@
     // =====================
 
     function getRoleBadgeImage(userData) {
-      const badges = {
-        "admin": "assets/images/badges/admin.png",
+      const badges = [];
+      
+      // Check for admin first
+      if (userData.isAdmin) {
+        badges.push("assets/images/badges/admin.png");
+      }
+      
+      // Then add role-specific badge
+      const roleBadges = {
         "guild-master": "assets/images/badges/guild-master.png",
         "advisor": "assets/images/badges/advisor.png",
         "staff": "assets/images/badges/staff.png",
-        "officer": "assets/images/badges/officer.png"
+        "secretary": "assets/images/badges/secretary.png",
+        "officer": "assets/images/badges/officer.png",
+        "cannoneer": "assets/images/badges/cannoneer.png",
+        "mission-specialist": "assets/images/badges/mission-specialist.png",
+        "member": "assets/images/badges/member.png",
+        "mercenary": "assets/images/badges/mercenary.png"
       };
       
-      // Check isAdmin first, then fall back to role
-      if (userData.isAdmin) {
-        return badges["admin"];
+      if (roleBadges[userData.role]) {
+        badges.push(roleBadges[userData.role]);
       }
-      return badges[userData.role] || null;
+      
+      return badges;
     }
     
     // Function to determine if a player is a guild member or mercenary
@@ -2232,7 +2699,7 @@
       if (!currentUser) return false;
       
       // Admins and officers can always edit
-      if (currentUser?.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser?.role)) return true;
+      if (currentUser?.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser?.role)) return true;
       
       const processedPlayers = processPlayers(groupData.players || []);
       
@@ -2329,6 +2796,9 @@
 
     // Function to leave a group
     async function leaveGroup(sectionName, groupIndex) {
+      // Hide hover card immediately when leaving
+      hideHoverProfile();
+
       if (!currentUser) return;
 
       const sectionKey = getActualSection(sectionName);
@@ -2447,6 +2917,11 @@
 
     // New mouse enter handler with better state management
     function handleMouseEnter(e) {
+        // Ignore if the hover originated from a button
+        if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+            return;
+        }
+      
         // Get username from either dataset attribute
         const username = this.dataset.username || cleanPlayerName(this.dataset.originalName);
         if (!username) return;
@@ -2465,7 +2940,20 @@
     
             try {
                 const usernamesSnapshot = await database.ref('usernames').once('value');
-                const uid = usernamesSnapshot.val()[username];
+                const normalizedUsername = username.toLowerCase();
+                const usernamesMap = usernamesSnapshot.val();
+                let uid = usernamesMap[normalizedUsername];
+
+                // Try fallback: look through all usernames to match case-insensitively
+                if (!uid) {
+                  for (const key in usernamesMap) {
+                    if (key.toLowerCase() === normalizedUsername) {
+                      uid = usernamesMap[key];
+                      break;
+                    }
+                  }
+                }
+
                 if (!uid) return;
     
                 const [userSnapshot, profileSnapshot] = await Promise.all([
@@ -2509,7 +2997,7 @@
       hoverTimeout = setTimeout(async () => {
         try {
           const usernamesSnapshot = await database.ref('usernames').once('value');
-          const uid = usernamesSnapshot.val()[username];
+          const uid = usernamesSnapshot.val()[username.toLowerCase()];
           if (!uid) return;
     
           const [userSnapshot, profileSnapshot] = await Promise.all([
@@ -2533,46 +3021,52 @@
     function updateHoverCard(data) {
       const hoverCard = document.getElementById('profileHoverCard');
       document.getElementById('hoverUsername').textContent = data.username;
-      
+
+      // Normalize the username for lookups
+      const normalized = data.username?.toLowerCase?.() || '';
+      const lookupPhoto = window.allUserPhotos?.[normalized] || data.photoURL || null;
+      const lookupRole = window.allUserRoles?.[normalized] || data.role || 'member';
+      const isAdmin = window.allUserAdmins?.[normalized] || data.isAdmin || false;
+
       // Set character class if available
       const hoverClass = document.getElementById('hoverClass');
       hoverClass.textContent = data.characterClass || 'Class not specified';
-      
-      const roleBadge = document.getElementById('hoverRoleBadge');
-      
+
+      const roleBadge = document.getElementById('hoverRoleBadgeContainer');
+
       // Clear previous badges
       roleBadge.innerHTML = '';
-      
+
       // Add admin badge if user is admin
-      if (data.isAdmin) {
+      if (isAdmin) {
         const adminBadge = document.createElement('span');
         adminBadge.className = 'role-badge admin';
         adminBadge.textContent = 'Admin';
         adminBadge.style.marginRight = '0.5rem';
         roleBadge.appendChild(adminBadge);
       }
-      
+
       // Add role badge
-      const role = data.role || 'member';
       const roleBadgeText = document.createElement('span');
-      roleBadgeText.className = `role-badge ${role}`;
-      roleBadgeText.textContent = role.split('-').map(word => 
-        word.charAt(0).toUpperCase() + word.slice(1)
-      ).join(' ');
+      roleBadgeText.className = `role-badge ${lookupRole}`;
+      roleBadgeText.textContent = lookupRole
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
       roleBadge.appendChild(roleBadgeText);
-    
-      // Rest of the function remains the same...
+
+      // Avatar handling
       const hoverAvatar = document.getElementById('hoverAvatar');
-      if (data.photoURL) {
-        hoverAvatar.src = data.photoURL;
+      if (lookupPhoto) {
+        hoverAvatar.src = lookupPhoto;
         hoverAvatar.style.display = 'block';
         hoverAvatar.nextElementSibling.style.display = 'none';
       } else {
-        const firstLetter = data.username.charAt(0).toUpperCase();
-        const colors = ['#FFB900', '#FF8C00', '#F7630C', '#CA5010', '#DA3B01', 
-                       '#EF6950', '#D13438', '#FF4343', '#E74856', '#E81123'];
-        const color = colors[firstLetter.charCodeAt(0) % colors.length];
-        
+        const firstLetter = data.username?.charAt(0)?.toUpperCase?.() || '?';
+        const colors = ['#FFB900', '#FF8C00', '#F7630C', '#CA5010', '#DA3B01',
+                        '#EF6950', '#D13438', '#FF4343', '#E74856', '#E81123'];
+        const color = colors[firstLetter.charCodeAt(0) % colors.length] || '#FFB900';
+
         hoverAvatar.style.display = 'none';
         const defaultAvatar = hoverAvatar.nextElementSibling || document.createElement('div');
         defaultAvatar.className = 'default-avatar';
@@ -2586,16 +3080,19 @@
         defaultAvatar.style.fontSize = '24px';
         defaultAvatar.style.fontWeight = 'bold';
         defaultAvatar.textContent = firstLetter;
-        
+
         if (!hoverAvatar.nextElementSibling) {
           hoverAvatar.parentNode.appendChild(defaultAvatar);
         }
       }
-    
+
+      // Stats
       document.getElementById('hoverAP').textContent = data.ap || '0';
       document.getElementById('hoverDP').textContent = data.dp || '0';
-      document.getElementById('hoverGS').textContent = ((parseInt(data.ap) || 0) + (parseInt(data.dp) || 0)).toString();
-    
+      document.getElementById('hoverGS').textContent =
+        ((parseInt(data.ap) || 0) + (parseInt(data.dp) || 0)).toString();
+
+      // Screenshot background
       if (data.characterScreenshot) {
         hoverCard.style.backgroundImage = `url(${data.characterScreenshot})`;
       } else {
@@ -2673,114 +3170,111 @@
     
     // Function to render groups
     function renderGroups(data) {
-        const container = document.getElementById('roster');
-        container.innerHTML = '';
+      const container = document.getElementById('roster');
+      container.innerHTML = '';
     
-        if (!data || data.length === 0) {
-            container.innerHTML = '<div class="loading">No data available for this section.</div>';
-            return;
+      if (!data || data.length === 0) {
+        container.innerHTML = '<div class="loading">No data available for this section.</div>';
+        return;
+      }
+    
+      data.forEach((group, groupIndex) => {
+        const div = document.createElement('div');
+        div.className = 'group';
+    
+        if (isGroupFilled(group.players)) {
+          div.classList.add('filled');
         }
     
-        data.forEach((group, groupIndex) => {
-            const div = document.createElement('div');
-            div.className = 'group';
+        let playerListHTML = '';
+        const processedPlayers = processPlayers(group.players || []);
     
-            if (isGroupFilled(group.players)) {
-                div.classList.add('filled');
-            }
-    
-            let playerListHTML = '';
-            const processedPlayers = processPlayers(group.players || []);
-    
-            // Make sure we always show 5 slots
-            for (let i = 0; i < 5; i++) {
-                const player = processedPlayers[i] || null;
+        // Make sure we always show 5 slots
+        for (let i = 0; i < 5; i++) {
+          const player = processedPlayers[i] || null;
             
-                if (player && player.name) {
-                    // Player slot with the option to leave if it's the current user
-                    const isCurrentUser = currentUser && player.name === currentUser.username;
-                    const leaveButton = isCurrentUser ? 
-                        `<button class="leave-btn" onclick="leaveGroup('${currentSection}', ${groupIndex})">Leave</button>` : '';
+          if (player && player.name) {
+            // Player slot with the option to leave if it's the current user
+            const isCurrentUser = currentUser && player.name === currentUser.username;
+            const leaveButton = isCurrentUser ? 
+              `<button class="leave-btn" onclick="leaveGroup('${currentSection}', ${groupIndex})">Leave</button>` : '';
                 
-                    const symbol = player.type === 'guild' ? '✔ ' : player.type === 'merc' ? '✦ ' : '';
-                    const photoURL = (window.allUserPhotos && window.allUserPhotos[player.name]) || null;
+            const symbol = player.type === 'guild' ? '✔ ' : player.type === 'merc' ? '✦ ' : '';
+            const photoURL = (window.allUserPhotos && window.allUserPhotos[player.name]) || null;
     
-                    playerListHTML += `
-                        <li class="player-${player.type}" 
-                            data-original-name="${symbol}${player.name}"
-                            data-username="${player.name}"
-                            style="display: flex; align-items: center; justify-content: space-between;"
-                            ${currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser?.role)) ? 'draggable="true"' : ''}>
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                ${photoURL ? `<img src="${photoURL}" alt="avatar" style="width:24px;height:24px;border-radius:50%;">` : ''}
-                                <span class="player-name">
-                                    ${symbol}${player.name}
-                                    ${window.allUserRoles && window.allUserPhotos 
-                                        ? (() => {
-                                            const userRole = window.allUserRoles[player.name];
-                                            const userData = { role: userRole, isAdmin: false };
+            playerListHTML += `
+              <li class="player-${player.type}" 
+                data-original-name="${symbol}${player.name}"
+                data-username="${player.name}"
+                style="display: flex; align-items: center; justify-content: space-between;"
+                ${currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser?.role)) ? 'draggable="true"' : ''}>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  ${photoURL ? `<img src="${photoURL}" alt="avatar" style="width:24px;height:24px;border-radius:50%;">` : ''}
+                  <span class="player-name">
+                    ${symbol}${player.name}
+                    ${window.allUserRoles && window.allUserPhotos 
+                      ? (() => {
+                        const userRole = window.allUserRoles[player.name];
+                        const isAdmin = window.allUserAdmins && window.allUserAdmins[player.name];
+                        const badges = getRoleBadgeImage({ role: userRole, isAdmin });
                                             
-                                            const isAdmin = window.allUserAdmins && window.allUserAdmins[player.name];
-                                            
-                                            if (isAdmin || getRoleBadgeImage({ role: userRole, isAdmin })) {
-                                                return `<img src="${getRoleBadgeImage({ role: userRole, isAdmin })}" 
-                                                            alt="${isAdmin ? 'admin' : userRole}" 
-                                                            style="width: 20px; height: 20px; vertical-align: middle; margin-left: 5px;">`;
-                                            }
-                                            return '';
-                                        })()
-                                        : ''}
-                                </span>
-                            </div>
-                            ${leaveButton}
-                        </li>
-                    `;
-                } else {
-                    // Empty slot with the option to join
-                    const joinButton = currentUser && canJoinGroup(group) ?
-                        `<button class="join-btn" onclick="joinGroup('${currentSection}', ${groupIndex}, ${i})">Join</button>` : '';
+                        return badges.map(badge => 
+                          `<img src="${badge}" alt="${isAdmin ? 'admin' : userRole}" 
+                            style="width: 20px; height: 20px; vertical-align: middle; margin-left: 5px;">`
+                          ).join('');
+                        })()
+                        : ''}
+                      </span>
+                    </div>
+                    ${leaveButton}
+                  </li>
+                `;
+              } else {
+                // Empty slot with the option to join
+                const joinButton = currentUser && canJoinGroup(group) ?
+                  `<button class="join-btn" onclick="joinGroup('${currentSection}', ${groupIndex}, ${i})">Join</button>` : '';
                 
-                    playerListHTML += `
-                        <li data-empty-slot="true">
-                            <span>- empty -</span>
-                            ${joinButton}
-                        </li>
-                    `;
-                }
+                playerListHTML += `
+                  <li data-empty-slot="true">
+                    <span>- empty -</span>
+                    ${joinButton}
+                  </li>
+                `;
+              }
             }
     
             // Admin/Officer edit button
-            const editButton = currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role)) ?
-                `<button class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.3rem 0.7rem;" onclick="editGroup('${currentSection}', ${groupIndex})">Edit</button>` : '';
+            const editButton = currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser.role)) ?
+              `<button class="btn btn-secondary" style="font-family: 'Marcellus'; font-style: normal; font-size: 0.8rem; padding: 0.3rem 0.7rem;" onclick="editGroup('${currentSection}', ${groupIndex})">Edit</button>` : '';
     
             // Convert UTC time to local time
             const localTime = convertUTCToLocal(group.timeUTC);
-            const groupDate = group.dateLabel ? `<div class="timezone">📅 ${group.dateLabel}</div>` : '';
+            const groupDate = group.dateLabel ? `<div class="date-label"> ${group.dateLabel}</div>` : '';
     
             div.innerHTML = `
-                <h2>${group.group} ${editButton}</h2>
-                <div class="timezone">${localTime}</div>
-                ${groupDate}
+              <h2>${group.group} ${editButton}</h2>
+              <div class="timezone">${localTime}</div>
+              ${groupDate}
     
-                <ul class="player-list">
-                    ${playerListHTML}
-                </ul>
+              <ul class="player-list">
+                ${playerListHTML}
+              </ul>
             `;
             container.appendChild(div);
         });
     
-        // Enable drag and drop for authorized users
-        if (currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role))) {
-            enableDragAndDrop();
-        }
+      // Enable drag and drop for authorized users
+      if (currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser.role))) {
+        enableDragAndDrop();
+      }
     
-        // Initialize hover profiles for the newly rendered groups
-        initHoverProfiles();
+      // Initialize hover profiles for the newly rendered groups
+      initHoverProfiles();
     }
 
     // Function to edit a group (for admins/officers)
     function editGroup(section, groupIndex) {
-      if (!currentUser || !(currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role))) {
+      if (!currentUser || !(currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser.role))) {
         return;
       }
   
@@ -2822,7 +3316,7 @@
 
     // Function to save group changes
     async function saveGroupChanges(section, groupIndex) {
-      if (!currentUser || !(currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role))) {
+      if (!currentUser || !(currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser.role))) {
         return;
       }
   
@@ -3068,20 +3562,27 @@
           userItem.className = 'user-list-item';
           
           // Make item draggable only for admins/officers
-          if (currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role))) {
+          if (currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser.role))) {
             userItem.draggable = true;
             userItem.style.cursor = 'grab';
             userItem.addEventListener('dragstart', handleUserDragStart);
           }
           
           const avatarUrl = user.photoURL || '';
-          const roleBadge = getRoleBadgeImage(user.role);
+          const badges = getRoleBadgeImage({ 
+            role: user.role, 
+            isAdmin: user.isAdmin || false 
+          });
           
           userItem.innerHTML = `
             ${avatarUrl ? `<img src="${avatarUrl}" class="user-list-avatar" alt="${user.username}">` : 
               `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${user.username.charAt(0).toUpperCase()}</div>`}
             <span class="user-list-name">${user.username}</span>
-            ${roleBadge ? `<img src="${roleBadge}" class="user-list-role" alt="${user.role}" style="width: 24px; height: 24px;">` : ''}
+            ${badges.length > 0 ? 
+              badges.map(badge => 
+                `<img src="${badge}" class="user-list-role" alt="badge" style="width: 24px; height: 24px; margin-left: 5px;">`
+              ).join('') 
+              : ''}
           `;
           
           // Store user data on the element
@@ -3124,15 +3625,14 @@
             userItem.className = 'user-list-item';
             
             // Make item draggable only for admins/officers
-            if (currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role))) {
+            if (currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser.role))) {
               userItem.draggable = true;
               userItem.style.cursor = 'grab';
               userItem.addEventListener('dragstart', handleUserDragStart);
             }
             
             const avatarUrl = user.photoURL || '';
-            // Update to use the new getRoleBadgeImage that checks isAdmin
-            const roleBadge = getRoleBadgeImage({ 
+            const badges = getRoleBadgeImage({ 
               role: user.role, 
               isAdmin: user.isAdmin || false 
             });
@@ -3141,7 +3641,11 @@
               ${avatarUrl ? `<img src="${avatarUrl}" class="user-list-avatar" alt="${user.username}">` : 
                 `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${user.username.charAt(0).toUpperCase()}</div>`}
               <span class="user-list-name">${user.username}</span>
-              ${roleBadge ? `<img src="${roleBadge}" class="user-list-role" alt="${user.isAdmin ? 'admin' : user.role}" style="width: 24px; height: 24px;">` : ''}
+              ${badges.length > 0 ? 
+                badges.map(badge => 
+                  `<img src="${badge}" class="user-list-role" alt="badge" style="width: 24px; height: 24px; margin-left: 5px;">`
+                ).join('') 
+                : ''}
             `;
             
             // Store user data on the element
@@ -3201,7 +3705,7 @@
       const playerSlots = document.querySelectorAll('.player-list li');
       
       playerSlots.forEach(slot => {
-        if (currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'officer'].includes(currentUser.role))) {
+        if (currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser.role))) {
           // Remove any existing listeners
           slot.removeEventListener('dragover', handleSlotDragOver);
           slot.removeEventListener('dragenter', handleSlotDragEnter);
