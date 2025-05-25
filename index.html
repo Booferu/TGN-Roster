@@ -739,9 +739,9 @@
         #ffbb00 50%, 
         #ffe15a 75%, 
         #ff9900 100%);
-      color: #000000;
+      color: #5c2900;
       font-weight: bold;
-      font-family: 'Math Serif Italic v2';
+      font-family: 'Marcellus';
       text-shadow: 0 1px 1px rgb(255, 255, 255);
       border: 1px solid #D4AF37;
       box-shadow: 
@@ -781,9 +781,9 @@
         #c0d2e2 50%, 
         #b3bbcc 75%, 
         #7a8da3 100%);
-      color: #000000;
+      color: #0f0f0f;
       font-weight: bold;
-      font-family: 'Math Serif Italic v2';
+      font-family: 'Marcellus';
       text-shadow: 0 1px 1px rgb(255, 255, 255);
       border: 1px solid #bdbdbd;
       box-shadow: 
@@ -2253,7 +2253,7 @@
         floatingPanel.innerHTML = `
           <div class="user-info" style="color: rgb(255, 196, 221); position: fixed; top: 88px; right: 20px; cursor: pointer; z-index: 51; max-width: 300px;" id="user-info-clickable">
             <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
-              <div class="user-avatar" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background-color: ${color}; color: white; font-weight: bold; flex-shrink: 0;">
+              <div class="user-avatar" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background-color: ${color}; color: white; font-weight: normal; flex-shrink: 0;">
                 ${currentUser.photoURL ? `<img src="${currentUser.photoURL}" alt="avatar" style="width:50px;height:50px;border-radius:50%;">` : initial}
               </div>
               <div style="display: flex; flex-direction: column; min-width: 0; flex-grow: 1;">
@@ -3078,7 +3078,7 @@
         defaultAvatar.style.backgroundColor = color;
         defaultAvatar.style.color = 'white';
         defaultAvatar.style.fontSize = '24px';
-        defaultAvatar.style.fontWeight = 'bold';
+        defaultAvatar.style.fontWeight = 'normal';
         defaultAvatar.textContent = firstLetter;
 
         if (!hoverAvatar.nextElementSibling) {
@@ -3576,7 +3576,7 @@
           
           userItem.innerHTML = `
             ${avatarUrl ? `<img src="${avatarUrl}" class="user-list-avatar" alt="${user.username}">` : 
-              `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${user.username.charAt(0).toUpperCase()}</div>`}
+              `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: normal;">${user.username.charAt(0).toUpperCase()}</div>`}
             <span class="user-list-name">${user.username}</span>
             ${badges.length > 0 ? 
               badges.map(badge => 
@@ -3639,7 +3639,7 @@
             
             userItem.innerHTML = `
               ${avatarUrl ? `<img src="${avatarUrl}" class="user-list-avatar" alt="${user.username}">` : 
-                `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${user.username.charAt(0).toUpperCase()}</div>`}
+                `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: normal;">${user.username.charAt(0).toUpperCase()}</div>`}
               <span class="user-list-name">${user.username}</span>
               ${badges.length > 0 ? 
                 badges.map(badge => 
