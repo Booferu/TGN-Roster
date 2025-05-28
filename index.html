@@ -1652,8 +1652,10 @@
 
     #quick-ap,
     #quick-dp {
-      color: var(--accent-primary);
-      font-weight: normal;
+      color: var(--accent-primary);     /* or any color like #7da8f8 */
+      font-style: italic;
+      font-weight: bold;
+      font-size: 1rem;
     }
 
     .stat-input-wrapper {
@@ -1665,6 +1667,7 @@
     .stat-input-wrapper input[type=number] {
       width: 100%;
       padding-right: 28px; /* room for spinner buttons */
+      font-style: italic;
       color: var(--accent-primary);
       background-color: var(--bg-secondary);
       border: 1px solid var(--border-light);
@@ -1713,6 +1716,11 @@
 
     .custom-spinner button:hover {
       background-color: rgba(125, 168, 248, 0.1);
+    }
+
+    .custom-spinner button:active {
+      transform: scale(0.80);
+      background-color: rgba(125, 168, 248, 0.2);
     }
   </style>
 
@@ -1788,13 +1796,21 @@
     z-index: 49;
     font-family: 'Marcellus';
   ">
-    <div style="font-size: 1rem; margin-bottom: 10px; color: var(--accent-primary); font-weight: normal;">
-      Quick Stats
+    <div style="font-size: 1rem; margin-bottom: 10px; color: var(--accent-primary); font-weight: bold;">
+      QUICK STATS
     </div>
 
     <!-- AP Field -->
     <div class="form-group" style="margin-bottom: 12px;">
-      <label for="quick-ap" style="color: rgb(226, 154, 255); font-size: 0.85rem;">AP</label>
+      <label for="quick-ap" style="font-weight: bold; color: var(--accent-secondary); font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M14.5 17.5L3 6V3h3l11.5 11.5M13 19l6-6m-3 3l4 4m-1 1l2-2M14.5 6.5L18 3h3v3l-3.5 3.5M5 14l4 4m-2-1l-3 3m-1-1l2 2"/>
+            <path d="M15 6l5 5m-4-4l3 3" stroke="white"/>
+          </g>
+        </svg>
+        AP
+      </label>
       <div class="stat-input-wrapper">
         <input style="background: rgba(30, 30, 30, 0.7);" type="number" id="quick-ap" min="0" />
         <div class="custom-spinner">
@@ -1806,7 +1822,15 @@
 
     <!-- DP Field -->
     <div class="form-group" style="margin-bottom: 12px;">
-      <label for="quick-dp" style="color: rgb(226, 154, 255); font-size: 0.85rem;">DP</label>
+      <label for="quick-dp" style="font-weight: bold; color: var(--accent-secondary); font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3l-8 3v7c0 6 8 10 8 10z" />
+            <path d="M12 3v19" stroke="white"/>
+          </g>
+        </svg>
+        DP
+      </label>
       <div class="stat-input-wrapper">
         <input style="background: rgba(30, 30, 30, 0.7);" type="number" id="quick-dp" min="0" />
         <div class="custom-spinner">
@@ -1817,7 +1841,7 @@
     </div>
 
     <!-- GS Display -->
-    <div style="margin-top: 5px; font-size: 0.9rem; color: var(--accent-secondary);">
+    <div style="font-weight: bold; margin-top: 5px; font-size: 1rem; color: var(--accent-secondary);">
       GS: <span id="quick-gs">0</span>
     </div>
   </div>
