@@ -1807,7 +1807,17 @@
         Attack (AP)
       </label>
       <div class="stat-input-wrapper">
-        <input style="background: rgba(30, 30, 30, 0.7);" type="number" id="quick-ap" min="0" />
+        <input
+          style="background: rgba(30, 30, 30, 0.7);"
+          type="number"
+          id="quick-ap"
+          name="quick-ap"
+          min="0"
+          autocomplete="off"
+          inputmode="numeric"
+          autocorrect="off"
+          spellcheck="false"
+        />
         <div class="custom-spinner">
           <button type="button" onclick="adjustStat('quick-ap', 1)">▲</button>
           <button type="button" onclick="adjustStat('quick-ap', -1)">▼</button>
@@ -1822,7 +1832,17 @@
         Defense (DP)
       </label>
       <div class="stat-input-wrapper">
-        <input style="background: rgba(30, 30, 30, 0.7);" type="number" id="quick-dp" min="0" />
+        <input
+          style="background: rgba(30, 30, 30, 0.7);"
+          type="number"
+          id="quick-dp"
+          name="quick-dp"
+          min="0"
+          autocomplete="off"
+          inputmode="numeric"
+          autocorrect="off"
+          spellcheck="false"
+        />
         <div class="custom-spinner">
           <button type="button" onclick="adjustStat('quick-dp', 1)">▲</button>
           <button type="button" onclick="adjustStat('quick-dp', -1)">▼</button>
