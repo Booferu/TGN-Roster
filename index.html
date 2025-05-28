@@ -1655,6 +1655,66 @@
       color: var(--accent-primary);
       font-weight: normal;
     }
+
+    .stat-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .stat-input-wrapper input[type=number] {
+      width: 100%;
+      padding-right: 28px; /* room for spinner buttons */
+      font-style: italic;
+      color: var(--accent-primary);
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      font-family: 'Marcellus';
+      padding: 10px 10px;
+      box-sizing: border-box;
+    }
+
+    /* Hide native spinners */
+    input[type=number]::-webkit-inner-spin-button,
+    input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type=number] {
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+
+    /* Custom spinner styling */
+    .custom-spinner {
+      position: absolute;
+      right: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 2px;
+      height: 100%;
+    }
+
+    .custom-spinner button {
+      all: unset;
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--accent-primary);
+      line-height: 1;
+      padding: 2px 4px;
+      text-align: center;
+      user-select: none;
+      border-radius: 3px;
+      transition: background 0.2s;
+    }
+
+    .custom-spinner button:hover {
+      background-color: rgba(125, 168, 248, 0.1);
+    }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
@@ -1715,7 +1775,7 @@
 
   <div id="quickStatsPanel" style="
     position: fixed;
-    top: 190px;
+    top: 188px;
     right: 20px;
     width: auto;
     min-width: 200px;
@@ -1732,15 +1792,33 @@
     <div style="font-size: 1rem; margin-bottom: 10px; color: var(--accent-primary); font-weight: normal;">
       Quick Stats
     </div>
-    <div class="form-group" style="margin-bottom: 10px;">
+
+    <!-- AP Field -->
+    <div class="form-group" style="margin-bottom: 12px;">
       <label for="quick-ap" style="color: rgb(226, 154, 255); font-size: 0.85rem;">AP</label>
-      <input type="number" id="quick-ap" class="form-input" style="background-color: rgba(30, 30, 30, 0.7); width: 100%; padding: 6px;" />
+      <div class="stat-input-wrapper">
+        <input style="background: rgba(30, 30, 30, 0.7);" type="number" id="quick-ap" min="0" />
+        <div class="custom-spinner">
+          <button type="button" onclick="adjustStat('quick-ap', 1)">▲</button>
+          <button type="button" onclick="adjustStat('quick-ap', -1)">▼</button>
+        </div>
+      </div>
     </div>
-    <div class="form-group" style="margin-bottom: 10px;">
+
+    <!-- DP Field -->
+    <div class="form-group" style="margin-bottom: 12px;">
       <label for="quick-dp" style="color: rgb(226, 154, 255); font-size: 0.85rem;">DP</label>
-      <input type="number" id="quick-dp" class="form-input" style="background-color: rgba(30, 30, 30, 0.7); width: 100%; padding: 6px;" />
+      <div class="stat-input-wrapper">
+        <input style="background: rgba(30, 30, 30, 0.7);" type="number" id="quick-dp" min="0" />
+        <div class="custom-spinner">
+          <button type="button" onclick="adjustStat('quick-dp', 1)">▲</button>
+          <button type="button" onclick="adjustStat('quick-dp', -1)">▼</button>
+        </div>
+      </div>
     </div>
-    <div style="margin-top: 5px; font-size: 0.9rem; color: rgb(203, 125, 255);">
+
+    <!-- GS Display -->
+    <div style="margin-top: 5px; font-size: 0.9rem; color: var(--accent-secondary);">
       GS: <span id="quick-gs">0</span>
     </div>
   </div>
@@ -2383,6 +2461,17 @@
         apInput.addEventListener("input", updateQuickStats);
         dpInput.addEventListener("input", updateQuickStats);
       });
+    }
+
+    function adjustStat(id, delta) {
+      const input = document.getElementById(id);
+      if (!input) return;
+
+      let val = parseInt(input.value) || 0;
+      val = Math.max(0, val + delta); // Prevent negative values
+      input.value = val;
+
+      input.dispatchEvent(new Event('input')); // Trigger any listeners
     }
 
     // After auth:
