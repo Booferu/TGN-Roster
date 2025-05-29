@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TGN Party Boss Blitz Roster</title>
+  <title>Fluffytail Party Boss Blitz Roster</title>
   <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
-  <link href="https://fonts.googleapis.com/css2?family=Marcellus:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     /* Root variables for theming */
     :root {
@@ -14,8 +14,8 @@
       --bg-primary: #121212;
       --bg-secondary: #1e1e1e;
       --bg-tertiary: #252525;
-      --accent-primary: #7da8f8;
-      --accent-secondary: #be6fbe;
+      --accent-primary: #a1ddff;
+      --accent-secondary: #fd8fc8;
       --accent-tertiary: #f2c94c;
       --text-primary: #ffffff;
       --text-secondary: #e0e0e0;
@@ -30,7 +30,7 @@
       --radius-sm: 6px;
       --radius-md: 10px;
       --radius-lg: 8px;
-      --filled-glow: #ffd3a1;
+      --filled-glow: #ffe2ad;
     }
     
     /* Reset and base styles */
@@ -42,14 +42,14 @@
     
     /* Body styles */
     body {
-      font-family: 'Marcellus';
-      font-style: normal;
+      font-family: 'Math Serif Italic v2';
+      font-style: italic;
       background-color: var(--bg-primary);
       color: var(--text-primary);
       line-height: 1.6;
       min-height: 100vh;
 
-      background-image: url(assets/images/background/bg.webp);
+      /* background-image: url(assets/images/background/bg.webp); */
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -85,7 +85,7 @@
       transition: transform 0.2s ease; /* Optional: Add hover effect */
       overflow: hidden;
 
-      background: linear-gradient(to right, #bee2ff, #c999eb);
+      background: linear-gradient(to right, rgb(141, 238, 255), rgb(255, 196, 221));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -152,10 +152,10 @@
     h1 {
       text-align: center;
       font-size: 2.5rem;
-      font-weight: normal;
+      font-weight: 600;
       margin-bottom: 1.5rem;
       
-      background: linear-gradient(to right, #a2e9ff, #ce74ce);
+      background: linear-gradient(to right, rgb(141, 238, 255), rgb(255, 196, 221));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -179,12 +179,12 @@
     /* Player type indicators */
     .player-guild {
       color: var(--guild-color);
-      font-weight: normal;
+      font-weight: 500;
     }
     
     .player-merc {
       color: var(--merc-color);
-      font-weight: normal;
+      font-weight: 500;
     }
     
     /* Navigation styles */
@@ -201,7 +201,7 @@
       padding: 0.7rem 1.5rem;
       border-radius: var(--radius-sm);
       cursor: pointer;
-      font-weight: normal;
+      font-weight: 600;
       color: var(--text-primary);
       font-family: inherit;
       transition: all 0.2s ease-in-out;
@@ -236,15 +236,15 @@
       border: none;
       padding: 0.5rem 1rem;
       border-radius: var(--radius-sm);
-      font-weight: normal;
+      font-weight: 500;
       text-transform: uppercase;
       cursor: pointer;
       transition: all 0.2s ease;
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      font-family: 'Marcellus';
-      font-style: normal;
+      font-family: 'Math Serif Italic v2';
+      font-style: italic;
       box-shadow: var(--shadow-sm);
     }
     
@@ -275,7 +275,7 @@
 
     #btn-hard.active {
       background-color: #86323d;
-      outline: 2px solid rgb(184, 74, 89);
+      outline: 2px solid rgb(201, 87, 103);
     }
     
     #btn-rerun { 
@@ -294,7 +294,7 @@
       margin: 0 auto 2rem;
       font-size: 0.95rem;
       color: rgb(177, 243, 255);
-      font-style: normal;
+      font-style: italic;
       opacity: 0.8;
     }
     
@@ -353,7 +353,7 @@
       margin-bottom: 1rem;
       border-bottom: 1px solid var(--border-light);
       padding-bottom: 0.5rem;
-      font-weight: normal;
+      font-weight: 600;
       color: rgb(255, 196, 221);
     }
     
@@ -453,7 +453,7 @@
       margin-top: 2rem;
       font-size: 0.9rem;
       color: rgb(255, 196, 221);
-      font-style: normal;
+      font-style: italic;
     }
     
     /* User panel styles */
@@ -477,7 +477,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: normal;
+      font-weight: bold;
     }
 
     .user-actions {
@@ -492,29 +492,29 @@
       padding: 0.5rem 1rem;
       cursor: pointer;
       font-family: inherit;
-      font-weight: normal;
+      font-weight: 500;
       transition: all 0.2s ease;
     }
 
     .btn-primary {
       background-color: rgba(21, 51, 71, 0.6);
       color: rgb(255, 196, 221);
-      font-style: normal !important;
-      font-weight: normal;
+      font-style: italic !important;
+      font-weight: 600;
     }
 
     .btn-secondary {
       background-color: rgba(30, 30, 30, 0.6);
       color: rgb(255, 196, 221);
       border: 1px solid var(--border-light);
-      font-style: normal !important;
-      font-weight: normal;
+      font-style: italic !important;
+      font-weight: 600;
     }
 
     .btn-danger {
       background-color: #9b2737;
       color: white;
-      font-weight: normal;
+      font-weight: 600;
     }
 
     .btn-success {
@@ -534,8 +534,8 @@
 
     /* Join/leave buttons */
     .join-btn {
-      font-family: 'Marcellus';
-      font-style: normal;
+      font-family: 'Math Serif Italic v2';
+      font-style: italic;
       background-color: rgb(111, 105, 192);
       color: white;
       border: none;
@@ -551,8 +551,8 @@
     }
 
     .leave-btn {
-      font-family: 'Marcellus';
-      font-style: normal;
+      font-family: 'Math Serif Italic v2';
+      font-style: italic;
       background-color: #d8638a;
       color: white;
       border: none;
@@ -662,7 +662,7 @@
       border-radius: var(--radius-lg);
       font-size: 0.75rem;
       margin-left: 0.5rem;
-      font-weight: normal;
+      font-weight: 500;
       border-radius: 6px;
       vertical-align: middle;
     }
@@ -670,7 +670,7 @@
     .role-badge.admin {
       background: linear-gradient(135deg, #d8638a, #d8638a);
       color: rgb(255, 255, 255);
-      font-weight: normal;
+      font-weight: bold;
       text-shadow: 0 1px 2px rgba(107, 0, 0, 0);
       border: 1px solid #ffaad4;
       border-radius: 6px;
@@ -739,9 +739,8 @@
         #ffbb00 50%, 
         #ffe15a 75%, 
         #ff9900 100%);
-      color: #5c2900;
+      color: #1a1100;
       font-weight: bold;
-      font-family: 'Marcellus';
       text-shadow: 0 1px 1px rgb(255, 255, 255);
       border: 1px solid #D4AF37;
       box-shadow: 
@@ -781,9 +780,8 @@
         #c0d2e2 50%, 
         #b3bbcc 75%, 
         #7a8da3 100%);
-      color: #0f0f0f;
+      color: #000000;
       font-weight: bold;
-      font-family: 'Marcellus';
       text-shadow: 0 1px 1px rgb(255, 255, 255);
       border: 1px solid #bdbdbd;
       box-shadow: 
@@ -813,49 +811,49 @@
     .role-badge.staff {
       background-color: #9e5ba5;
       color: white;
-      font-weight: normal;
+      font-weight: bold;
       text-transform: uppercase;
     }
 
     .role-badge.secretary {
       background-color: rgb(84, 135, 202);
       color: rgb(255, 255, 255);
-      font-weight: normal;
+      font-weight: bold;
       text-transform: uppercase;
     }
 
     .role-badge.officer {
       background-color: #3f8388;
       color: white;
-      font-weight: normal;
+      font-weight: bold;
       text-transform: uppercase;
     }
 
     .role-badge.cannoneer {
       background-color: #777777;
       color: white;
-      font-weight: normal;
+      font-weight: bold;
       text-transform: uppercase;
     }
     
     .role-badge.mission-specialist {
       background-color: #595bc5;
       color: white;
-      font-weight: normal;
+      font-weight: bold;
       text-transform: uppercase;
     }
 
     .role-badge.member {
       background-color: #3f853c;
       color: white;
-      font-weight: normal;
+      font-weight: bold;
       text-transform: uppercase;
     }
 
     .role-badge.mercenary {
       background-color: #7c4197;
       color: white;
-      font-weight: normal;
+      font-weight: bold;
       text-transform: uppercase;
     }
 
@@ -942,7 +940,7 @@
       margin: 0;
       font-size: 1.2rem;
       color: rgb(255, 196, 221);
-      font-weight: normal;
+      font-weight: 500;
       letter-spacing: 0.5px;
     }
 
@@ -1155,7 +1153,7 @@
     /* Username text styling */
     #floating-user-info .username-display {
       color: var(--accent-secondary) !important;
-      font-weight: normal;
+      font-weight: 600;
       font-size: large;
       white-space: nowrap;
       overflow: hidden;
@@ -1270,7 +1268,7 @@
       background-color: var(--accent-primary);
       color: white;
       font-size: 40px;
-      font-weight: normal;
+      font-weight: bold;
     }
 
     /* Avatar Image */
@@ -1291,7 +1289,7 @@
       align-items: center;
       justify-content: center;
       font-size: 40px;
-      font-weight: normal;
+      font-weight: bold;
       transition: inherit;
       margin: 0; /* Remove any default margins */
       flex: 1; /* Fill available space */
@@ -1455,7 +1453,7 @@
     }
     
     .hover-stats {
-      font-weight: bold;
+      font-weight: 600;
       display: flex;
       justify-content: space-between;
       margin-bottom: 1rem;
@@ -1653,7 +1651,7 @@
     #quick-ap,
     #quick-dp {
       color: var(--accent-primary);     /* or any color like #7da8f8 */
-      font-style: normal;
+      font-style: italic;
       font-weight: bold;
       font-size: 1rem;
     }
@@ -1722,6 +1720,26 @@
       transform: scale(0.80);
       background-color: rgba(125, 168, 248, 0.2);
     }
+
+    .background-layer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transition: opacity 1.5s ease-in-out;
+      z-index: -1;
+      opacity: 0;
+    }
+
+    #bg-layer-1 {
+      z-index: -2;
+    }
+    #bg-layer-2 {
+      z-index: -1;
+    }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
@@ -1732,6 +1750,20 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 </head>
 <body>
+  <div id="bg-layer-1" class="background-layer"></div>
+  <div id="bg-layer-2" class="background-layer"></div>
+
+  <div id="background-image" style="
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: opacity 1.5s ease-in-out;
+    opacity: 1;
+  "></div>
   <div id="userSidebar">
     <div class="sidebar-header">
       <h3>Users</h3>
@@ -1748,9 +1780,9 @@
   <header>
     <div class="header-container">
       <a href="./" class="header-title" style="text-decoration: none; color: rgb(255, 196, 221); display: flex; align-items: center; gap: 8px;">
-        <img src="assets/images/favicon-32x32.png" alt="TGN Logo" width="32" height="32" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5))">
+        <img src="assets/images/favicon-32x32.png" alt="Fluffytail Logo" width="32" height="32" style="filter: drop-shadow(0 0 2px rgba(0,0,0,0.5))">
         <span style="white-space: nowrap;">
-          <span>TGN</span>
+          <span class="decorative-symbols" style="font-style: normal;">‧͙⁺˚*･༓☾</span> Fluffytail <span class="decorative-symbols" style="font-style: normal;">☽༓･*˚⁺‧͙</span>
         </span>
       </a>
       <div class="user-panel" id="userPanel">
@@ -1773,9 +1805,9 @@
         </div>
       </div>
     </div>
-    <a href="/TGN-Roster/pages/profile/index.html" class="dropdown-item" id="profile-link">Profile</a>
+    <a href="/Fluffytail-Roster/pages/profile/index.html" class="dropdown-item" id="profile-link">Profile</a>
     <div class="dropdown-divider"></div>
-    <button class="dropdown-item" id="logout-btn"><span style="font-style: normal;">Logout</span></button>
+    <button class="dropdown-item" id="logout-btn"><span style="font-style: italic;">Logout</span></button>
   </div>
   
   <div id="floating-user-info"></div>
@@ -1803,12 +1835,12 @@
     <!-- AP Field -->
     <div class="form-group" style="margin-bottom: 12px;">
       <label for="quick-ap" style="font-weight: bold; color: var(--accent-secondary); font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
-        <img src="assets/images/UI Icons/AP Icon.png" alt="AP Icon" style="width: 16px; height: 16px; object-fit: contain; opacity: 0.75;" />
+        <img src="assets/images/UI Icons/AP Icon.png" alt="AP Icon" style="width: 16px; height: 16px; object-fit: contain; opacity: 0.91;" />
         Attack (AP)
       </label>
       <div class="stat-input-wrapper">
         <input
-          style="background: rgba(30, 30, 30, 0.7);"
+          style="background: rgba(30, 30, 30, 0.5);"
           type="number"
           id="quick-ap"
           name="quick-ap"
@@ -1828,12 +1860,12 @@
     <!-- DP Field -->
     <div class="form-group" style="margin-bottom: 12px;">
       <label for="quick-dp" style="font-weight: bold; color: var(--accent-secondary); font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
-        <img src="assets/images/UI Icons/DP Icon.png" alt="DP Icon" style="width: 16px; height: 16px; object-fit: contain; opacity: 0.75;" />
+        <img src="assets/images/UI Icons/DP Icon.png" alt="DP Icon" style="width: 16px; height: 16px; object-fit: contain; opacity: 0.92;" />
         Defense (DP)
       </label>
       <div class="stat-input-wrapper">
         <input
-          style="background: rgba(30, 30, 30, 0.7);"
+          style="background: rgba(30, 30, 30, 0.5);"
           type="number"
           id="quick-dp"
           name="quick-dp"
@@ -1857,11 +1889,11 @@
   </div>
 
   <div class="container">
-    <h1><span>TGN Party Boss Blitz Roster</span></h1>
+    <h1><span class="decorative-symbols" style="font-style: normal;">✧༺♥༻∞</span> Fluffytail Party Boss Blitz Roster <span class="decorative-symbols" style="font-style: normal;">∞༺♥༻✧</span></h1>
     
     <div class="description">
       This page organizes static groups for the weekly <strong>Party Boss Blitz</strong> content.<br>
-      <strong><span class="player-guild">Guild members (✔)</span> have priority</strong>. <span class="player-merc">Mercenaries (✦)</span> are welcome to fill in but may be replaced if a guild member signs up.
+      <strong><span class="player-guild">Guild members <span style="font-style: normal;">(✔)</span></span> have priority</strong>. <span class="player-merc">Mercenaries <span style="font-style: normal;">(✦)</span></span> are welcome to fill in but may be replaced if a guild member signs up.
     </div>
     
 	<nav>
@@ -1872,7 +1904,7 @@
 			<path d="m18 3l4-1l-1 4l-10 10l-2.5-.5L8 13zM2 20l2 2m1-8l1 4l4 1m-4-1l-3 3"/>
 		  </g>
 		</svg>
-		<span style="font-style: normal;">Normal Mode</span>
+		<span style="font-style: italic;">Normal Mode</span>
 	  </button>
 
 	  <!-- Hard Mode - Crossed Swords (Lucide) -->
@@ -1883,7 +1915,7 @@
 			<path d="M15 6l5 5m-4-4l3 3" stroke="#ff6b6b"/>
 		  </g>
 		</svg>
-		<span style="font-style: normal;">Hard Mode</span>
+		<span style="font-style: italic;">Hard Mode</span>
 	  </button>
 
 	  <!-- Re-runs - Circular Arrow -->
@@ -1894,7 +1926,7 @@
 			<path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
 		  </g>
 		</svg>
-		<span style="font-style: normal;">Re-runs / Fill-ins</span>
+		<span style="font-style: italic;">Re-runs / Fill-ins</span>
 	  </button>
 	</nav>
     
@@ -1907,7 +1939,7 @@
     <div class="last-updated" id="lastUpdated"></div>
     
     <footer>
-      Powered by TGN &middot; User Managed Roster
+      Powered by Fluffytail &middot; User Managed Roster
     </footer>
   </div>
 
@@ -1979,13 +2011,13 @@
         <div class="form-group">
           <label for="adminUsername">Username</label>
           <div class="autocomplete-wrapper">
-            <input type="text" id="adminUsername" style="font-style: normal;" placeholder="Enter username to modify" autocomplete="off">
+            <input type="text" id="adminUsername" style="font-style: italic;" placeholder="Enter username to modify" autocomplete="off">
             <div id="userSuggestions" class="autocomplete-results"></div>
           </div>
         </div>
         <div class="form-group">
           <label for="adminRole">New Role</label>
-          <select id="adminRole" style="font-style: normal; width: 100%; padding: 0.8rem; border-radius: var(--radius-sm); background-color: var(--bg-tertiary); border: 1px solid var(--border-light); color: var(--text-primary); font-family: inherit;">
+          <select id="adminRole" style="font-style: italic; width: 100%; padding: 0.8rem; border-radius: var(--radius-sm); background-color: var(--bg-tertiary); border: 1px solid var(--border-light); color: var(--text-primary); font-family: inherit;">
             <option value="member">Member</option>
             <option value="mercenary">Mercenary</option>
             <option value="mission-specialist">Mission Specialist</option>
@@ -1998,13 +2030,13 @@
             <option value="admin-toggle">Toggle Admin Status</option>
           </select>
         </div>
-        <button class="btn btn-primary" id="updateRoleBtn" style="font-style: normal; margin-top: 0.5rem;">Update Role</button>
+        <button class="btn btn-primary" id="updateRoleBtn" style="font-style: italic; margin-top: 0.5rem;">Update Role</button>
       </div>
       
       <div style="margin-bottom: 1.5rem;">
         <h4 style="margin-bottom: 0.5rem; color: var(--text-secondary);">Roster Management</h4>
-        <button class="btn btn-danger" style="font-style: normal;" id="resetRosterBtn">Reset Roster</button>
-        <button class="btn btn-secondary" id="exportRosterBtn" style="font-style: normal; margin-left: 0.5rem;">Export Roster</button>
+        <button class="btn btn-danger" style="font-style: italic;" id="resetRosterBtn">Reset Roster</button>
+        <button class="btn btn-secondary" id="exportRosterBtn" style="font-style: italic; margin-left: 0.5rem;">Export Roster</button>
       </div>
       
       <div class="form-actions">
@@ -2056,7 +2088,7 @@
       </div>
       <div class="hover-name-role">
         <div class="hover-name-line">
-          <h3 style="font-weight: normal;" id="hoverUsername"></h3>
+          <h3 id="hoverUsername"></h3>
           <div id="hoverClass" class="hover-class"></div>
         </div>
         <div id="hoverRoleBadgeContainer"></div>
@@ -2086,14 +2118,14 @@
     
     // Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyANFiNgI5AElip2yg1s1j8X_C_fySX0b38",
-      authDomain: "tgn-roster.firebaseapp.com",
-      projectId: "tgn-roster",
-      storageBucket: "tgn-roster.appspot.com",
-      messagingSenderId: "680550686349",
-      appId: "1:680550686349:web:bf8d53910264c3a5004cc4",
-      measurementId: "G-CN0HQ0HH8K",
-      databaseURL: "https://tgn-roster-default-rtdb.firebaseio.com"
+      apiKey: "AIzaSyCtnJ-oDQT2bVNLagbI749B7GAiiOZ2NmU",
+      authDomain: "fluffytail-roster.firebaseapp.com",
+      projectId: "fluffytail-roster",
+      storageBucket: "fluffytail-roster.firebasestorage.app",
+      messagingSenderId: "571780067498",
+      appId: "1:571780067498:web:34f39e48ede666e7eb20d3",
+      measurementId: "G-M23Y6FPB7G",
+      databaseURL: "https://fluffytail-roster-default-rtdb.firebaseio.com"
     };
 
     // Initialize Firebase
@@ -2413,11 +2445,11 @@
         floatingPanel.innerHTML = `
           <div class="user-info" style="color: rgb(255, 196, 221); position: fixed; top: 88px; right: 20px; cursor: pointer; z-index: 51; max-width: 300px;" id="user-info-clickable">
             <div style="display: flex; align-items: center; gap: 8px; width: 100%;">
-              <div class="user-avatar" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background-color: ${color}; color: white; font-weight: normal; flex-shrink: 0;">
+              <div class="user-avatar" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border-radius: 50%; background-color: ${color}; color: white; font-weight: bold; flex-shrink: 0;">
                 ${currentUser.photoURL ? `<img src="${currentUser.photoURL}" alt="avatar" style="width:50px;height:50px;border-radius:50%;">` : initial}
               </div>
               <div style="display: flex; flex-direction: column; min-width: 0; flex-grow: 1;">
-                <span class="username-display" style="color: var(--accent-secondary); font-weight: normal; font-size: large; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${currentUser.username}</span>
+                <span class="username-display" style="color: var(--accent-secondary); font-weight: 600; font-size: large; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${currentUser.username}</span>
                 <div style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; align-items: center;">
                   ${roleBadge}
                 </div>
@@ -2632,7 +2664,7 @@
         const uid = users[normalized];
         
         // Sign in with email/password (using the UID as email for simplicity)
-        await auth.signInWithEmailAndPassword(`${username.toLowerCase()}@tgn.com`, password);
+        await auth.signInWithEmailAndPassword(`${username.toLowerCase()}@fluffytail.com`, password);
         
         // Login successful - the auth state listener will handle the rest
         closeModal('loginModal');
@@ -2694,7 +2726,7 @@
         }
 
         // Create auth user with lowercase email
-        const fakeEmail = `${username.toLowerCase()}@tgn.com`;
+        const fakeEmail = `${username.toLowerCase()}@fluffytail.com`;
         const userCredential = await auth.createUserWithEmailAndPassword(fakeEmail, password);
         
         // Create database records using helper
@@ -3101,7 +3133,7 @@
       const dataStr = JSON.stringify(allData, null, 2);
       const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
       
-      const exportFileDefaultName = 'tgn_roster.json';
+      const exportFileDefaultName = 'fluffytail_roster.json';
       
       let linkElement = document.createElement('a');
       linkElement.setAttribute('href', dataUri);
@@ -3310,7 +3342,7 @@
         defaultAvatar.style.backgroundColor = color;
         defaultAvatar.style.color = 'white';
         defaultAvatar.style.fontSize = '24px';
-        defaultAvatar.style.fontWeight = 'normal';
+        defaultAvatar.style.fontWeight = 'bold';
         defaultAvatar.textContent = firstLetter;
 
         if (!hoverAvatar.nextElementSibling) {
@@ -3477,7 +3509,7 @@
     
             // Admin/Officer edit button
             const editButton = currentUser && (currentUser.isAdmin || ['guild-master', 'advisor', 'staff', 'secretary', 'officer'].includes(currentUser.role)) ?
-              `<button class="btn btn-secondary" style="font-family: 'Marcellus'; font-style: normal; font-size: 0.8rem; padding: 0.3rem 0.7rem;" onclick="editGroup('${currentSection}', ${groupIndex})">Edit</button>` : '';
+              `<button class="btn btn-secondary" style="font-family: 'Math Serif Italic v2'; font-style: italic; font-size: 0.8rem; padding: 0.3rem 0.7rem;" onclick="editGroup('${currentSection}', ${groupIndex})">Edit</button>` : '';
     
             // Convert UTC time to local time
             const localTime = convertUTCToLocal(group.timeUTC);
@@ -3808,7 +3840,7 @@
           
           userItem.innerHTML = `
             ${avatarUrl ? `<img src="${avatarUrl}" class="user-list-avatar" alt="${user.username}">` : 
-              `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: normal;">${user.username.charAt(0).toUpperCase()}</div>`}
+              `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${user.username.charAt(0).toUpperCase()}</div>`}
             <span class="user-list-name">${user.username}</span>
             ${badges.length > 0 ? 
               badges.map(badge => 
@@ -3871,7 +3903,7 @@
             
             userItem.innerHTML = `
               ${avatarUrl ? `<img src="${avatarUrl}" class="user-list-avatar" alt="${user.username}">` : 
-                `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: normal;">${user.username.charAt(0).toUpperCase()}</div>`}
+                `<div class="user-list-avatar" style="background-color: ${stringToColor(user.username)}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${user.username.charAt(0).toUpperCase()}</div>`}
               <span class="user-list-name">${user.username}</span>
               ${badges.length > 0 ? 
                 badges.map(badge => 
@@ -4095,6 +4127,83 @@
       
     // Initial load
     document.addEventListener('DOMContentLoaded', init);
+
+    // Random background image rotation
+    const backgroundDir = "assets/images/background/";
+    const possibleImages = [
+      "bg.webp",
+      "bg2.webp",
+      "bg3.webp",
+      "bg4.webp",
+      "bg5.webp",
+      "bg6.webp",
+      "bg7.webp",
+      "bg8.webp",
+      "bg9.webp",
+      "bg10.webp",
+      "bg11.webp" // even if these don't exist yet
+    ];
+
+    let backgroundImages = [];
+    let loadedCount = 0;
+
+    const bg1 = document.getElementById("bg-layer-1");
+    const bg2 = document.getElementById("bg-layer-2");
+    let activeLayer = bg1;
+    let nextLayer = bg2;
+
+    // Preload images and use only successful ones
+    possibleImages.forEach(src => {
+      const img = new Image();
+      img.onload = () => {
+        backgroundImages.push(src);
+        checkReady();
+      };
+      img.onerror = () => checkReady();
+      img.src = backgroundDir + src;
+    });
+
+    function checkReady() {
+      loadedCount++;
+      if (loadedCount === possibleImages.length && backgroundImages.length > 0) {
+        startCrossfadeRotation();
+      }
+    }
+
+    function startCrossfadeRotation() {
+      let shuffled = shuffleArray([...backgroundImages]);
+      let index = 0;
+
+      activeLayer.style.backgroundImage = `url(${backgroundDir}${shuffled[index]})`;
+      activeLayer.style.opacity = 1;
+
+      setInterval(() => {
+        index++;
+        if (index >= shuffled.length) {
+          shuffled = shuffleArray([...backgroundImages]);
+          index = 0;
+        }
+
+        // Prepare next layer
+        nextLayer.style.backgroundImage = `url(${backgroundDir}${shuffled[index]})`;
+        nextLayer.style.opacity = 1;
+
+        // Fade out current layer
+        activeLayer.style.opacity = 0;
+
+        // Swap layers for next transition
+        [activeLayer, nextLayer] = [nextLayer, activeLayer];
+      }, 10000); // Change this to adjust interval (ms)
+    }
+
+    function shuffleArray(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
   </script>
 </body>
 </html>
